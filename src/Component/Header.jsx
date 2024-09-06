@@ -1,8 +1,10 @@
-import React from 'react'
+import React from "react";
 
- function Header() {
+function Header() {
   return (
-    <div><h1>Student Mangement Admin</h1></div>
-  )
+    <div className="text-center">
+      <h1>Student Mangement Admin</h1>
+    </div>
+  );
 }
-export {Header};
+export { Header };
