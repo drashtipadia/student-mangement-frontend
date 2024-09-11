@@ -24,7 +24,7 @@
     "build": "react-scripts build",
     "both": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
     "start:frontend": "react-scripts start",
-    "start:backend": "cd ../student-mgmt-system-backend/ && go run ./server.go",
+    "start:backend": "cd ../backend/ && npm run start",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

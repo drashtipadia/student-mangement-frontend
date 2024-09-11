@@ -17,9 +17,9 @@ function App() {
         {" "}
         <Link to={"viewdata"}>View Data</Link>{" "}
       </li>
-      <li>
+      {/* <li>
         <FontAwesomeIcon icon={faPhone} />{" "}
-      </li>
+      </li> */}
     </div>
   );
 }

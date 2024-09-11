@@ -4,8 +4,8 @@ export function RadioGroup({ name, label, data, onChange }) {
       <label className="col-auto text-center">{label}</label>
       {data.map((entry) => {
         return (
-          <div key={entry.value} className="col">
-            <div className="form-check form-check-inline">
+          <div key={entry.value} className="col-auto">
+            <div className="form-check form-check-inline m-0">
               <input
                 className="form-check-input"
                 type="radio"
