@@ -6,13 +6,11 @@ export const ViewData = () => {
   const [students, setStudent] = useState([]);
 
   const studentlist = async () => {
-    const res = await fetch("http://localhost:8000/students/", {
-      method: 'GET',
-    });
-    // const a = await res.json()
+    const res = await fetch("http://192.168.115.246:8000/");
+    const a = await res.json();
     // setStudent(a);
-    return await res.json();
-
+    console.log(a.students);
+    return a;
   };
 
   useEffect(() => {
@@ -20,16 +18,13 @@ export const ViewData = () => {
 
   }, []);
 
-
-
+  console.log(students);
 
   return (
     <>
       <Header />
       <div className='container'>
         <h1 className='text-center p-5'>Data</h1>
-
-
         <table className="table table-bordered">
           <thead>
             <th>id</th>
@@ -38,8 +33,7 @@ export const ViewData = () => {
           </thead>
           <tbody>
             {
-
-              // students.map((e) => {
+              // students.students.map((e) => {
 
               //   return (
               //     <tr>

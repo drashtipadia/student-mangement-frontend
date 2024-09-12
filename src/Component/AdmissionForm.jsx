@@ -4,9 +4,11 @@ import { Header } from "./Header";
 import { Input } from "./Input";
 import { SelectBox } from "./SelectBox";
 import { RadioGroup } from "./RadioGroup";
-import { width } from "@fortawesome/free-brands-svg-icons/fa42Group";
 
 function AdmissionForm() {
+
+
+
   const [user, setUser] = useState({
     stream: "",
     semester: "",
@@ -72,9 +74,34 @@ function AdmissionForm() {
 
     setUser({ ...user, [name]: file });
   };
+  //================
 
+
+  const isValidate = (field) => {
+    if (user.email.trim() === "") {
+      alert("Email is required");
+      return false;
+    }
+    else if (user.name.trim() === "") {
+      alert("Name is Required");
+      return false;
+    }
+    else if (user.aadhar_number.trim() === "") {
+      alert("Aadhar Number is required");
+      return false;
+    }
+    else if (user.wh_no.trim() === "") {
+      alert("Whatsapp number is required");
+      return false;
+    }
+
+  }
+
+
+  //==========================
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isValidate()) { return false; }
     const submitData = new FormData();
     Object.entries(user).forEach(([key, value]) => {
       if (user[key] !== null) {
@@ -82,13 +109,18 @@ function AdmissionForm() {
       }
     });
 
-    const response = await fetch("http://localhost:8000/students/", {
+    const response = await fetch("http://192.168.115.246:8000/students/", {
       method: "POST",
       body: submitData,
     });
 
     // TODO
-    console.log(await response.json());
+    // console.log(await response.json());
+    const check = await response.json()
+    if (check.status === "success") {
+      alert("Record Insert");
+      window.location.reload();
+    }
   };
   return (
     <>
@@ -200,7 +232,7 @@ function AdmissionForm() {
                   <hr />
                 </>
               )}
-              <div className="row border-3 form-group mb-3 align-items-center">
+              {/* <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
                   type="text"
                   name="gr_no"
@@ -220,7 +252,7 @@ function AdmissionForm() {
                   onChange={handleInputs}
 
                 />
-              </div>
+              </div> */}
 
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
@@ -279,7 +311,6 @@ function AdmissionForm() {
                 <Input
                   type="text"
                   name="name"
-                  label=""
                   placeholder="NAME"
                   value={user.name}
                   onChange={handleInputs}
@@ -287,7 +318,6 @@ function AdmissionForm() {
                 <Input
                   type="text"
                   name="fathername"
-                  label=""
                   placeholder="FATHERNAME"
                   value={user.fathername}
                   onChange={handleInputs}
@@ -320,32 +350,33 @@ function AdmissionForm() {
                   label="Address:"
                   value={user.address}
                   onChange={handleInputs}
+                  placeholder="Enter the Address"
                 />
               </div>
               <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
+                {/* <Input
                   type="text"
                   name="contact_no"
                   label="Mobile No:"
                   placeholder="Contact No."
                   value={user.contact_no}
                   onChange={handleInputs}
-                />
+                /> */}
 
 
                 <Input
                   type="text"
                   name="wh_no"
-                  label=""
+                  label="Mobile No:"
                   placeholder="Whatsapp No."
                   value={user.wh_no}
+                  required={true}
                   onChange={handleInputs}
                 />
 
                 <Input
                   type="text"
                   name="parent_no"
-                  label=""
                   placeholder="Parent No."
                   value={user.parent_no}
                   onChange={handleInputs}
@@ -457,6 +488,7 @@ function AdmissionForm() {
                 type="submit"
                 className="btn btn-primary btn-lg w-100"
                 onClick={handleSubmit}
+
               >
                 Submit
               </button>

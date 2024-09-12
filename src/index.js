@@ -1,25 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle";
-import reportWebVitals from './reportWebVitals';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { AdmissionForm } from './Component/AdmissionForm';
-import Error404 from './Component/Error404';
-import { ViewData } from './Component/ViewData';
+import reportWebVitals from "./reportWebVitals";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { AdmissionForm } from "./Component/AdmissionForm";
+import Error404 from "./Component/Error404";
+import { ViewData } from "./Component/ViewData";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-let allRoutes=createBrowserRouter([
-  {path:'/',element:<App/>},
-  {path:'admissionForm',element:<AdmissionForm/>},
-  {path:'viewdata',element:<ViewData/>},
-  {path:'*',element:<Error404/>}])
+const root = ReactDOM.createRoot(document.getElementById("root"));
+let allRoutes = createBrowserRouter([
+  { path: "/", element: <App /> },
+  { path: "/admissionForm", element: <AdmissionForm /> },
+  { path: "/viewdata", element: <ViewData /> },
+  { path: "*", element: <Error404 /> },
+]);
 root.render(
   <React.StrictMode>
-    <RouterProvider router={allRoutes}/>
- 
+    <RouterProvider router={allRoutes} />
   </React.StrictMode>
 );
 

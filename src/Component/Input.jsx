@@ -1,5 +1,5 @@
 export function Input({
-  label,
+  label = "",
   type,
   name,
   value,
@@ -35,6 +35,7 @@ export function Input({
             value={value}
             className="form-control"
             onChange={onChange}
+            placeholder={placeholder}
           />
         )}
       </div>
