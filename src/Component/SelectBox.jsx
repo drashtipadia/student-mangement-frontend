@@ -1,6 +1,7 @@
 export function SelectBox({ name, label, placeholder, onChange, data }) {
   return (
-    <div className="row border-3 form-group mb-3">
+    // <div className="row border-3 form-group mb-3">
+    <>
       <label className="col-auto text-center" htmlFor={name}>
         {label}
       </label>
@@ -17,6 +18,7 @@ export function SelectBox({ name, label, placeholder, onChange, data }) {
           })}
         </select>
       </div>
-    </div>
+    </>
+    // </div>
   );
 }

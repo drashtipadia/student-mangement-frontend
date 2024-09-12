@@ -9,17 +9,29 @@ function App() {
     <div className="App">
       <Header />
 
-      <li>
-        {" "}
-        <Link to={"admissionForm"}>AdmissionForm</Link>{" "}
-      </li>
-      <li>
-        {" "}
-        <Link to={"viewdata"}>View Data</Link>{" "}
-      </li>
-      {/* <li>
-        <FontAwesomeIcon icon={faPhone} />{" "}
-      </li> */}
+      <div className="conatiner p-5 bg-dark">
+        <div className="row">
+          <div className="col">
+            <Link to={"admissionForm"}>
+              <button className="btn btn-primary">AdmissionForm</button>
+            </Link>
+          </div>
+
+          <div className="col">
+            <Link to={"viewdata"}>
+              <button className="btn btn-primary">View Data</button>
+            </Link>
+          </div>
+
+          <div className="col">
+            <button className="btn btn-primary">Bonafied Certificate</button>
+          </div>
+
+          {/* <li>
+                  <FontAwesomeIcon icon={faPhone} />{" "}
+                </li> */}
+        </div>
+      </div>
     </div>
   );
 }

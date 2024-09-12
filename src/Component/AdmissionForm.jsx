@@ -99,37 +99,38 @@ function AdmissionForm() {
           <div className="card bg-light" style={{ width: "50rem" }}>
             <form className="m-4" method="post" encType="multipart/form-data">
 
+              <div className="row border-3 form-group mb-3 align-items-center">
+                <SelectBox
+                  name="stream"
+                  onChange={handleInputs}
+                  label={"Stream:"}
+                  placeholder={"Select Stream"}
+                  data={[
+                    { label: "Bachelor of Arts", value: "Bachelor of Arts" },
+                    { label: "Bachelor of Business Administration", value: "Bachelor of Business Administration" },
+                    { label: "Bachelor of Commerce", value: "Bachelor of Commerce" },
+                    { label: "Bachelor of Computer Application", value: "Bachelor of Computer Application" },
+                    { label: "Master of Science (Information Technology & Computer Application)", value: "Master of Science (Information Technology & Computer Application)" },
+                  ]}
+                />
 
-              <SelectBox
-                name="stream"
-                onChange={handleInputs}
-                label={"Stream:"}
-                placeholder={"Select Stream"}
-                data={[
-                  { label: "Bachelor of Arts", value: "Bachelor of Arts" },
-                  { label: "Bachelor of Business Administration", value: "Bachelor of Business Administration" },
-                  { label: "Bachelor of Commerce", value: "Bachelor of Commerce" },
-                  { label: "Bachelor of Computer Application", value: "Bachelor of Computer Application" },
-                  { label: "Master of Science (Information Technology & Computer Application)", value: "Master of Science (Information Technology & Computer Application)" },
-                ]}
-              />
-
-              <SelectBox
-                name="semester"
-                onChange={handleInputs}
-                label={"Semester :"}
-                placeholder={"Select Semester"}
-                data={[
-                  { label: "1st", value: "1" },
-                  { label: "2nd", value: "2" },
-                  { label: "3rd", value: "3" },
-                  { label: "4th", value: "4" },
-                  { label: "5th", value: "5" },
-                  { label: "6th", value: "6" },
-                  { label: "7th", value: "7" },
-                  { label: "8th", value: "8" },
-                ]}
-              />
+                <SelectBox
+                  name="semester"
+                  onChange={handleInputs}
+                  label={"Semester :"}
+                  placeholder={"Select Semester"}
+                  data={[
+                    { label: "1st", value: "1" },
+                    { label: "2nd", value: "2" },
+                    { label: "3rd", value: "3" },
+                    { label: "4th", value: "4" },
+                    { label: "5th", value: "5" },
+                    { label: "6th", value: "6" },
+                    { label: "7th", value: "7" },
+                    { label: "8th", value: "8" },
+                  ]}
+                />
+              </div>
 
               {user.stream === "Bachelor of Commerce" && (
                 <RadioGroup
@@ -251,6 +252,20 @@ function AdmissionForm() {
                   onChange={handleInputs}
                 />
               </div>
+              <RadioGroup
+                name={"caste"}
+                label={"Caste:"}
+                onChange={handleInputs}
+                data={[
+                  { label: "GENERAL", value: "GENERAL" },
+                  { label: "EWS", value: "EWS" },
+                  { label: "SC", value: "SC" },
+                  { label: "ST", value: "ST" },
+                  { label: "SEBC(OBC)", value: "SEBC(OBC)" },
+                  { label: "PH", value: "PH" },
+                  { label: "EX-ARMY", value: "EX-ARMY" },
+                ]}
+              />
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
                   type="text"
@@ -377,20 +392,6 @@ function AdmissionForm() {
 
               </div>
 
-              <RadioGroup
-                name={"caste"}
-                label={"Caste:"}
-                onChange={handleInputs}
-                data={[
-                  { label: "GENERAL", value: "GENERAL" },
-                  { label: "EWS", value: "EWS" },
-                  { label: "SC", value: "SC" },
-                  { label: "ST", value: "ST" },
-                  { label: "SEBC(OBC)", value: "SEBC(OBC)" },
-                  { label: "PH", value: "PH" },
-                  { label: "EX-ARMY", value: "EX-ARMY" },
-                ]}
-              />
               <div className="row border-3 form-group mb-3 align-items-center">
 
                 <Input
