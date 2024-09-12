@@ -7,10 +7,8 @@ export function Input({
   min = null,
   max = null,
   placeholder,
-
 }) {
   return (
-    // <div className="row border-3 form-group mb-3 align-items-center">
     <>
       <label className="col-auto text-center" htmlFor={name}>
         {label}
@@ -39,7 +37,6 @@ export function Input({
           />
         )}
       </div>
-      {/* </div> */}
     </>
   );
 }

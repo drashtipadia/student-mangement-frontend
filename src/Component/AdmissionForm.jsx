@@ -5,10 +5,10 @@ import { Input } from "./Input";
 import { SelectBox } from "./SelectBox";
 import { RadioGroup } from "./RadioGroup";
 
+const SERVER_HOST = process.env.SERVER_HOST || "localhost";
+const SERVER_PORT = Number(process.env.SERVER_PORT) || 8000;
+
 function AdmissionForm() {
-
-
-
   const [user, setUser] = useState({
     stream: "",
     semester: "",
@@ -76,32 +76,28 @@ function AdmissionForm() {
   };
   //================
 
-
   const isValidate = (field) => {
     if (user.email.trim() === "") {
       alert("Email is required");
       return false;
-    }
-    else if (user.name.trim() === "") {
+    } else if (user.name.trim() === "") {
       alert("Name is Required");
       return false;
-    }
-    else if (user.aadhar_number.trim() === "") {
+    } else if (user.aadhar_number.trim() === "") {
       alert("Aadhar Number is required");
       return false;
-    }
-    else if (user.wh_no.trim() === "") {
+    } else if (user.wh_no.trim() === "") {
       alert("Whatsapp number is required");
       return false;
     }
-
-  }
-
+  };
 
   //==========================
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isValidate()) { return false; }
+    if (!isValidate()) {
+      return false;
+    }
     const submitData = new FormData();
     Object.entries(user).forEach(([key, value]) => {
       if (user[key] !== null) {
@@ -109,14 +105,17 @@ function AdmissionForm() {
       }
     });
 
-    const response = await fetch("http://192.168.115.246:8000/students/", {
-      method: "POST",
-      body: submitData,
-    });
+    const response = await fetch(
+      `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
+      {
+        method: "POST",
+        body: submitData,
+      }
+    );
 
     // TODO
     // console.log(await response.json());
-    const check = await response.json()
+    const check = await response.json();
     if (check.status === "success") {
       alert("Record Insert");
       window.location.reload();
@@ -130,7 +129,6 @@ function AdmissionForm() {
         <div className="col d-flex justify-content-center py-3">
           <div className="card bg-light" style={{ width: "50rem" }}>
             <form className="m-4" method="post" encType="multipart/form-data">
-
               <div className="row border-3 form-group mb-3 align-items-center">
                 <SelectBox
                   name="stream"
@@ -139,10 +137,24 @@ function AdmissionForm() {
                   placeholder={"Select Stream"}
                   data={[
                     { label: "Bachelor of Arts", value: "Bachelor of Arts" },
-                    { label: "Bachelor of Business Administration", value: "Bachelor of Business Administration" },
-                    { label: "Bachelor of Commerce", value: "Bachelor of Commerce" },
-                    { label: "Bachelor of Computer Application", value: "Bachelor of Computer Application" },
-                    { label: "Master of Science (Information Technology & Computer Application)", value: "Master of Science (Information Technology & Computer Application)" },
+                    {
+                      label: "Bachelor of Business Administration",
+                      value: "Bachelor of Business Administration",
+                    },
+                    {
+                      label: "Bachelor of Commerce",
+                      value: "Bachelor of Commerce",
+                    },
+                    {
+                      label: "Bachelor of Computer Application",
+                      value: "Bachelor of Computer Application",
+                    },
+                    {
+                      label:
+                        "Master of Science (Information Technology & Computer Application)",
+                      value:
+                        "Master of Science (Information Technology & Computer Application)",
+                    },
                   ]}
                 />
 
@@ -306,7 +318,6 @@ function AdmissionForm() {
                   value={user.surname}
                   placeholder="SURNAME"
                   onChange={handleInputs}
-
                 />
                 <Input
                   type="text"
@@ -363,7 +374,6 @@ function AdmissionForm() {
                   onChange={handleInputs}
                 /> */}
 
-
                 <Input
                   type="text"
                   name="wh_no"
@@ -411,7 +421,6 @@ function AdmissionForm() {
                   onChange={handleInputs}
                 />
 
-
                 <Input
                   type="text"
                   name="birth_place"
@@ -420,11 +429,9 @@ function AdmissionForm() {
                   placeholder="birthplace.."
                   onChange={handleInputs}
                 />
-
               </div>
 
               <div className="row border-3 form-group mb-3 align-items-center">
-
                 <Input
                   type="text"
                   name="city"
@@ -454,7 +461,6 @@ function AdmissionForm() {
               </div>
 
               <div className="row border-3 form-group mb-3 align-items-center">
-
                 <Input
                   type="text"
                   name="last_organization_studied_from"
@@ -483,20 +489,17 @@ function AdmissionForm() {
                 />
               </div>
 
-
               <button
                 type="submit"
                 className="btn btn-primary btn-lg w-100"
                 onClick={handleSubmit}
-
               >
                 Submit
               </button>
-
             </form>
           </div>
-        </div >
-      </div >
+        </div>
+      </div>
     </>
   );
 }

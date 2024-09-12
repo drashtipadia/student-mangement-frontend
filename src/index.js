@@ -7,21 +7,19 @@ import "bootstrap/dist/js/bootstrap.bundle";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AdmissionForm } from "./Component/AdmissionForm";
-import Error404 from "./Component/Error404";
-import { ViewData } from "./Component/ViewData";
+import Error404 from "./views/Error404";
+import { StudentsList } from "./views/StudentsList";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 let allRoutes = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/admissionForm", element: <AdmissionForm /> },
-  { path: "/viewdata", element: <ViewData /> },
+  { path: "/viewdata", element: <StudentsList /> },
   { path: "*", element: <Error404 /> },
 ]);
-root.render(
-  <React.StrictMode>
-    <RouterProvider router={allRoutes} />
-  </React.StrictMode>
-);
+
+root.render(<RouterProvider router={allRoutes} />);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
