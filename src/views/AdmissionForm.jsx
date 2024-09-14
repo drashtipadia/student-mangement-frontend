@@ -5,11 +5,11 @@ import { Input } from "../Component/Input";
 import { SelectBox } from "../Component/SelectBox";
 import { RadioGroup } from "../Component/RadioGroup";
 
-// const SERVER_HOST = process.env.SERVER_HOST || "localhost";
-const SERVER_HOST = process.env.SERVER_HOST || "192.168.115.246";
+const SERVER_HOST = process.env.SERVER_HOST || "localhost";
 const SERVER_PORT = Number(process.env.SERVER_PORT) || 8000;
 
 function AdmissionForm() {
+  const [previewImage, setPreviewImage] = useState(null);
   const [user, setUser] = useState({
     stream: "",
     semester: "",
@@ -39,16 +39,19 @@ function AdmissionForm() {
     district: "",
     pincode: "",
     studentimg: null,
-    // tc_doc: null,
-    // no_objection_doc: null,
-    // first_trial_doc: null,
-    // bonafide_doc: null,
-    // fee_recipt_print: null,
     last_organization_studied_from: "",
     last_studied_year: "",
-    // institute_type: localStorage.getItem('token'),
-
   });
+  let [inc, setInc] = useState(1);
+
+  useEffect(() => {
+    fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`)
+      .then((res) => res.json())
+      .then((d) => {
+        let gr = d.gr_no;
+        setInc((gr ? Number(gr.split("-")[3]) : 1) + 1);
+      });
+  }, []);
 
   useEffect(() => {
     if (user.stream !== "Bachelor of Arts") {
@@ -60,6 +63,7 @@ function AdmissionForm() {
         elective_course: "",
       });
     }
+    // eslint-disable-next-line
   }, [user.stream]);
 
   let name, value;
@@ -74,73 +78,57 @@ function AdmissionForm() {
     const name = e.target.name;
     const file = e.target.files[0];
 
+    setPreviewImage(URL.createObjectURL(file));
+
     setUser({ ...user, [name]: file });
   };
-  //================
 
   const FIELDS_TO_VALIDATE = ["email", "name", "aadhar_number", "whatsapp_no"];
 
   const isValidate = () => {
-    // if (user.email.trim() === "") {
-    //   alert("Email is required");
-    //   return false;
-    // } else if (user.name.trim() === "") {
-    //   alert("Name is Required");
-    //   return false;
-    // } else if (user.aadhar_number.trim() === "") {
-    //   alert("Aadhar Number is required");
-    //   return false;
-    // } else if (user.whatsapp_no.trim() === "") {
-    //   alert("Whatsapp number is required");
-    //   return false;
-    // }
-
     let valid = true;
-    FIELDS_TO_VALIDATE.forEach(field => {
+    FIELDS_TO_VALIDATE.forEach((field) => {
       if (user[field] === "") {
+        alert(`${field} is required`);
         valid = false;
         return;
       }
-    })
+    });
 
     return valid;
   };
-  let id;
-  (async () => {
-    const gr_res = await fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`)
-    const jsonRes = await gr_res.json();
-    id = jsonRes.gr_no;
-  })();
-  let inc = id ? Number(id.split('-')[2]) : 1;
 
   const STREAM = {
     "Bachelor of Computer Application": "BCA",
     "Bachelor of Commerce": "BCOM",
     "Bachelor of Business Administration": "BBA",
     "Bachelor of Arts": "BA",
-    "Master of Science (Information Technology & Computer Application)": "MSCIT",
-  }
-
-  const GR_PREFIX = "GR-" + localStorage.getItem('token') + "-" + STREAM[user.stream] + "-" + inc;
-  // console.log(GR_PREFIX);
+    "Master of Science (Information Technology & Computer Application)":
+      "MSCIT",
+  };
 
   //==========================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // console.log(user.studentimg);
-    if (!isValidate()) {
-      return false;
-    }
+    const GR_PREFIX =
+      "GR-" +
+      localStorage.getItem("token") +
+      "-" +
+      STREAM[user.stream] +
+      "-" +
+      inc;
+
+    if (!isValidate()) return false;
+
     user.gr_no = GR_PREFIX;
+
     const submitData = new FormData();
     Object.entries(user).forEach(([key, value]) => {
-      // submitData.append(user.gr_no, GR_PREFIX);
       if (user[key] !== null) {
         submitData.append(key, value);
       }
     });
-
 
     const response = await fetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
@@ -151,8 +139,6 @@ function AdmissionForm() {
       }
     );
 
-    // TODO
-    // console.log(await response.json());
     const check = await response.json();
     if (check.status === "success") {
       alert("Record Insert");
@@ -332,6 +318,7 @@ function AdmissionForm() {
                   value={user.aadhar_number}
                   placeholder="Enter Aadhar No."
                   onChange={handleInputs}
+                  required
                 />
               </div>
               <RadioGroup
@@ -418,8 +405,8 @@ function AdmissionForm() {
                   label="Mobile No:"
                   placeholder="Whatsapp No."
                   value={user.wh_no}
-                  // required={true}
                   onChange={handleInputs}
+                  required
                 />
 
                 <Input
@@ -438,6 +425,7 @@ function AdmissionForm() {
                   placeholder="Student Email Address"
                   value={user.email}
                   onChange={handleInputs}
+                  required
                 />
               </div>
 
@@ -524,8 +512,17 @@ function AdmissionForm() {
                   type="file"
                   name="studentimg"
                   onChange={handleFileUploads}
+                  accept={"image/png, image/jpg, image/jpeg"}
+                  required
                 />
               </div>
+
+              {previewImage && (
+                <div className="my-2">
+                  {/* eslint-disable-next-line */}
+                  <img src={previewImage} alt="image preview" height={200} />
+                </div>
+              )}
 
               <button
                 type="submit"
