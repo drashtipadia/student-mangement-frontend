@@ -4,23 +4,26 @@ import { TableRow } from "../Component/TableRow";
 import { Loading } from "../Component/Loading";
 import { SelectBox } from "../Component/SelectBox";
 
+const SERVER_HOST = process.env.SERVER_HOST || "localhost";
+const SERVER_PORT = process.env.SERVER_PORT || 8000;
+
 export function StudentsList() {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   // const [filter, setFilter] = useState([]);
-  const institute_type = localStorage.getItem('token');
+  const institute_type = localStorage.getItem("token");
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("http://192.168.115.246:8000/students");
-      // const response = await fetch("http://localhost:8000/students");
+      const response = await fetch(
+        `http://${SERVER_HOST}:${SERVER_PORT}/students`
+      );
       const jsonResponse = await response.json();
 
       setRecords(jsonResponse.students);
       setLoading(false);
     })();
   }, []);
-
 
   // function filter() {
   //   const type_ = "sfi";
@@ -34,7 +37,6 @@ export function StudentsList() {
         <Loading />
       ) : (
         <>
-
           <h2 className="text-center m-4">Student Info</h2>
           <div className="container mb-3  align-items-center">
             <div className="row justify-content-between ">
@@ -44,29 +46,33 @@ export function StudentsList() {
                 label={"Stream:"}
                 placeholder={"Select Stream"}
                 data={
-                  institute_type === "SFI" ?
-                    [
-                      {
-                        label: "Bachelor of Computer Application",
-                        value: "Bachelor of Computer Application",
-                      },
-                      {
-                        label:
-                          "Master of Science (Information Technology & Computer Application)",
-                        value:
-                          "Master of Science (Information Technology & Computer Application)",
-                      },
-                      {
-                        label: "Bachelor of Business Administration",
-                        value: "Bachelor of Business Administration",
-                      },
-                    ]
-                    :
-                    [{ label: "Bachelor of Arts", value: "Bachelor of Arts" },
-                    {
-                      label: "Bachelor of Commerce",
-                      value: "Bachelor of Commerce",
-                    },]
+                  institute_type === "SFI"
+                    ? [
+                        {
+                          label: "Bachelor of Computer Application",
+                          value: "Bachelor of Computer Application",
+                        },
+                        {
+                          label:
+                            "Master of Science (Information Technology & Computer Application)",
+                          value:
+                            "Master of Science (Information Technology & Computer Application)",
+                        },
+                        {
+                          label: "Bachelor of Business Administration",
+                          value: "Bachelor of Business Administration",
+                        },
+                      ]
+                    : [
+                        {
+                          label: "Bachelor of Arts",
+                          value: "Bachelor of Arts",
+                        },
+                        {
+                          label: "Bachelor of Commerce",
+                          value: "Bachelor of Commerce",
+                        },
+                      ]
                 }
               />
             </div>
@@ -107,13 +113,11 @@ export function StudentsList() {
               <tbody>
                 {records &&
                   records.map((e) => {
-                    console.log(e);
                     return <TableRow data={e} key={e.id} />;
                   })}
               </tbody>
             </table>
           </div>
-
         </>
       )}
     </>

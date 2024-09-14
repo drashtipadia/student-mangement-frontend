@@ -1,6 +1,6 @@
 import "./App.css";
 import { Header } from "./Component/Header";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 
 function App() {
@@ -9,6 +9,7 @@ function App() {
     if (!localStorage.getItem("token")) {
       navigate("/login");
     }
+    // eslint-disable-next-line
   }, []);
 
   return (

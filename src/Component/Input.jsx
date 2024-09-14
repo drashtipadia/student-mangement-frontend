@@ -1,3 +1,5 @@
+import { Badge } from "./Badge";
+
 export function Input({
   label = "",
   type,
@@ -7,10 +9,13 @@ export function Input({
   min = null,
   max = null,
   placeholder,
+  accept = null,
+  required = false,
 }) {
   return (
     <>
       <label className="col-auto text-center" htmlFor={name}>
+        {required && <Badge />}
         {label}
       </label>
       <div className="col">
@@ -25,6 +30,7 @@ export function Input({
             min={min}
             max={max}
             placeholder={placeholder}
+            accept={accept}
           />
         ) : (
           <textarea
