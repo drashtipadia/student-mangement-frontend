@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Header } from "./Header";
-import { Input } from "./Input";
-import { SelectBox } from "./SelectBox";
-import { RadioGroup } from "./RadioGroup";
+import { Header } from "../Component/Header";
+import { Input } from "../Component/Input";
+import { SelectBox } from "../Component/SelectBox";
+import { RadioGroup } from "../Component/RadioGroup";
 
-const SERVER_HOST = process.env.SERVER_HOST || "localhost";
+// const SERVER_HOST = process.env.SERVER_HOST || "localhost";
+const SERVER_HOST = process.env.SERVER_HOST || "192.168.115.246";
 const SERVER_PORT = Number(process.env.SERVER_PORT) || 8000;
 
 function AdmissionForm() {
@@ -45,7 +46,8 @@ function AdmissionForm() {
     // fee_recipt_print: null,
     last_organization_studied_from: "",
     last_studied_year: "",
-    institute_type: localStorage.getItem('token'),
+    // institute_type: localStorage.getItem('token'),
+
   });
 
   useEffect(() => {
@@ -103,19 +105,42 @@ function AdmissionForm() {
 
     return valid;
   };
+  let id;
+  (async () => {
+    const gr_res = await fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`)
+    const jsonRes = await gr_res.json();
+    id = jsonRes.gr_no;
+  })();
+  let inc = id ? Number(id.split('-')[2]) : 1;
+
+  const STREAM = {
+    "Bachelor of Computer Application": "BCA",
+    "Bachelor of Commerce": "BCOM",
+    "Bachelor of Business Administration": "BBA",
+    "Bachelor of Arts": "BA",
+    "Master of Science (Information Technology & Computer Application)": "MSCIT",
+  }
+
+  const GR_PREFIX = "GR-" + localStorage.getItem('token') + "-" + STREAM[user.stream] + "-" + inc;
+  // console.log(GR_PREFIX);
 
   //==========================
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // console.log(user.studentimg);
     if (!isValidate()) {
       return false;
     }
+    user.gr_no = GR_PREFIX;
     const submitData = new FormData();
     Object.entries(user).forEach(([key, value]) => {
+      // submitData.append(user.gr_no, GR_PREFIX);
       if (user[key] !== null) {
         submitData.append(key, value);
       }
     });
+
 
     const response = await fetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/students/`,

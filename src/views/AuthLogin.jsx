@@ -68,11 +68,11 @@ function Login() {
                                         </div>
                                         <div className="form-outline mb-5">
                                             <div className="form-check form-check-inline">
-                                                <input className="form-check-input" type="radio" name="institute_type" id="inlineRadio1" value="sfi" onChange={handleInput} />
+                                                <input className="form-check-input" type="radio" name="institute_type" id="inlineRadio1" value="SFI" onChange={handleInput} />
                                                 <label className="form-check-label" htmlFor="inlineRadio1">SFI</label>
                                             </div>
                                             <div className="form-check form-check-inline">
-                                                <input className="form-check-input" type="radio" name="institute_type" id="inlineRadio2" value="gia" onChange={handleInput} />
+                                                <input className="form-check-input" type="radio" name="institute_type" id="inlineRadio2" value="GIA" onChange={handleInput} />
                                                 <label className="form-check-label" htmlFor="inlineRadio2">GIA</label>
                                             </div>
 

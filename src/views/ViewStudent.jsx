@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const SERVER_HOST = process.env.SERVER_HOST || "localhost";
+const SERVER_HOST = process.env.SERVER_HOST || "192.168.115.246";
+// const SERVER_HOST = process.env.SERVER_HOST || "localhost";
 const SERVER_PORT = Number(process.env.SERVER_PORT) || 8000;
 
 /**

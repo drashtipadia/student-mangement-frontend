@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AdmissionForm } from "./Component/AdmissionForm";
+import { AdmissionForm } from "./views/AdmissionForm";
 import Error404 from "./views/Error404";
 import { StudentsList } from "./views/StudentsList";
 import { Login } from "./views/AuthLogin";
