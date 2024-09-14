@@ -6,6 +6,7 @@ import { Loading } from "../Component/Loading";
 export function StudentsList() {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
+  // const [filter, setFilter] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -16,6 +17,12 @@ export function StudentsList() {
       setLoading(false);
     })();
   }, []);
+
+  // function filter() {
+  //   const type_ = "sfi";
+
+  //   setFilter(records.filter((record) => record.type_ === type_));
+  // }
   return (
     <>
       <Header />
@@ -24,6 +31,7 @@ export function StudentsList() {
       ) : (
         <div className="container">
           <h1 className="text-center p-5">Data</h1>
+
           <table className="table table-bordered">
             <thead>
               <tr>

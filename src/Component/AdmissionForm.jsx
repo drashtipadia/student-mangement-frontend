@@ -27,7 +27,6 @@ function AdmissionForm() {
     father_name: "",
     mother_name: "",
     address: "",
-    contact_no: "",
     wh_no: "",
     parent_no: "",
     email: "",
@@ -39,13 +38,14 @@ function AdmissionForm() {
     district: "",
     pincode: "",
     studentimg: null,
-    tc_doc: null,
-    no_objection_doc: null,
-    first_trial_doc: null,
-    bonafide_doc: null,
-    fee_recipt_print: null,
+    // tc_doc: null,
+    // no_objection_doc: null,
+    // first_trial_doc: null,
+    // bonafide_doc: null,
+    // fee_recipt_print: null,
     last_organization_studied_from: "",
     last_studied_year: "",
+    institute_type: localStorage.getItem('token'),
   });
 
   useEffect(() => {
@@ -76,20 +76,32 @@ function AdmissionForm() {
   };
   //================
 
-  const isValidate = (field) => {
-    if (user.email.trim() === "") {
-      alert("Email is required");
-      return false;
-    } else if (user.name.trim() === "") {
-      alert("Name is Required");
-      return false;
-    } else if (user.aadhar_number.trim() === "") {
-      alert("Aadhar Number is required");
-      return false;
-    } else if (user.wh_no.trim() === "") {
-      alert("Whatsapp number is required");
-      return false;
-    }
+  const FIELDS_TO_VALIDATE = ["email", "name", "aadhar_number", "whatsapp_no"];
+
+  const isValidate = () => {
+    // if (user.email.trim() === "") {
+    //   alert("Email is required");
+    //   return false;
+    // } else if (user.name.trim() === "") {
+    //   alert("Name is Required");
+    //   return false;
+    // } else if (user.aadhar_number.trim() === "") {
+    //   alert("Aadhar Number is required");
+    //   return false;
+    // } else if (user.whatsapp_no.trim() === "") {
+    //   alert("Whatsapp number is required");
+    //   return false;
+    // }
+
+    let valid = true;
+    FIELDS_TO_VALIDATE.forEach(field => {
+      if (user[field] === "") {
+        valid = false;
+        return;
+      }
+    })
+
+    return valid;
   };
 
   //==========================
@@ -107,6 +119,7 @@ function AdmissionForm() {
 
     const response = await fetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
+      // "http://localhost:8000/students/",
       {
         method: "POST",
         body: submitData,
@@ -380,7 +393,7 @@ function AdmissionForm() {
                   label="Mobile No:"
                   placeholder="Whatsapp No."
                   value={user.wh_no}
-                  required={true}
+                  // required={true}
                   onChange={handleInputs}
                 />
 

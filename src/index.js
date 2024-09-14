@@ -9,10 +9,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AdmissionForm } from "./Component/AdmissionForm";
 import Error404 from "./views/Error404";
 import { StudentsList } from "./views/StudentsList";
+import { Login } from "./views/AuthLogin";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 let allRoutes = createBrowserRouter([
+  { path: "/login", element: <Login /> },
   { path: "/", element: <App /> },
   { path: "/admissionForm", element: <AdmissionForm /> },
   { path: "/viewdata", element: <StudentsList /> },
