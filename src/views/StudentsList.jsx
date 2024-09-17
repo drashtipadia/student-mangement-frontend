@@ -37,17 +37,21 @@ export function StudentsList() {
         <Loading />
       ) : (
         <>
-          <h2 className="text-center m-4">Student Info</h2>
+          <h2 className="text-center m-4 ">Student Info</h2>
           <div className="container mb-3  align-items-center">
-            <div className="row justify-content-between ">
-              <SelectBox
-                name="stream"
-                // onChange={handleInputs}
-                label={"Stream:"}
-                placeholder={"Select Stream"}
-                data={
-                  institute_type === "SFI"
-                    ? [
+            <form className="border border-3 rounded-1 ">
+              <div className="row justify-content-between form-group m-2">
+
+
+
+                <SelectBox
+                  name="stream"
+                  // onChange={handleInputs}
+                  label={"Stream:"}
+                  placeholder={"Select Stream"}
+                  data={
+                    institute_type === "SFI"
+                      ? [
                         {
                           label: "Bachelor of Computer Application",
                           value: "Bachelor of Computer Application",
@@ -63,7 +67,7 @@ export function StudentsList() {
                           value: "Bachelor of Business Administration",
                         },
                       ]
-                    : [
+                      : [
                         {
                           label: "Bachelor of Arts",
                           value: "Bachelor of Arts",
@@ -73,9 +77,15 @@ export function StudentsList() {
                           value: "Bachelor of Commerce",
                         },
                       ]
-                }
-              />
-            </div>
+                  }
+                />
+
+                <div className="col">
+                  <input type="text" name="studentName" placeholder="Name" /> </div>
+                <div className="col"> <button type="submit" className="btn btn-primary"> Search </button> </div>
+
+              </div>
+            </form>
           </div>
           <div className="container">
             <table className="table table-bordered">

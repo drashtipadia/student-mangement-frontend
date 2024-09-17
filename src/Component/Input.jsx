@@ -17,6 +17,7 @@ export function Input({
       <label className="col-auto text-center" htmlFor={name}>
         {required && <Badge />}
         {label}
+
       </label>
       <div className="col">
         {type !== "textarea" ? (

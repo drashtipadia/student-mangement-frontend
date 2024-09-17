@@ -72,6 +72,7 @@ function AdmissionForm() {
     name = e.target.name;
     value = e.target.value;
     setUser({ ...user, [name]: value });
+
   };
 
   const handleFileUploads = (e) => {
@@ -79,24 +80,74 @@ function AdmissionForm() {
     const file = e.target.files[0];
 
     setPreviewImage(URL.createObjectURL(file));
-
     setUser({ ...user, [name]: file });
   };
-
-  const FIELDS_TO_VALIDATE = ["email", "name", "aadhar_number", "whatsapp_no"];
+  //=======================================
+  // const FIELDS_TO_VALIDATE = ["email", "name", "aadhar_number", "wh_no"];
+  // const NUMBER_VALIDATE = ["parent_no", "wh_no"];
+  const [error, setError] = useState({});
 
   const isValidate = () => {
-    let valid = true;
-    FIELDS_TO_VALIDATE.forEach((field) => {
-      if (user[field] === "") {
-        alert(`${field} is required`);
-        valid = false;
-        return;
-      }
-    });
+    // let valid = true;
+    // FIELDS_TO_VALIDATE.forEach((field) => {
+    //   if (user[field] === "") {
+    //     alert(`${field} is required`);
+    //     valid = false;
+    //     return;
+    //   }
+    //   else {
+    //     NUMBER_VALIDATE.forEach((field) => {
+    //       if (!(user[field].match('[0-9]{10}'))) {
+    //         alert(`Please Enter valid ${field}   Number`);
+    //         valid = false;
+    //         return;
+    //       }
+    //     });
+    //   }
+    // });
+    //return valid;
 
-    return valid;
+    const validationError = {}
+    if (!user.aadhar_number.trim()) {
+      validationError.aadhar_number = "Aadhar Number is required";
+    } else if (!user.aadhar_number.match(/^\d{12}$/)) {
+      validationError.aadhar_number = "Aadhar Number must be 12 digit"
+    }
+
+    if (!user.email.trim()) {
+      validationError.email = "Email is Required";
+    } else if (!user.email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+      validationError.email = "Email is Not Valid";
+    }
+    if (!user.name.trim()) {
+      validationError.name = "Name is Required";
+    } else if (!user.surname.trim()) {
+      validationError.name = "Surname is Required";
+    } else if (!user.fathername.trim()) {
+      validationError.name = "Fathername is Required"
+    }
+    if (!user.wh_no.trim()) {
+      validationError.wh_no = "WhatsApp Number is Required"
+    } else if (!user.wh_no.match(/^\d{10}$/)) {
+      validationError.wh_no = "WhatsApp Number incorrect"
+    }
+
+    if (!user.studentimg) {
+      validationError.studentimg = "Please Upload Image";
+    }
+
+    setError(validationError);
+    if (Object.keys(validationError).length === 0) {
+      return true;
+    }
+
+    return false;
+
   };
+
+
+
+  //==================================
 
   const STREAM = {
     "Bachelor of Computer Application": "BCA",
@@ -106,8 +157,7 @@ function AdmissionForm() {
     "Master of Science (Information Technology & Computer Application)":
       "MSCIT",
   };
-
-  //==========================
+  // submit 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -118,8 +168,12 @@ function AdmissionForm() {
       STREAM[user.stream] +
       "-" +
       inc;
+    //====
 
     if (!isValidate()) return false;
+    //============
+    console.log(user);
+    //============
 
     user.gr_no = GR_PREFIX;
 
@@ -129,10 +183,10 @@ function AdmissionForm() {
         submitData.append(key, value);
       }
     });
+    console.log(user);
 
     const response = await fetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
-      // "http://localhost:8000/students/",
       {
         method: "POST",
         body: submitData,
@@ -152,7 +206,7 @@ function AdmissionForm() {
         <h2 className="text-center mt-3">Admission Form</h2>
         <div className="col d-flex justify-content-center py-3">
           <div className="card bg-light" style={{ width: "50rem" }}>
-            <form className="m-4" method="post" encType="multipart/form-data">
+            <form className="m-4" method="post" encType="multipart/form-data">  {/* onSubmit={handleSubmit}  */}
               <div className="row border-3 form-group mb-3 align-items-center">
                 <SelectBox
                   name="stream"
@@ -321,6 +375,9 @@ function AdmissionForm() {
                   required
                 />
               </div>
+
+              {error.aadhar_number && <p className="text-danger">{error.aadhar_number}</p>}
+
               <RadioGroup
                 name={"caste"}
                 label={"Caste:"}
@@ -359,6 +416,8 @@ function AdmissionForm() {
                   onChange={handleInputs}
                 />
               </div>
+              {error.name && <p className="text-danger">{error.name}</p>}
+
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
                   type="text"
@@ -409,6 +468,7 @@ function AdmissionForm() {
                   required
                 />
 
+
                 <Input
                   type="text"
                   name="parent_no"
@@ -416,7 +476,9 @@ function AdmissionForm() {
                   value={user.parent_no}
                   onChange={handleInputs}
                 />
+
               </div>
+              {error.wh_no && <p className="text-danger">{error.wh_no}</p>}
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
                   type="email"
@@ -428,6 +490,8 @@ function AdmissionForm() {
                   required
                 />
               </div>
+
+              {error.email && <p className="text-danger">{error.email}</p>}
 
               <RadioGroup
                 label={"Gender:"}
@@ -516,6 +580,7 @@ function AdmissionForm() {
                   required
                 />
               </div>
+              {error.studentimg && <p className="text-danger">{error.studentimg}</p>}
 
               {previewImage && (
                 <div className="my-2">
