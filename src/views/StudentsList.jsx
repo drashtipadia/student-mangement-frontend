@@ -3,6 +3,7 @@ import { Header } from "../Component/Header";
 import { TableRow } from "../Component/TableRow";
 import { Loading } from "../Component/Loading";
 import { SelectBox } from "../Component/SelectBox";
+import { Input } from "../Component/Input";
 
 const SERVER_HOST = process.env.SERVER_HOST || "localhost";
 const SERVER_PORT = process.env.SERVER_PORT || 8000;
@@ -10,7 +11,8 @@ const SERVER_PORT = process.env.SERVER_PORT || 8000;
 export function StudentsList() {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
-  // const [filter, setFilter] = useState([]);
+  const [recordsCopy, setRecordsCopy] = useState([]);
+  const [year, setYear] = useState(null);
   const institute_type = localStorage.getItem("token");
 
   useEffect(() => {
@@ -20,16 +22,49 @@ export function StudentsList() {
       );
       const jsonResponse = await response.json();
 
-      setRecords(jsonResponse.students);
+      setRecords([...jsonResponse.students]);
+      // setRecordsCopy();
+      setRecordsCopy([...jsonResponse.students]);
       setLoading(false);
     })();
   }, []);
+
+  //   fetch(`http://${SERVER_HOST}:${SERVER_PORT}/students`)
+  //     .then((res) => res.json())
+  //     .then(value => {
+  //       setRecordsCopy(value['students']);
+  //       setRecords(value['students']);
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   // function filter() {
   //   const type_ = "sfi";
 
   //   setFilter(records.filter((record) => record.type_ === type_));
   // }
+
+  //============
+  // const [field, setField] = useState('stream');
+  // const [year, setYear] = useState('year');
+
+  const handleChange = (e) => {
+    let result = e.target.value;
+    setRecordsCopy([...records]);
+    if (result === "") {
+      setRecordsCopy([...records]);
+    } else {
+      setRecordsCopy(records.filter(val => val.stream === result));
+    }
+  }
+
+  const handleYearChange = (e) => {
+    let result = e.target.value;
+    setYear(result);
+    setRecordsCopy([...records]);
+    setRecordsCopy(records.filter(val => val.stream === result));
+  }
+
   return (
     <>
       <Header />
@@ -39,16 +74,13 @@ export function StudentsList() {
         <>
           <h2 className="text-center m-4 ">Student Info</h2>
           <div className="container mb-3  align-items-center">
-            <form className="border border-3 rounded-1 ">
-              <div className="row justify-content-between form-group m-2">
-
-
-
+            <form className="border border-3 rounded-1 justify-content-between ">
+              <div className="row  align-items-center form-group m-2">
                 <SelectBox
                   name="stream"
-                  // onChange={handleInputs}
                   label={"Stream:"}
                   placeholder={"Select Stream"}
+                  onChange={handleChange}
                   data={
                     institute_type === "SFI"
                       ? [
@@ -66,6 +98,10 @@ export function StudentsList() {
                           label: "Bachelor of Business Administration",
                           value: "Bachelor of Business Administration",
                         },
+                        {
+                          label: "View All",
+                          value: "",
+                        },
                       ]
                       : [
                         {
@@ -76,13 +112,33 @@ export function StudentsList() {
                           label: "Bachelor of Commerce",
                           value: "Bachelor of Commerce",
                         },
+                        {
+                          label: "View All",
+                          value: "",
+                        },
                       ]
                   }
                 />
 
-                <div className="col">
-                  <input type="text" name="studentName" placeholder="Name" /> </div>
-                <div className="col"> <button type="submit" className="btn btn-primary"> Search </button> </div>
+                {/* <Input
+                  type="text"
+                  name="studentName"
+                  //value={ }
+                  placeholder="Student Name"
+                /> */}
+                <Input
+                  type="number"
+                  name="year"
+                  label=""
+                  value={year}
+                  min="2000"
+                  max={new Date().getFullYear()}
+                  placeholder={"Year"}
+                  onChange={handleYearChange}
+                />
+
+                <div className="col"><input type="checkbox" id="name" name="name" value="name" onChange={handleChange} /><label>Name</label></div>
+
 
               </div>
             </form>
@@ -121,8 +177,8 @@ export function StudentsList() {
                 </tr>
               </thead>
               <tbody>
-                {records &&
-                  records.map((e) => {
+                {recordsCopy &&
+                  recordsCopy.map((e) => {
                     return <TableRow data={e} key={e.id} />;
                   })}
               </tbody>

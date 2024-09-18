@@ -13,47 +13,53 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <>
       <Header />
-
-      <div className="conatiner p-5 bg-dark w-100 ">
-        <div className="row">
-          <div className="col">
+      <div className="App h-100 bg-dark ">
+        <div className="conatiner p-5">
+          <div className="row g-3">
             <Link to={"/admissionForm"}>
-              <button className="btn btn-primary">AdmissionForm</button>
+              <button className="btn btn-primary w-25">AdmissionForm</button>
             </Link>
-          </div>
 
-          <div className="col">
             <Link to={"/viewdata"}>
-              <button className="btn btn-primary">View Data</button>
+              <button className="btn btn-primary w-25">View Data</button>
             </Link>
-          </div>
 
-          {/* <div className="col">
-            <Link to={"/login"}>
-              <button className="btn btn-primary">LogIN</button>
+            <Link>
+              <button className="btn btn-primary w-25">
+                No Objection Certificate
+              </button>
             </Link>
-          </div> */}
 
-          <div className="col">
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                localStorage.removeItem("token");
-                window.location.reload();
-              }}
-            >
-              Logout
-            </button>
-          </div>
+            <Link>
+              <button className="btn btn-primary w-25">
+                Bonafied Certificate
+              </button>{" "}
+            </Link>
 
-          <div className="col">
-            <button className="btn btn-primary">Bonafied Certificate</button>
+            <Link>
+              <button className="btn btn-primary w-25">TC Document</button>
+            </Link>
+
+            <Link>
+              <button className="btn btn-primary w-25">First Trial</button>
+            </Link>
+            <span>
+              <button
+                className="btn btn-primary w-50"
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  window.location.reload();
+                }}
+              >
+                Logout
+              </button>
+            </span>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -6,6 +6,7 @@ export function Input({
   name,
   value,
   onChange,
+  onInput = null,
   min = null,
   max = null,
   placeholder,
@@ -28,6 +29,7 @@ export function Input({
             value={value}
             className="form-control m-0"
             onChange={onChange}
+            onInput={onInput}
             min={min}
             max={max}
             placeholder={placeholder}

@@ -5,6 +5,7 @@ import { Input } from "../Component/Input";
 import { SelectBox } from "../Component/SelectBox";
 import { RadioGroup } from "../Component/RadioGroup";
 
+
 const SERVER_HOST = process.env.SERVER_HOST || "localhost";
 const SERVER_PORT = Number(process.env.SERVER_PORT) || 8000;
 
@@ -49,7 +50,7 @@ function AdmissionForm() {
       .then((res) => res.json())
       .then((d) => {
         let gr = d.gr_no;
-        setInc((gr ? Number(gr.split("-")[3]) : 1) + 1);
+        setInc((gr ? Number(gr.split("-")[3]) : 0) + 1);
       });
   }, []);
 
@@ -72,7 +73,6 @@ function AdmissionForm() {
     name = e.target.name;
     value = e.target.value;
     setUser({ ...user, [name]: value });
-
   };
 
   const handleFileUploads = (e) => {
@@ -83,6 +83,16 @@ function AdmissionForm() {
     setUser({ ...user, [name]: file });
   };
   //=======================================
+
+  const handlenumber = (e, max) => {
+    let value = e.target.value.trim();
+    if (value.length > max) {
+      e.preventDefault();
+      return;
+    }
+
+    setUser({ ...user, [e.target.name]: value });
+  };
   // const FIELDS_TO_VALIDATE = ["email", "name", "aadhar_number", "wh_no"];
   // const NUMBER_VALIDATE = ["parent_no", "wh_no"];
   const [error, setError] = useState({});
@@ -147,6 +157,7 @@ function AdmissionForm() {
 
 
 
+
   //==================================
 
   const STREAM = {
@@ -158,6 +169,7 @@ function AdmissionForm() {
       "MSCIT",
   };
   // submit 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -170,9 +182,10 @@ function AdmissionForm() {
       inc;
     //====
 
+
     if (!isValidate()) return false;
     //============
-    console.log(user);
+
     //============
 
     user.gr_no = GR_PREFIX;
@@ -371,7 +384,8 @@ function AdmissionForm() {
                   label="Aadhar No:"
                   value={user.aadhar_number}
                   placeholder="Enter Aadhar No."
-                  onChange={handleInputs}
+                  max="12"
+                  onChange={e => handlenumber(e, 12)} //============
                   required
                 />
               </div>
@@ -449,14 +463,6 @@ function AdmissionForm() {
                 />
               </div>
               <div className="row border-3 form-group mb-3 align-items-center">
-                {/* <Input
-                  type="text"
-                  name="contact_no"
-                  label="Mobile No:"
-                  placeholder="Contact No."
-                  value={user.contact_no}
-                  onChange={handleInputs}
-                /> */}
 
                 <Input
                   type="text"
@@ -464,7 +470,7 @@ function AdmissionForm() {
                   label="Mobile No:"
                   placeholder="Whatsapp No."
                   value={user.wh_no}
-                  onChange={handleInputs}
+                  onChange={e => handlenumber(e, 10)} //============
                   required
                 />
 
@@ -474,7 +480,8 @@ function AdmissionForm() {
                   name="parent_no"
                   placeholder="Parent No."
                   value={user.parent_no}
-                  onChange={handleInputs}
+                  // onChange={handleInputs}
+                  onChange={e => handlenumber(e, 10)} //============
                 />
 
               </div>
