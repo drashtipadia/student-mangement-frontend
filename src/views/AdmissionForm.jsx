@@ -4,13 +4,12 @@ import { Header } from "../Component/Header";
 import { Input } from "../Component/Input";
 import { SelectBox } from "../Component/SelectBox";
 import { RadioGroup } from "../Component/RadioGroup";
-
+import { GIA_STREAMS, SFI_STREAMS } from "../utils/constants";
 
 const SERVER_HOST = process.env.SERVER_HOST || "localhost";
 const SERVER_PORT = Number(process.env.SERVER_PORT) || 8000;
 
 function AdmissionForm() {
-
   const inst_type = localStorage.getItem("token");
   const [previewImage, setPreviewImage] = useState(null);
   const [user, setUser] = useState({
@@ -45,7 +44,8 @@ function AdmissionForm() {
     last_organization_studied_from: "",
     last_studied_year: "",
   });
-  let [inc, setInc] = useState(1);
+  let [inc, setInc] = useState(0);
+  const [validForm, setValidForm] = useState(false);
 
   useEffect(() => {
     fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`)
@@ -86,9 +86,11 @@ function AdmissionForm() {
   };
   //=======================================
 
+  const isNumber = (value) => !Number(value) === false;
+
   const handlenumber = (e, max) => {
     let value = e.target.value.trim();
-    if (value.length > max) {
+    if ((!isNumber(value) || value.length > max) && value !== "") {
       e.preventDefault();
       return;
     }
@@ -99,7 +101,7 @@ function AdmissionForm() {
   // const NUMBER_VALIDATE = ["parent_no", "wh_no"];
   const [error, setError] = useState({});
 
-  const isValidate = () => {
+  const isValid = () => {
     // let valid = true;
     // FIELDS_TO_VALIDATE.forEach((field) => {
     //   if (user[field] === "") {
@@ -107,28 +109,20 @@ function AdmissionForm() {
     //     valid = false;
     //     return;
     //   }
-    //   else {
-    //     NUMBER_VALIDATE.forEach((field) => {
-    //       if (!(user[field].match('[0-9]{10}'))) {
-    //         alert(`Please Enter valid ${field}   Number`);
-    //         valid = false;
-    //         return;
-    //       }
-    //     });
-    //   }
     // });
     //return valid;
 
-    const validationError = {}
-    if (!user.aadhar_number.trim()) {
-      validationError.aadhar_number = "Aadhar Number is required";
-    } else if (!user.aadhar_number.match(/^\d{12}$/)) {
-      validationError.aadhar_number = "Aadhar Number must be 12 digit"
-    }
+    /// TODO: Still want to convert these errors into an object.
+
+    const validationError = {};
 
     if (!user.email.trim()) {
       validationError.email = "Email is Required";
-    } else if (!user.email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+    } else if (
+      !user.email.match(
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+      )
+    ) {
       validationError.email = "Email is Not Valid";
     }
     if (!user.name.trim()) {
@@ -136,10 +130,10 @@ function AdmissionForm() {
     } else if (!user.surname.trim()) {
       validationError.name = "Surname is Required";
     } else if (!user.fathername.trim()) {
-      validationError.name = "Fathername is Required"
+      validationError.name = "Fathername is Required";
     }
     if (!user.wh_no.trim()) {
-      validationError.wh_no = "WhatsApp Number is Required"
+      validationError.wh_no = "WhatsApp Number is Required";
     }
     if (!user.studentimg) {
       validationError.studentimg = "Please Upload Image";
@@ -151,11 +145,7 @@ function AdmissionForm() {
     }
 
     return false;
-
   };
-
-
-
 
   //==================================
 
@@ -167,8 +157,8 @@ function AdmissionForm() {
     "Master of Science (Information Technology & Computer Application)":
       "MSCIT",
   };
-  // submit 
 
+  // submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -179,13 +169,10 @@ function AdmissionForm() {
       STREAM[user.stream] +
       "-" +
       inc;
-    //====
 
+    setValidForm(isValid);
 
-    if (!isValidate()) return false;
-    //============
-
-    //============
+    if (!validForm) return;
 
     user.gr_no = GR_PREFIX;
 
@@ -195,7 +182,6 @@ function AdmissionForm() {
         submitData.append(key, value);
       }
     });
-    console.log(user);
 
     const response = await fetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
@@ -209,17 +195,19 @@ function AdmissionForm() {
     if (check.status === "success") {
       alert("Record Insert");
       window.location.reload();
+    } else {
+      alert("some error occured. Check console");
+      console.log(check);
     }
   };
   return (
     <>
       <Header />
       <div className="bg-dark">
-
         <h2 className="text-center mt-3 text-white">Admission Form</h2>
         <div className="col d-flex justify-content-center py-3">
           <div className="card bg-light" style={{ width: "50rem" }}>
-            <form className="m-4" method="post" encType="multipart/form-data">  {/* onSubmit={handleSubmit}  */}
+            <form className="m-4" method="post" encType="multipart/form-data">
               <div className="row border-3 form-group mb-3 align-items-center">
                 <SelectBox
                   name="stream"
@@ -227,31 +215,8 @@ function AdmissionForm() {
                   label={"Stream:"}
                   placeholder={"Select Stream"}
                   data={
-                    inst_type === "GIA" ?
-                      [
-                        { label: "Bachelor of Arts", value: "Bachelor of Arts" },
-
-                        {
-                          label: "Bachelor of Commerce",
-                          value: "Bachelor of Commerce",
-                        },]
-                      :
-                      [
-                        {
-                          label: "Bachelor of Business Administration",
-                          value: "Bachelor of Business Administration",
-                        },
-                        {
-                          label: "Bachelor of Computer Application",
-                          value: "Bachelor of Computer Application",
-                        },
-                        {
-                          label:
-                            "Master of Science (Information Technology & Computer Application)",
-                          value:
-                            "Master of Science (Information Technology & Computer Application)",
-                        },
-                      ]}
+                    inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
+                  }
                 />
 
                 <SelectBox
@@ -340,28 +305,6 @@ function AdmissionForm() {
                   <hr />
                 </>
               )}
-              {/* <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
-                  type="text"
-                  name="gr_no"
-                  label="GR No:"
-                  value={user.gr_no}
-                  placeholder="Enter G R No."
-                  onChange={handleInputs}
-                />
-
-
-                <Input
-                  type="text"
-                  name="enrollment_no"
-                  label="Enrollment No:"
-                  value={user.enrollment_no}
-                  placeholder="Enter Enrollment No."
-                  onChange={handleInputs}
-
-                />
-              </div> */}
-
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
                   type="text"
@@ -390,12 +333,14 @@ function AdmissionForm() {
                   value={user.aadhar_number}
                   placeholder="Enter Aadhar No."
                   max="12"
-                  onChange={e => handlenumber(e, 12)} //============
+                  onChange={(e) => handlenumber(e, 12)} //============
                   required
                 />
               </div>
 
-              {error.aadhar_number && <p className="text-danger">{error.aadhar_number}</p>}
+              {error.aadhar_number && (
+                <p className="text-danger">{error.aadhar_number}</p>
+              )}
 
               <RadioGroup
                 name={"caste"}
@@ -468,26 +413,23 @@ function AdmissionForm() {
                 />
               </div>
               <div className="row border-3 form-group mb-3 align-items-center">
-
                 <Input
                   type="text"
                   name="wh_no"
                   label="Mobile No:"
                   placeholder="Whatsapp No."
                   value={user.wh_no}
-                  onChange={e => handlenumber(e, 10)} //============
+                  onChange={(e) => handlenumber(e, 10)} //============
                   required
                 />
-
 
                 <Input
                   type="text"
                   name="parent_no"
                   placeholder="Parent No."
                   value={user.parent_no}
-                  onChange={e => handlenumber(e, 10)} //============
+                  onChange={(e) => handlenumber(e, 10)} //============
                 />
-
               </div>
               {error.wh_no && <p className="text-danger">{error.wh_no}</p>}
               <div className="row border-3 form-group mb-3 align-items-center">
@@ -557,7 +499,7 @@ function AdmissionForm() {
                   label="Pincode:"
                   placeholder="pincode"
                   value={user.pincode}
-                  onChange={e => handlenumber(e, 6)} //============
+                  onChange={(e) => handlenumber(e, 6)} //============
                 />
               </div>
 
@@ -591,7 +533,9 @@ function AdmissionForm() {
                   required
                 />
               </div>
-              {error.studentimg && <p className="text-danger">{error.studentimg}</p>}
+              {error.studentimg && (
+                <p className="text-danger">{error.studentimg}</p>
+              )}
 
               {previewImage && (
                 <div className="my-2">
@@ -610,7 +554,6 @@ function AdmissionForm() {
             </form>
           </div>
         </div>
-
       </div>
     </>
   );

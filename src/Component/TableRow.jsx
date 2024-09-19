@@ -1,12 +1,10 @@
 export function TableRow({ data }) {
+  const DATE_KEYS = ["birth_date", "inserted_at"];
   return (
     <tr>
       {Object.entries(data).map(([key, val]) => {
-        if (key === 'birth_date') {
-          val = val.split('T')[0];
-        }
-        if (key === "date(inserted_at)") {
-          val = val.split('T')[0];
+        if (DATE_KEYS.includes(key)) {
+          val = val.split("T")[0];
         }
 
         return <td key={key}>{val || "None"}</td>;
