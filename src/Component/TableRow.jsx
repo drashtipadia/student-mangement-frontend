@@ -5,7 +5,7 @@ export function TableRow({ data }) {
         if (key === 'birth_date') {
           val = val.split('T')[0];
         }
-        if (key === "inserted_at") {
+        if (key === "date(inserted_at)") {
           val = val.split('T')[0];
         }
 

@@ -15,7 +15,7 @@ function App() {
   return (
     <>
       <Header />
-      <div className="App h-100 bg-dark ">
+      <div className="App">
         <div className="conatiner p-5">
           <div className="row g-3">
             <Link to={"/admissionForm"}>

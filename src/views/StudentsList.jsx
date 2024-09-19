@@ -97,7 +97,8 @@ export function StudentsList() {
         <Loading />
       ) : (
         <>
-          <h2 className="text-center m-4 ">Student Info</h2>
+
+          <h2 className="text-center m-4">Student Info</h2>
           <div className="container mb-3  align-items-center">
             <div className="border border-3 rounded-1 justify-content-between ">
               <div className="row  align-items-center form-group m-2">
@@ -220,6 +221,7 @@ export function StudentsList() {
               </tbody>
             </table>
           </div>
+
         </>
       )}
     </>

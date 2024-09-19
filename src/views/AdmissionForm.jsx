@@ -214,8 +214,9 @@ function AdmissionForm() {
   return (
     <>
       <Header />
-      <div className="container">
-        <h2 className="text-center mt-3">Admission Form</h2>
+      <div className="bg-dark">
+
+        <h2 className="text-center mt-3 text-white">Admission Form</h2>
         <div className="col d-flex justify-content-center py-3">
           <div className="card bg-light" style={{ width: "50rem" }}>
             <form className="m-4" method="post" encType="multipart/form-data">  {/* onSubmit={handleSubmit}  */}
@@ -609,6 +610,7 @@ function AdmissionForm() {
             </form>
           </div>
         </div>
+
       </div>
     </>
   );
