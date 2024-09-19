@@ -5,6 +5,8 @@ import { Loading } from "../Component/Loading";
 import { SelectBox } from "../Component/SelectBox";
 import { Input } from "../Component/Input";
 import { convertToCSV } from "../utils/table-to-excel";
+import { GIA_STREAMS, SFI_STREAMS } from "../utils/constants";
+import sortStudentBy from "../utils/filter";
 
 const SERVER_HOST = process.env.SERVER_HOST || "localhost";
 const SERVER_PORT = process.env.SERVER_PORT || 8000;
@@ -13,25 +15,20 @@ export function StudentsList() {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [recordsCopy, setRecordsCopy] = useState([]);
-  const [year, setYear] = useState(null);
+  const [year, setYear] = useState(0);
   const tableRef = useRef();
   const institute_type = localStorage.getItem("token");
 
   const handleClick = () => {
-    // let table = (tableRef.current.querySelectorAll('tr'));
-
-    // console.log(tab);
-
     const file = convertToCSV(tableRef.current);
 
-    const a = document.createElement('a');
+    const a = document.createElement("a");
 
-    // something similar to this works
     a.href = file;
     a.download = "file.csv";
 
     a.click();
-  }
+  };
 
   useEffect(() => {
     (async () => {
@@ -41,26 +38,10 @@ export function StudentsList() {
       const jsonResponse = await response.json();
 
       setRecords([...jsonResponse.students]);
-      // setRecordsCopy();
       setRecordsCopy([...jsonResponse.students]);
       setLoading(false);
     })();
   }, []);
-
-  //   fetch(`http://${SERVER_HOST}:${SERVER_PORT}/students`)
-  //     .then((res) => res.json())
-  //     .then(value => {
-  //       setRecordsCopy(value['students']);
-  //       setRecords(value['students']);
-  //       setLoading(false);
-  //     });
-  // }, []);
-
-  // function filter() {
-  //   const type_ = "sfi";
-
-  //   setFilter(records.filter((record) => record.type_ === type_));
-  // }
 
   //============
   // const [field, setField] = useState('stream');
@@ -72,23 +53,32 @@ export function StudentsList() {
     if (result === "") {
       setRecordsCopy([...records]);
     } else {
-      setRecordsCopy(records.filter(val => val.stream === result));
+      setRecordsCopy(records.filter((val) => val.stream === result));
     }
-  }
+  };
 
   const handleSemester = (e) => {
     let sem = e.target.value;
     setRecordsCopy([...records]);
-    setRecordsCopy(records.filter(val => val.semester === sem));
-  }
+    setRecordsCopy(records.filter((val) => String(val.semester) === sem));
+  };
 
   const handleYearChange = (e) => {
     let result = e.target.value;
     setYear(result);
-    setRecordsCopy([...records]);
-    setRecordsCopy(records.filter(val => val.year === result));
-  }
 
+    setRecordsCopy([...records]);
+    setRecordsCopy(
+      records.filter((val) => String(val.last_studied_year) === result)
+    );
+  };
+
+  const sortStudents = () => {
+    // For testing purpose hardcoded `full_name` field.
+    const sortedStudents = sortStudentBy("full_name", [...records]);
+
+    setRecordsCopy([...sortedStudents]);
+  };
 
   return (
     <>
@@ -97,7 +87,6 @@ export function StudentsList() {
         <Loading />
       ) : (
         <>
-
           <h2 className="text-center m-4">Student Info</h2>
           <div className="container mb-3  align-items-center">
             <div className="border border-3 rounded-1 justify-content-between ">
@@ -110,39 +99,19 @@ export function StudentsList() {
                   data={
                     institute_type === "SFI"
                       ? [
-                        {
-                          label: "Bachelor of Computer Application",
-                          value: "Bachelor of Computer Application",
-                        },
-                        {
-                          label:
-                            "Master of Science (Information Technology & Computer Application)",
-                          value:
-                            "Master of Science (Information Technology & Computer Application)",
-                        },
-                        {
-                          label: "Bachelor of Business Administration",
-                          value: "Bachelor of Business Administration",
-                        },
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
+                          ...SFI_STREAMS,
+                          {
+                            label: "View All",
+                            value: "",
+                          },
+                        ]
                       : [
-                        {
-                          label: "Bachelor of Arts",
-                          value: "Bachelor of Arts",
-                        },
-                        {
-                          label: "Bachelor of Commerce",
-                          value: "Bachelor of Commerce",
-                        },
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
+                          ...GIA_STREAMS,
+                          {
+                            label: "View All",
+                            value: "",
+                          },
+                        ]
                   }
                 />
                 <SelectBox
@@ -172,15 +141,32 @@ export function StudentsList() {
                   onChange={handleYearChange}
                 />
 
-                <div className="col"><input type="checkbox" id="name" name="name" value="name" onChange={handleChange} /><label>Name</label></div>
+                <div className="col">
+                  <input
+                    type="checkbox"
+                    id="name"
+                    name="name"
+                    value={"Name"}
+                    onChange={sortStudents}
+                    // onChange={handleNameFilter}
+                  />
+                  <label>Name</label>
+                </div>
 
-                <div className="col"><button className="btn btn-primary" onClick={handleClick}>Excel File</button></div>
-
+                <div className="col">
+                  <button className="btn btn-primary" onClick={handleClick}>
+                    Export to Excel (CSV)
+                  </button>
+                </div>
               </div>
             </div>
           </div>
           <div className="container">
-            <table className="table table-bordered" id="my-table" ref={tableRef}>
+            <table
+              className="table table-bordered"
+              id="my-table"
+              ref={tableRef}
+            >
               <thead>
                 <tr>
                   <th>ID</th>
@@ -221,7 +207,6 @@ export function StudentsList() {
               </tbody>
             </table>
           </div>
-
         </>
       )}
     </>

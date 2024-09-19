@@ -6,19 +6,18 @@ export function Input({
   name,
   value,
   onChange,
-  onInput = null,
   min = null,
   max = null,
   placeholder,
   accept = null,
   required = false,
+  errorMessage = "",
 }) {
   return (
     <>
       <label className="col-auto text-center" htmlFor={name}>
         {required && <Badge />}
         {label}
-
       </label>
       <div className="col">
         {type !== "textarea" ? (
@@ -29,7 +28,6 @@ export function Input({
             value={value}
             className="form-control m-0"
             onChange={onChange}
-            onInput={onInput}
             min={min}
             max={max}
             placeholder={placeholder}
@@ -45,6 +43,7 @@ export function Input({
             placeholder={placeholder}
           />
         )}
+        {/* TODO: add a bootstrap span to show Err. */}
       </div>
     </>
   );

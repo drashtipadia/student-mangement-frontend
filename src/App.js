@@ -25,20 +25,20 @@ function App() {
             <Link to={"/viewdata"}>
               <button className="btn btn-primary w-25">View Data</button>
             </Link>
-            <Link to={"/tcdocument"}>
+            <Link to={"/tcdoc"}>
               <button className="btn btn-primary w-25">TC Document</button>
             </Link>
 
-            <Link to={"/noObjdoc  "}>
+            <Link to={"/noObjdoc"}>
               <button className="btn btn-primary w-25">
                 No Objection Certificate
               </button>
             </Link>
 
-            <Link to={"/bonofidedoc"}>
+            <Link to={"/bonafidedoc"}>
               <button className="btn btn-primary w-25">
                 Bonafide Certificate
-              </button>{" "}
+              </button>
             </Link>
 
             <Link>

@@ -4,12 +4,15 @@
  * @param {{ separator: string; fileName: string; }} [opts] Config options for csv
  * @returns object URL of created CSV file
  */
-function convertToCSV(
+export function convertToCSV(
   table,
   opts = {
     separator: ",",
   }
 ) {
+  if (!(table instanceof HTMLTableElement))
+    throw new Error("`table` not a table. How the turn-tables?");
+
   const rows = table.querySelectorAll("tr");
   let content = "";
 
@@ -29,7 +32,3 @@ function convertToCSV(
 
   return URL.createObjectURL(bub);
 }
-
-module.exports = {
-  convertToCSV,
-};

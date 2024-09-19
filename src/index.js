@@ -24,7 +24,7 @@ let allRoutes = createBrowserRouter([
   { path: "*", element: <Error404 /> },
   { path: "/tcdoc", element: <TCDoc /> },
   { path: "/noObjdoc", element: <NoObjDoc /> },
-  { path: "/bonofidedoc", element: <BonafideDoc /> },
+  { path: "/bonafidedoc", element: <BonafideDoc /> },
 ]);
 
 root.render(<RouterProvider router={allRoutes} />);
