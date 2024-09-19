@@ -25,6 +25,9 @@ function App() {
             <Link to={"/viewdata"}>
               <button className="btn btn-primary w-25">View Data</button>
             </Link>
+            <Link to={"/tcdocument"}>
+              <button className="btn btn-primary w-25">TC Document</button>
+            </Link>
 
             <Link>
               <button className="btn btn-primary w-25">
@@ -36,10 +39,6 @@ function App() {
               <button className="btn btn-primary w-25">
                 Bonafied Certificate
               </button>{" "}
-            </Link>
-
-            <Link>
-              <button className="btn btn-primary w-25">TC Document</button>
             </Link>
 
             <Link>

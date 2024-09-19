@@ -10,6 +10,8 @@ const SERVER_HOST = process.env.SERVER_HOST || "localhost";
 const SERVER_PORT = Number(process.env.SERVER_PORT) || 8000;
 
 function AdmissionForm() {
+
+  const inst_type = localStorage.getItem("token");
   const [previewImage, setPreviewImage] = useState(null);
   const [user, setUser] = useState({
     stream: "",
@@ -138,10 +140,7 @@ function AdmissionForm() {
     }
     if (!user.wh_no.trim()) {
       validationError.wh_no = "WhatsApp Number is Required"
-    } else if (!user.wh_no.match(/^\d{10}$/)) {
-      validationError.wh_no = "WhatsApp Number incorrect"
     }
-
     if (!user.studentimg) {
       validationError.studentimg = "Please Upload Image";
     }
@@ -226,27 +225,32 @@ function AdmissionForm() {
                   onChange={handleInputs}
                   label={"Stream:"}
                   placeholder={"Select Stream"}
-                  data={[
-                    { label: "Bachelor of Arts", value: "Bachelor of Arts" },
-                    {
-                      label: "Bachelor of Business Administration",
-                      value: "Bachelor of Business Administration",
-                    },
-                    {
-                      label: "Bachelor of Commerce",
-                      value: "Bachelor of Commerce",
-                    },
-                    {
-                      label: "Bachelor of Computer Application",
-                      value: "Bachelor of Computer Application",
-                    },
-                    {
-                      label:
-                        "Master of Science (Information Technology & Computer Application)",
-                      value:
-                        "Master of Science (Information Technology & Computer Application)",
-                    },
-                  ]}
+                  data={
+                    inst_type === "GIA" ?
+                      [
+                        { label: "Bachelor of Arts", value: "Bachelor of Arts" },
+
+                        {
+                          label: "Bachelor of Commerce",
+                          value: "Bachelor of Commerce",
+                        },]
+                      :
+                      [
+                        {
+                          label: "Bachelor of Business Administration",
+                          value: "Bachelor of Business Administration",
+                        },
+                        {
+                          label: "Bachelor of Computer Application",
+                          value: "Bachelor of Computer Application",
+                        },
+                        {
+                          label:
+                            "Master of Science (Information Technology & Computer Application)",
+                          value:
+                            "Master of Science (Information Technology & Computer Application)",
+                        },
+                      ]}
                 />
 
                 <SelectBox
@@ -480,7 +484,6 @@ function AdmissionForm() {
                   name="parent_no"
                   placeholder="Parent No."
                   value={user.parent_no}
-                  // onChange={handleInputs}
                   onChange={e => handlenumber(e, 10)} //============
                 />
 
@@ -553,7 +556,7 @@ function AdmissionForm() {
                   label="Pincode:"
                   placeholder="pincode"
                   value={user.pincode}
-                  onChange={handleInputs}
+                  onChange={e => handlenumber(e, 6)} //============
                 />
               </div>
 

@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Header } from "../Component/Header";
 import { TableRow } from "../Component/TableRow";
 import { Loading } from "../Component/Loading";
 import { SelectBox } from "../Component/SelectBox";
 import { Input } from "../Component/Input";
+import { convertToCSV } from "../utils/table-to-excel";
 
 const SERVER_HOST = process.env.SERVER_HOST || "localhost";
 const SERVER_PORT = process.env.SERVER_PORT || 8000;
@@ -13,7 +14,24 @@ export function StudentsList() {
   const [loading, setLoading] = useState(true);
   const [recordsCopy, setRecordsCopy] = useState([]);
   const [year, setYear] = useState(null);
+  const tableRef = useRef();
   const institute_type = localStorage.getItem("token");
+
+  const handleClick = () => {
+    // let table = (tableRef.current.querySelectorAll('tr'));
+
+    // console.log(tab);
+
+    const file = convertToCSV(tableRef.current);
+
+    const a = document.createElement('a');
+
+    // something similar to this works
+    a.href = file;
+    a.download = "file.csv";
+
+    a.click();
+  }
 
   useEffect(() => {
     (async () => {
@@ -58,12 +76,19 @@ export function StudentsList() {
     }
   }
 
+  const handleSemester = (e) => {
+    let sem = e.target.value;
+    setRecordsCopy([...records]);
+    setRecordsCopy(records.filter(val => val.semester === sem));
+  }
+
   const handleYearChange = (e) => {
     let result = e.target.value;
     setYear(result);
     setRecordsCopy([...records]);
-    setRecordsCopy(records.filter(val => val.stream === result));
+    setRecordsCopy(records.filter(val => val.year === result));
   }
+
 
   return (
     <>
@@ -74,7 +99,7 @@ export function StudentsList() {
         <>
           <h2 className="text-center m-4 ">Student Info</h2>
           <div className="container mb-3  align-items-center">
-            <form className="border border-3 rounded-1 justify-content-between ">
+            <div className="border border-3 rounded-1 justify-content-between ">
               <div className="row  align-items-center form-group m-2">
                 <SelectBox
                   name="stream"
@@ -119,13 +144,22 @@ export function StudentsList() {
                       ]
                   }
                 />
-
-                {/* <Input
-                  type="text"
-                  name="studentName"
-                  //value={ }
-                  placeholder="Student Name"
-                /> */}
+                <SelectBox
+                  name="semester"
+                  label={"Sem :"}
+                  placeholder={"Semester"}
+                  onChange={handleSemester}
+                  data={[
+                    { label: "1st", value: "1" },
+                    { label: "2nd", value: "2" },
+                    { label: "3rd", value: "3" },
+                    { label: "4th", value: "4" },
+                    { label: "5th", value: "5" },
+                    { label: "6th", value: "6" },
+                    { label: "7th", value: "7" },
+                    { label: "8th", value: "8" },
+                  ]}
+                />
                 <Input
                   type="number"
                   name="year"
@@ -139,12 +173,13 @@ export function StudentsList() {
 
                 <div className="col"><input type="checkbox" id="name" name="name" value="name" onChange={handleChange} /><label>Name</label></div>
 
+                <div className="col"><button className="btn btn-primary" onClick={handleClick}>Excel File</button></div>
 
               </div>
-            </form>
+            </div>
           </div>
           <div className="container">
-            <table className="table table-bordered">
+            <table className="table table-bordered" id="my-table" ref={tableRef}>
               <thead>
                 <tr>
                   <th>ID</th>
@@ -174,6 +209,7 @@ export function StudentsList() {
                   <th>Last Organization Studied From</th>
                   <th>Last Studied Year</th>
                   <th>Elective Course</th>
+                  <th>Admission Date</th>
                 </tr>
               </thead>
               <tbody>

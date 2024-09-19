@@ -10,6 +10,7 @@ import { AdmissionForm } from "./views/AdmissionForm";
 import Error404 from "./views/Error404";
 import { StudentsList } from "./views/StudentsList";
 import { Login } from "./views/AuthLogin";
+import TCDoc from "./views/TCDoc";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -19,6 +20,7 @@ let allRoutes = createBrowserRouter([
   { path: "/admissionForm", element: <AdmissionForm /> },
   { path: "/viewdata", element: <StudentsList /> },
   { path: "*", element: <Error404 /> },
+  { path: "/tcdocument", element: <TCDoc /> },
 ]);
 
 root.render(<RouterProvider router={allRoutes} />);
