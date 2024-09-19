@@ -11,6 +11,8 @@ import Error404 from "./views/Error404";
 import { StudentsList } from "./views/StudentsList";
 import { Login } from "./views/AuthLogin";
 import TCDoc from "./views/TCDoc";
+import NoObjDoc from "./views/NoObjDoc";
+import BonafideDoc from "./views/BonafideDoc";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -20,7 +22,9 @@ let allRoutes = createBrowserRouter([
   { path: "/admissionForm", element: <AdmissionForm /> },
   { path: "/viewdata", element: <StudentsList /> },
   { path: "*", element: <Error404 /> },
-  { path: "/tcdocument", element: <TCDoc /> },
+  { path: "/tcdoc", element: <TCDoc /> },
+  { path: "/noObjdoc", element: <NoObjDoc /> },
+  { path: "/bonofidedoc", element: <BonafideDoc /> },
 ]);
 
 root.render(<RouterProvider router={allRoutes} />);

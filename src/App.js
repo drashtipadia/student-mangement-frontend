@@ -29,15 +29,15 @@ function App() {
               <button className="btn btn-primary w-25">TC Document</button>
             </Link>
 
-            <Link>
+            <Link to={"/noObjdoc  "}>
               <button className="btn btn-primary w-25">
                 No Objection Certificate
               </button>
             </Link>
 
-            <Link>
+            <Link to={"/bonofidedoc"}>
               <button className="btn btn-primary w-25">
-                Bonafied Certificate
+                Bonafide Certificate
               </button>{" "}
             </Link>
 

@@ -11,7 +11,7 @@ function TCDoc() {
                 <h2 className="text-center mt-3">TC DOCUMENT</h2>
                 <div className="col d-flex justify-content-center py-3">
                     <div className="card bg-light" style={{ width: "50rem" }}>
-                        <form className="m-4" method="post" encType="multipart/form-data">  {/* onSubmit={handleSubmit}  */}
+                        <form className="m-4" method="post">
 
                             <div className="row border-3 form-group m-3 align-items-center">
                                 <Input
@@ -80,6 +80,14 @@ function TCDoc() {
                                         { label: "Pass", value: "Pass" },
                                         { label: "Fail", value: "Fail" },
                                     ]}
+                                />
+                                <Input
+                                    type="text"
+                                    name="name"
+                                    label="Subject Pass"
+                                    // value={name}
+                                    placeholder="SEAT NO"
+                                // onChange={handleInputs}
                                 />
                             </div>
 
