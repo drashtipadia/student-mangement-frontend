@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../Component/Header";
 import { Input } from "../Component/Input";
 import { SelectBox } from "../Component/SelectBox";
 import { RadioGroup } from "../Component/RadioGroup";
-import { GIA_STREAMS, SFI_STREAMS } from "../utils/constants";
+import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 
 const SERVER_HOST = process.env.SERVER_HOST || "localhost";
 const SERVER_PORT = Number(process.env.SERVER_PORT) || 8000;
@@ -69,12 +68,9 @@ function AdmissionForm() {
     // eslint-disable-next-line
   }, [user.stream]);
 
-  let name, value;
-
   const handleInputs = (e) => {
-    name = e.target.name;
-    value = e.target.value;
-    setUser({ ...user, [name]: value });
+
+    setUser({ ...user, [e.target.name]: e.target.value })
   };
 
   const handleFileUploads = (e) => {
@@ -224,16 +220,7 @@ function AdmissionForm() {
                   onChange={handleInputs}
                   label={"Semester :"}
                   placeholder={"Select Semester"}
-                  data={[
-                    { label: "1st", value: "1" },
-                    { label: "2nd", value: "2" },
-                    { label: "3rd", value: "3" },
-                    { label: "4th", value: "4" },
-                    { label: "5th", value: "5" },
-                    { label: "6th", value: "6" },
-                    { label: "7th", value: "7" },
-                    { label: "8th", value: "8" },
-                  ]}
+                  data={[...SEMESTER]}
                 />
               </div>
 
@@ -333,7 +320,7 @@ function AdmissionForm() {
                   value={user.aadhar_number}
                   placeholder="Enter Aadhar No."
                   max="12"
-                  onChange={(e) => handlenumber(e, 12)} //============
+                  onChange={(e) => handlenumber(e, 12)}
                   required
                 />
               </div>
@@ -419,7 +406,7 @@ function AdmissionForm() {
                   label="Mobile No:"
                   placeholder="Whatsapp No."
                   value={user.wh_no}
-                  onChange={(e) => handlenumber(e, 10)} //============
+                  onChange={(e) => handlenumber(e, 10)}
                   required
                 />
 
@@ -428,7 +415,7 @@ function AdmissionForm() {
                   name="parent_no"
                   placeholder="Parent No."
                   value={user.parent_no}
-                  onChange={(e) => handlenumber(e, 10)} //============
+                  onChange={(e) => handlenumber(e, 10)}
                 />
               </div>
               {error.wh_no && <p className="text-danger">{error.wh_no}</p>}
@@ -499,7 +486,7 @@ function AdmissionForm() {
                   label="Pincode:"
                   placeholder="pincode"
                   value={user.pincode}
-                  onChange={(e) => handlenumber(e, 6)} //============
+                  onChange={(e) => handlenumber(e, 6)}
                 />
               </div>
 

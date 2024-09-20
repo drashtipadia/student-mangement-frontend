@@ -13,6 +13,8 @@ import { Login } from "./views/AuthLogin";
 import TCDoc from "./views/TCDoc";
 import NoObjDoc from "./views/NoObjDoc";
 import BonafideDoc from "./views/BonafideDoc";
+import FirstTrialDoc from "./views/FirstTrialDoc";
+import { ViewFirstTrial } from "./views/ViewFirstTrial";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -25,6 +27,8 @@ let allRoutes = createBrowserRouter([
   { path: "/tcdoc", element: <TCDoc /> },
   { path: "/noObjdoc", element: <NoObjDoc /> },
   { path: "/bonafidedoc", element: <BonafideDoc /> },
+  { path: "/firsttrialdoc", element: <FirstTrialDoc /> },
+  { path: "/view-firstTrial", element: <ViewFirstTrial /> },
 ]);
 
 root.render(<RouterProvider router={allRoutes} />);

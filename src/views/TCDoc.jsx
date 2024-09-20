@@ -1,93 +1,111 @@
-import React from "react";
+import React, { useState } from "react";
 import { Header } from "../Component/Header";
 import { Input } from "../Component/Input";
 import { SelectBox } from "../Component/SelectBox";
+import { SEMESTER, GIA_STREAMS, SFI_STREAMS } from "../utils/constants";
 
 function TCDoc() {
+
+  const inst_type = localStorage.getItem("token");
+
+  const [student, setStudent] = useState({
+    studentname: "",
+    lastexam: "",
+    examyear: "",
+    seatno: "",
+    result: "",
+    no_pass_subject: "",
+
+  })
+
+  const handleInputs = (e) => {
+    setStudent({ ...student, [e.target.name]: e.target.value })
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(student);
+  }
+
+
   return (
     <>
       <Header />
       <div className="container">
-        <h2 className="text-center mt-3">TC DOCUMENT</h2>
+        <h2 className="text-center mt-3">Leaving Certificate</h2>
         <div className="col d-flex justify-content-center py-3">
           <div className="card bg-light" style={{ width: "50rem" }}>
             <form className="m-4" method="post">
               <div className="row border-3 form-group m-3 align-items-center">
                 <Input
                   type="text"
-                  name="name"
+                  name="studentname"
                   label="Student Name:"
-                  // value={name}
+                  value={student.studentname}
                   placeholder="SURNAME NAME FATHERNAME"
-                  // onChange={handleInputs}
+                  onChange={handleInputs}
                 />
               </div>
               <div className="row border-3 form-group m-3 align-items-center">
                 <SelectBox
                   name="lastexam"
                   label={"Last Exam"}
+                  onChange={handleInputs}
                   placeholder={"Select stream"}
-                  data={[
-                    { label: "BA", value: "ba" },
-                    { label: "BBA", value: "bba" },
-                    { label: "BCA", value: "bca" },
-                    { label: "BCom", value: "bcom" },
-                    { label: "MSCIT", value: "mscit" },
-                  ]}
+                  data={inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]}
                 />
                 <SelectBox
                   name="semester"
-                  // onChange={handleInputs}
                   label={""}
+                  onChange={handleInputs}
                   placeholder={"Select Semester"}
-                  data={[
-                    { label: "1st", value: "1" },
-                    { label: "2nd", value: "2" },
-                    { label: "3rd", value: "3" },
-                    { label: "4th", value: "4" },
-                    { label: "5th", value: "5" },
-                    { label: "6th", value: "6" },
-                    { label: "7th", value: "7" },
-                    { label: "8th", value: "8" },
-                  ]}
+                  data={[...SEMESTER]}
                 />
                 <Input
                   type="number"
-                  name="year"
-                  // onChange={handleInputs}
+                  name="examyear"
                   placeholder={"year"}
                   min="2000"
                   max={new Date().getFullYear()}
+                  value={student.examyear}
+                  onChange={handleInputs}
                 />
               </div>
               <div className="row border-3 form-group m-3 align-items-center">
                 <Input
                   type="text"
-                  name="name"
+                  name="seatno"
                   label="Exam"
-                  // value={name}
+                  value={student.seatno}
                   placeholder="SEAT NO"
-                  // onChange={handleInputs}
+                  onChange={handleInputs}
                 />
                 <SelectBox
                   name="result"
-                  // onChange={handleInputs}
-                  label={""}
+                  label=""
                   placeholder={"Result"}
                   data={[
                     { label: "Pass", value: "Pass" },
                     { label: "Fail", value: "Fail" },
                   ]}
+                  onChange={handleInputs}
                 />
                 <Input
                   type="text"
-                  name="name"
+                  name="no_pass_subject"
                   label="Subject Pass"
-                  // value={name}
-                  placeholder="SEAT NO"
-                  // onChange={handleInputs}
+                  value={student.no_pass_subject}
+                  placeholder="No Subject"
+                  onChange={handleInputs}
                 />
               </div>
+              <hr />
+              <button
+                type="submit"
+                className="btn btn-primary btn-lg w-100"
+                onClick={handleSubmit}>
+                Generate TC
+              </button>
+
             </form>
           </div>
         </div>

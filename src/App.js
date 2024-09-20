@@ -40,9 +40,10 @@ function App() {
                 Bonafide Certificate
               </button>
             </Link>
-
-            <Link>
-              <button className="btn btn-primary w-25">First Trial</button>
+            <Link to={"/firsttrialdoc"}>
+              <button className="btn btn-primary w-25">
+                First Trial Certificate
+              </button>
             </Link>
             <span>
               <button
