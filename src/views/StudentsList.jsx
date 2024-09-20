@@ -42,13 +42,12 @@ export function StudentsList() {
       setRecordsCopy([...jsonResponse.students]);
       setLoading(false);
     })();
+    // eslint-disable-next-line
   }, []);
 
   //============
   // const [field, setField] = useState('stream');
   // const [year, setYear] = useState('year');
-
-  // console.log(records);
 
   const handleChange = (e) => {
     let result = e.target.value;
@@ -72,7 +71,9 @@ export function StudentsList() {
     // console.log(e.target.name);
     setRecordsCopy([...recordsCopy]);
     setRecordsCopy(
-      recordsCopy.filter((val) => String(val.inserted_at).split(/-/)[0] === result)
+      recordsCopy.filter(
+        (val) => String(val.inserted_at).split(/-/)[0] === result
+      )
     );
   };
 
@@ -102,33 +103,35 @@ export function StudentsList() {
                   data={
                     institute_type === "SFI"
                       ? [
-                        ...SFI_STREAMS,
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
+                          ...SFI_STREAMS,
+                          {
+                            label: "View All",
+                            value: "",
+                          },
+                        ]
                       : [
-                        ...GIA_STREAMS,
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
+                          ...GIA_STREAMS,
+                          {
+                            label: "View All",
+                            value: "",
+                          },
+                        ]
                   }
                 />
-                {stream !== "" && <SelectBox
-                  name="semester"
-                  label={"Sem :"}
-                  placeholder={"Semester"}
-                  onChange={handleSemester}
-                  data={[...SEMESTER]}
-                />}
+                {stream !== "" && (
+                  <SelectBox
+                    name="semester"
+                    label={"Sem :"}
+                    placeholder={"Semester"}
+                    onChange={handleSemester}
+                    data={[...SEMESTER]}
+                  />
+                )}
                 <Input
                   type="number"
                   name="year"
                   label=""
-                  value={year === 0 ? '' : year}
+                  value={year === 0 ? "" : year}
                   min="2000"
                   max={new Date().getFullYear()}
                   placeholder={"Year"}
@@ -142,7 +145,7 @@ export function StudentsList() {
                     name="name"
                     value={"Name"}
                     onChange={sortStudents}
-                  // onChange={handleNameFilter}
+                    // onChange={handleNameFilter}
                   />
                   <label>Name</label>
                 </div>

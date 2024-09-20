@@ -17,14 +17,15 @@ const fetchStudent = async (id) => {
 
 export function ViewStudent() {
   const [isLoading, setIsLoading] = useState(true);
+  const [student, setStudent] = useState({});
   useEffect(() => {
     fetchStudent(params.id).then((stud) => {
-      student = stud;
+      setStudent({ ...stud });
       setIsLoading(false);
       console.log(student);
     });
+    // eslint-disable-next-line
   }, []);
-  let student = {};
   const params = useParams();
 
   return (

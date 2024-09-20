@@ -69,8 +69,7 @@ function AdmissionForm() {
   }, [user.stream]);
 
   const handleInputs = (e) => {
-
-    setUser({ ...user, [e.target.name]: e.target.value })
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   const handleFileUploads = (e) => {
