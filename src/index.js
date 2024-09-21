@@ -12,6 +12,7 @@ import { StudentsList } from "./views/StudentsList";
 import { Login } from "./views/AuthLogin";
 import TCDoc from "./views/TCDoc";
 import NoObjDoc from "./views/NoObjDoc";
+import { ViewStudent } from "./views/ViewStudent";
 import BonafideDoc from "./views/BonafideDoc";
 import FirstTrialDoc from "./views/FirstTrialDoc";
 import { ViewFirstTrial } from "./views/ViewFirstTrial";
@@ -23,6 +24,7 @@ let allRoutes = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/admissionForm", element: <AdmissionForm /> },
   { path: "/viewdata", element: <StudentsList /> },
+  { path: "/students/:id", element: <ViewStudent /> },
   { path: "*", element: <Error404 /> },
   { path: "/tcdoc", element: <TCDoc /> },
   { path: "/noObjdoc", element: <NoObjDoc /> },
