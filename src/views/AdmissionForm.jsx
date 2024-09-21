@@ -5,8 +5,8 @@ import { SelectBox } from "../Component/SelectBox";
 import { RadioGroup } from "../Component/RadioGroup";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 
-const SERVER_HOST = process.env.SERVER_HOST || "192.168.91.246";
-const SERVER_PORT = Number(process.env.SERVER_PORT) || 8000;
+const SERVER_HOST = process.env.REACT_APP_SERVER_HOST || "localhost";
+const SERVER_PORT = Number(process.env.REACT_APP_SERVER_PORT) || 8000;
 
 function AdmissionForm() {
   const inst_type = localStorage.getItem("token");
@@ -137,15 +137,8 @@ function AdmissionForm() {
       "MSCIT",
   };
 
-
   const GR_PREFIX =
-    "GR-" +
-    localStorage.getItem("token") +
-    "-" +
-    STREAM[user.stream] +
-    "-";
-
-
+    "GR-" + localStorage.getItem("token") + "-" + STREAM[user.stream] + "-";
 
   // submit
   const handleSubmit = async (e) => {
@@ -157,7 +150,6 @@ function AdmissionForm() {
         let gr = d.gr_no;
         setInc((gr ? Number(gr.split("-")[3]) : 0) + 1);
       });
-
 
     setValidForm(isValid);
 

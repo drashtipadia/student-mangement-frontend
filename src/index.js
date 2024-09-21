@@ -32,7 +32,7 @@ let allRoutes = createBrowserRouter([
   { path: "/bonafidedoc", element: <BonafideDoc /> },
   { path: "/firsttrialdoc", element: <FirstTrialDoc /> },
   { path: "/view-firstTrial", element: <ViewFirstTrial /> },
-  { path: "/viewtcstudentdoc", element: <ViewTc /> },
+  { path: "/view-tc", element: <ViewTc /> },
 ]);
 
 root.render(<RouterProvider router={allRoutes} />);

@@ -6,10 +6,10 @@ import { SelectBox } from "../Component/SelectBox";
 import { Input } from "../Component/Input";
 import { convertToCSV } from "../utils/table-to-excel";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
-import sortStudentBy from "../utils/filter";
+// import sortStudentBy from "../utils/filter";
 
-const SERVER_HOST = process.env.SERVER_HOST || "192.168.91.246";
-const SERVER_PORT = process.env.SERVER_PORT || 8000;
+const SERVER_HOST = process.env.REACT_APP_SERVER_HOST || "localhost";
+const SERVER_PORT = process.env.REACT_APP_SERVER_PORT || 8000;
 
 export function StudentsList() {
   const [records, setRecords] = useState([]);
@@ -19,6 +19,7 @@ export function StudentsList() {
   const tableRef = useRef();
   const institute_type = localStorage.getItem("token");
   const [stream, setStream] = useState("");
+  const [filters, setFilters] = useState({});
 
   const handleClick = () => {
     const file = convertToCSV(tableRef.current);
@@ -45,43 +46,43 @@ export function StudentsList() {
     // eslint-disable-next-line
   }, []);
 
-  //============
-  // const [field, setField] = useState('stream');
-  // const [year, setYear] = useState('year');
-
   const handleChange = (e) => {
     let result = e.target.value;
-    setRecordsCopy([...records]);
-    if (result === "") {
-      setRecordsCopy([...records]);
-    } else {
-      setRecordsCopy(records.filter((val) => val.stream === result));
-    }
+
     setStream(result);
+    setFilters({ ...filters, stream: result });
   };
   const handleSemester = (e) => {
     let sem = e.target.value;
-    setRecordsCopy([...recordsCopy]);
-    setRecordsCopy(recordsCopy.filter((val) => String(val.semester) === sem));
+    setFilters({ ...filters, semester: sem });
   };
 
   const handleYearChange = (e) => {
     let result = e.target.value;
     setYear(result);
-    // console.log(e.target.name);
-    setRecordsCopy([...records]);
-    setRecordsCopy(
-      records.filter(
-        (val) => String(val.inserted_at).split(/-/)[0] === result
-      )
-    );
+
+    setFilters({ ...filters, inserted_at: result });
   };
 
   const sortStudents = () => {
-    // For testing purpose hardcoded `full_name` field.
-    const sortedStudents = sortStudentBy("full_name", [...records]);
+    const filteredRecords = records.filter((record) => {
+      let entries = Object.entries(filters);
+      if (entries.length === 0) return true;
 
-    setRecordsCopy([...sortedStudents]);
+      let allowed = true;
+      entries.forEach(([key, val]) => {
+        if (String(record[key]) !== val) {
+          allowed = false;
+          return;
+        }
+
+        // allowed = year === val;
+      });
+
+      return allowed;
+    });
+
+    setRecordsCopy(filteredRecords);
   };
 
   return (
@@ -103,19 +104,19 @@ export function StudentsList() {
                   data={
                     institute_type === "SFI"
                       ? [
-                        ...SFI_STREAMS,
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
+                          ...SFI_STREAMS,
+                          {
+                            label: "View All",
+                            value: "",
+                          },
+                        ]
                       : [
-                        ...GIA_STREAMS,
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
+                          ...GIA_STREAMS,
+                          {
+                            label: "View All",
+                            value: "",
+                          },
+                        ]
                   }
                 />
                 {stream !== "" && (
@@ -139,15 +140,9 @@ export function StudentsList() {
                 />
 
                 <div className="col">
-                  <input
-                    type="checkbox"
-                    id="name"
-                    name="name"
-                    value={"Name"}
-                    onChange={sortStudents}
-                  // onChange={handleNameFilter}
-                  />
-                  <label>Name</label>
+                  <button onClick={sortStudents} className="btn btn-primary">
+                    Sort
+                  </button>
                 </div>
 
                 <div className="col">
