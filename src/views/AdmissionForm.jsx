@@ -5,7 +5,7 @@ import { SelectBox } from "../Component/SelectBox";
 import { RadioGroup } from "../Component/RadioGroup";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 
-const SERVER_HOST = process.env.SERVER_HOST || "localhost";
+const SERVER_HOST = process.env.SERVER_HOST || "192.168.91.246";
 const SERVER_PORT = Number(process.env.SERVER_PORT) || 8000;
 
 function AdmissionForm() {
@@ -47,12 +47,12 @@ function AdmissionForm() {
   const [validForm, setValidForm] = useState(false);
 
   useEffect(() => {
-    fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`)
-      .then((res) => res.json())
-      .then((d) => {
-        let gr = d.gr_no;
-        setInc((gr ? Number(gr.split("-")[3]) : 0) + 1);
-      });
+    // fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`)
+    //   .then((res) => res.json())
+    //   .then((d) => {
+    //     let gr = d.gr_no;
+    //     setInc((gr ? Number(gr.split("-")[3]) : 0) + 1);
+    //   });
   }, []);
 
   useEffect(() => {
@@ -92,23 +92,10 @@ function AdmissionForm() {
 
     setUser({ ...user, [e.target.name]: value });
   };
-  // const FIELDS_TO_VALIDATE = ["email", "name", "aadhar_number", "wh_no"];
-  // const NUMBER_VALIDATE = ["parent_no", "wh_no"];
+
   const [error, setError] = useState({});
 
   const isValid = () => {
-    // let valid = true;
-    // FIELDS_TO_VALIDATE.forEach((field) => {
-    //   if (user[field] === "") {
-    //     alert(`${field} is required`);
-    //     valid = false;
-    //     return;
-    //   }
-    // });
-    //return valid;
-
-    /// TODO: Still want to convert these errors into an object.
-
     const validationError = {};
 
     if (!user.email.trim()) {
@@ -141,9 +128,6 @@ function AdmissionForm() {
 
     return false;
   };
-
-  //==================================
-
   const STREAM = {
     "Bachelor of Computer Application": "BCA",
     "Bachelor of Commerce": "BCOM",
@@ -153,23 +137,33 @@ function AdmissionForm() {
       "MSCIT",
   };
 
+
+  const GR_PREFIX =
+    "GR-" +
+    localStorage.getItem("token") +
+    "-" +
+    STREAM[user.stream] +
+    "-";
+
+
+
   // submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const GR_PREFIX =
-      "GR-" +
-      localStorage.getItem("token") +
-      "-" +
-      STREAM[user.stream] +
-      "-" +
-      inc;
+    fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`)
+      .then((res) => res.json())
+      .then((d) => {
+        let gr = d.gr_no;
+        setInc((gr ? Number(gr.split("-")[3]) : 0) + 1);
+      });
+
 
     setValidForm(isValid);
 
     if (!validForm) return;
 
-    user.gr_no = GR_PREFIX;
+    user.gr_no = GR_PREFIX + inc;
 
     const submitData = new FormData();
     Object.entries(user).forEach(([key, value]) => {

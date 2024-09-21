@@ -8,7 +8,7 @@ import { convertToCSV } from "../utils/table-to-excel";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 import sortStudentBy from "../utils/filter";
 
-const SERVER_HOST = process.env.SERVER_HOST || "localhost";
+const SERVER_HOST = process.env.SERVER_HOST || "192.168.91.246";
 const SERVER_PORT = process.env.SERVER_PORT || 8000;
 
 export function StudentsList() {
@@ -69,9 +69,9 @@ export function StudentsList() {
     let result = e.target.value;
     setYear(result);
     // console.log(e.target.name);
-    setRecordsCopy([...recordsCopy]);
+    setRecordsCopy([...records]);
     setRecordsCopy(
-      recordsCopy.filter(
+      records.filter(
         (val) => String(val.inserted_at).split(/-/)[0] === result
       )
     );
@@ -103,19 +103,19 @@ export function StudentsList() {
                   data={
                     institute_type === "SFI"
                       ? [
-                          ...SFI_STREAMS,
-                          {
-                            label: "View All",
-                            value: "",
-                          },
-                        ]
+                        ...SFI_STREAMS,
+                        {
+                          label: "View All",
+                          value: "",
+                        },
+                      ]
                       : [
-                          ...GIA_STREAMS,
-                          {
-                            label: "View All",
-                            value: "",
-                          },
-                        ]
+                        ...GIA_STREAMS,
+                        {
+                          label: "View All",
+                          value: "",
+                        },
+                      ]
                   }
                 />
                 {stream !== "" && (
@@ -145,7 +145,7 @@ export function StudentsList() {
                     name="name"
                     value={"Name"}
                     onChange={sortStudents}
-                    // onChange={handleNameFilter}
+                  // onChange={handleNameFilter}
                   />
                   <label>Name</label>
                 </div>

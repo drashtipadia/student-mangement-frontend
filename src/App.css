@@ -45,3 +45,9 @@
     transform: rotate(360deg);
   }
 }
+
+.sizedefine {
+  size: A4;
+  margin: 0;
+  /* background-color: #61dafb; */
+}

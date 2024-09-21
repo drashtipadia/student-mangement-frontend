@@ -25,7 +25,7 @@ function App() {
             <Link to={"/viewdata"}>
               <button className="btn btn-primary w-25">View Data</button>
             </Link>
-            <Link to={"/tcdoc"}>
+            {/* <Link to={"/tcdoc"}>
               <button className="btn btn-primary w-25">TC Document</button>
             </Link>
 
@@ -44,7 +44,7 @@ function App() {
               <button className="btn btn-primary w-25">
                 First Trial Certificate
               </button>
-            </Link>
+            </Link> */}
             <span>
               <button
                 className="btn btn-primary w-50"
