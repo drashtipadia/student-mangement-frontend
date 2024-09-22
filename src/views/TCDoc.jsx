@@ -1,4 +1,4 @@
-import { useState, useEffect, } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "../Component/Header";
 import { useSearchParams } from "react-router-dom";
 import { Input } from "../Component/Input";
@@ -6,14 +6,18 @@ import { SelectBox } from "../Component/SelectBox";
 import { SEMESTER, GIA_STREAMS, SFI_STREAMS } from "../utils/constants";
 import { Loading } from "../Component/Loading";
 
+const SERVER_HOST = process.env.REACT_APP_SERVER_HOST || "localhost";
+const SERVER_PORT = Number(process.env.REACT_APP_SERVER_PORT) || 8000;
+
 function TCDoc() {
   const [loading, setLoading] = useState(true);
   const [tcSerial, setTcSerial] = useState(0);
+  // eslint-disable-next-line
   let [searchParams] = useSearchParams();
-  console.log(searchParams.get('id'));
+  // console.log(searchParams.get("id"));
 
   useEffect(() => {
-    fetch("http://192.168.91.246:8000/last-tc-serial")
+    fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-tc-serial`)
       .then((res) => res.json())
       .then((body) => {
         setTcSerial(body.tc_serial + 1 || 1);
@@ -42,10 +46,10 @@ function TCDoc() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(tcSerial);
     console.log(student);
+    localStorage.setItem("tc-info", JSON.stringify({ ...student }));
+    console.log(tcSerial);
   };
-  console.log();
 
   return (
     <>
@@ -60,7 +64,6 @@ function TCDoc() {
               <div className="card bg-light" style={{ width: "50rem" }}>
                 <form className="m-4" method="post">
                   <div className="row border-3 form-group m-3 align-items-center">
-
                     <Input
                       type="text"
                       name="studentname"
@@ -131,7 +134,11 @@ function TCDoc() {
                   <button
                     type="submit"
                     className="btn btn-primary btn-lg w-100"
-                    onClick={handleSubmit} > Generate TC </button>
+                    onClick={handleSubmit}
+                  >
+                    {" "}
+                    Generate TC{" "}
+                  </button>
                 </form>
               </div>
             </div>
