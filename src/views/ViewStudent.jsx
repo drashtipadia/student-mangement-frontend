@@ -25,7 +25,7 @@ export function ViewStudent() {
     fetchStudent(params.id).then((stud) => {
       setStudent({ ...stud });
       setIsLoading(false);
-      console.log(student);
+      // console.log(student);
     });
     // eslint-disable-next-line
   }, []);

@@ -40,6 +40,7 @@ export function ViewFirstTrial() {
         a.download = "myfirstTrial.png";
 
         a.click();
+        localStorage.removeItem("first-trial-info");
       });
     });
   };
