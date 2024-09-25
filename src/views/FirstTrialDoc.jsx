@@ -3,7 +3,14 @@ import { useSearchParams } from "react-router-dom";
 import { Header } from "../Component/Header";
 import { Input } from "../Component/Input";
 import { SelectBox } from "../Component/SelectBox";
-import { GIA_STREAMS, SFI_STREAMS, SEMESTER, MONTHS } from "../utils/constants";
+import {
+  GIA_STREAMS,
+  SFI_STREAMS,
+  SEMESTER,
+  MONTHS,
+  STREAM_ACRONYMS,
+} from "../utils/constants";
+import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 
 function FirstTrialDoc() {
   const inst_type = localStorage.getItem("token");
@@ -11,6 +18,8 @@ function FirstTrialDoc() {
   if (searchParams.get("id") === null) {
     alert("Get yourself an ID first");
   }
+
+  const FT_PREFIX = `TC-${inst_type}-`;
 
   const [student, setStudent] = useState({
     studentName: "",
@@ -28,15 +37,30 @@ function FirstTrialDoc() {
     setStudent({ ...student, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // ToDo fetch call for serial number
     //ToDo add serial to localstorage
 
+    const res = await fetch(
+      `http://${SERVER_HOST}:${SERVER_PORT}/last-ft-serial`
+    );
+    const jsonBody = await res.json();
+    const serial = (jsonBody.serial || 0) + 1;
+    let docName =
+      FT_PREFIX +
+      STREAM_ACRONYMS[student.stream] +
+      "-" +
+      String(serial) +
+      ".png";
 
+    let data = {
+      ...student,
+      docName,
+      ftSerial: String(serial),
+    };
 
-
-    localStorage.setItem("first-trial-info", JSON.stringify(student));
+    localStorage.setItem("first-trial-info", JSON.stringify(data));
     window.location.href = "/view-firstTrial";
   };
 
