@@ -49,6 +49,7 @@ function TCDoc() {
     console.log(student);
     localStorage.setItem("tc-info", JSON.stringify({ ...student }));
     console.log(tcSerial);
+    // window.location.href = "/view-tc";
   };
 
   return (

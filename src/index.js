@@ -17,6 +17,8 @@ import BonafideDoc from "./views/BonafideDoc";
 import FirstTrialDoc from "./views/FirstTrialDoc";
 import { ViewFirstTrial } from "./views/ViewFirstTrial";
 import ViewTc from "./views/ViewTc";
+import ViewNoObj from "./views/ViewNoObj";
+import { ViewBonafide } from "./views/ViewBonafide";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -33,6 +35,8 @@ let allRoutes = createBrowserRouter([
   { path: "/firsttrialdoc", element: <FirstTrialDoc /> },
   { path: "/view-firstTrial", element: <ViewFirstTrial /> },
   { path: "/view-tc", element: <ViewTc /> },
+  { path: "/view-noobj", element: <ViewNoObj /> },
+  { path: "/view-bonafide", element: <ViewBonafide /> },
 ]);
 
 root.render(<RouterProvider router={allRoutes} />);

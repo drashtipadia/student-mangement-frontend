@@ -25,27 +25,8 @@ function App() {
             <Link to={"/viewdata"}>
               <button className="btn btn-primary w-25">View Data</button>
             </Link>
-            {/* <Link to={"/tcdoc"}>
-              <button className="btn btn-primary w-25">TC Document</button>
-            </Link>
 
-            <Link to={"/noObjdoc"}>
-              <button className="btn btn-primary w-25">
-                No Objection Certificate
-              </button>
-            </Link>
-
-            <Link to={"/bonafidedoc"}>
-              <button className="btn btn-primary w-25">
-                Bonafide Certificate
-              </button>
-            </Link>
-            <Link to={"/firsttrialdoc"}>
-              <button className="btn btn-primary w-25">
-                First Trial Certificate
-              </button>
-            </Link> */}
-            <span>
+            {/* <span>
               <button
                 className="btn btn-primary w-50"
                 onClick={() => {
@@ -54,8 +35,8 @@ function App() {
                 }}
               >
                 Logout
-              </button>
-            </span>
+              </button> */}
+            {/* </span> */}
           </div>
         </div>
       </div>

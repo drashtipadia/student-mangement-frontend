@@ -17,6 +17,7 @@ function NoObjDoc() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(studnet);
+        // window.location.href = "/view-noobj";
     }
     return (
         <>

@@ -30,6 +30,12 @@ function FirstTrialDoc() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // ToDo fetch call for serial number
+    //ToDo add serial to localstorage
+
+
+
+
     localStorage.setItem("first-trial-info", JSON.stringify(student));
     window.location.href = "/view-firstTrial";
   };
@@ -72,7 +78,7 @@ function FirstTrialDoc() {
                 <Input
                   type="number"
                   name="year"
-                  placeholder={"year"}
+                  placeholder={"Starting Year"}
                   min="2000"
                   max={new Date().getFullYear()}
                   onChange={handleInput}

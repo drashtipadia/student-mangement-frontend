@@ -8,6 +8,7 @@ import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 const SERVER_HOST = process.env.REACT_APP_SERVER_HOST || "localhost";
 const SERVER_PORT = Number(process.env.REACT_APP_SERVER_PORT) || 8000;
 
+
 function AdmissionForm() {
   const inst_type = localStorage.getItem("token");
   const [previewImage, setPreviewImage] = useState(null);
@@ -46,14 +47,14 @@ function AdmissionForm() {
   let [inc, setInc] = useState(0);
   const [validForm, setValidForm] = useState(false);
 
-  useEffect(() => {
-    // fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`)
-    //   .then((res) => res.json())
-    //   .then((d) => {
-    //     let gr = d.gr_no;
-    //     setInc((gr ? Number(gr.split("-")[3]) : 0) + 1);
-    //   });
-  }, []);
+  // useEffect(() => {
+  // fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`)
+  //   .then((res) => res.json())
+  //   .then((d) => {
+  //     let gr = d.gr_no;
+  //     setInc((gr ? Number(gr.split("-")[3]) : 0) + 1);
+  //   });
+  //  }, []);
 
   useEffect(() => {
     if (user.stream !== "Bachelor of Arts") {
@@ -284,7 +285,7 @@ function AdmissionForm() {
                   label="ABC ID:"
                   value={user.abc_id}
                   placeholder="Enter ABC ID No."
-                  onChange={handleInputs}
+                  onChange={(e) => handlenumber(e, 12)}
                 />
 
                 <Input

@@ -7,8 +7,18 @@ function Header() {
 
 
 
-    <div className="navbar navbar-light bg-light justify-content-center" >
+    <div className="navbar navbar-light bg-light p-2" >
       <Link to={"/"} className="navbar-brand"><h1>Student Mangement Admin</h1></Link>
+
+      <button
+        className="btn btn-primary"
+        onClick={() => {
+          localStorage.removeItem("token");
+          window.location.reload();
+        }}
+      >
+        Logout
+      </button>
 
     </div>
 
