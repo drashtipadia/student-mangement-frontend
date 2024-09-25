@@ -5,9 +5,7 @@ import { Input } from "../Component/Input";
 import { SelectBox } from "../Component/SelectBox";
 import { SEMESTER, GIA_STREAMS, SFI_STREAMS } from "../utils/constants";
 import { Loading } from "../Component/Loading";
-
-const SERVER_HOST = process.env.REACT_APP_SERVER_HOST || "localhost";
-const SERVER_PORT = Number(process.env.REACT_APP_SERVER_PORT) || 8000;
+import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 
 function TCDoc() {
   const [loading, setLoading] = useState(true);

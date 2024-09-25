@@ -49,3 +49,11 @@ export const MONTHS = [
   { label: "November", value: "November" },
   { label: "December", value: "December" },
 ];
+
+export const STREAM_ACRONYMS = {
+  "Bachelor of Arts": "BA",
+  "Bachelor of Commerce": "BCOM",
+  "Bachelor of Computer Application": "BCA",
+  "Bachelor of Business Administration": "BBA",
+  "Master of Science (Information Technology & Computer Application)": "MSCIT",
+};

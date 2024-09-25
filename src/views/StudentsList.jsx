@@ -6,10 +6,7 @@ import { SelectBox } from "../Component/SelectBox";
 import { Input } from "../Component/Input";
 import { convertToCSV } from "../utils/table-to-excel";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
-// import sortStudentBy from "../utils/filter";
-
-const SERVER_HOST = process.env.REACT_APP_SERVER_HOST || "localhost";
-const SERVER_PORT = process.env.REACT_APP_SERVER_PORT || 8000;
+import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 
 export function StudentsList() {
   const [records, setRecords] = useState([]);

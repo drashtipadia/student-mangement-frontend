@@ -4,10 +4,7 @@ import { Input } from "../Component/Input";
 import { SelectBox } from "../Component/SelectBox";
 import { RadioGroup } from "../Component/RadioGroup";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
-
-const SERVER_HOST = process.env.REACT_APP_SERVER_HOST || "localhost";
-const SERVER_PORT = Number(process.env.REACT_APP_SERVER_PORT) || 8000;
-
+import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 
 function AdmissionForm() {
   const inst_type = localStorage.getItem("token");
