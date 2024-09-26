@@ -3,7 +3,7 @@ import { Header } from "../Component/Header";
 import { Input } from "../Component/Input";
 import { SelectBox } from "../Component/SelectBox";
 import { RadioGroup } from "../Component/RadioGroup";
-import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
+import { GIA_STREAMS, SEMESTER, SFI_STREAMS, STREAM_ACRONYMS } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 
 function AdmissionForm() {
@@ -66,6 +66,8 @@ function AdmissionForm() {
     // eslint-disable-next-line
   }, [user.stream]);
 
+  // useEffetct localstorage student record check setuser json parse student details
+
   const handleInputs = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
@@ -77,6 +79,7 @@ function AdmissionForm() {
     setPreviewImage(URL.createObjectURL(file));
     setUser({ ...user, [name]: file });
   };
+
   //=======================================
 
   const isNumber = (value) => !Number(value) === false;
@@ -126,14 +129,8 @@ function AdmissionForm() {
 
     return false;
   };
-  const STREAM = {
-    "Bachelor of Computer Application": "BCA",
-    "Bachelor of Commerce": "BCOM",
-    "Bachelor of Business Administration": "BBA",
-    "Bachelor of Arts": "BA",
-    "Master of Science (Information Technology & Computer Application)":
-      "MSCIT",
-  };
+
+  const STREAM = STREAM_ACRONYMS;
 
   const GR_PREFIX =
     "GR-" + localStorage.getItem("token") + "-" + STREAM[user.stream] + "-";
@@ -185,7 +182,7 @@ function AdmissionForm() {
       <div className="bg-dark">
         <h2 className="text-center mt-3 text-white">Admission Form</h2>
         <div className="col d-flex justify-content-center py-3">
-          <div className="card bg-light" style={{ width: "50rem" }}>
+          <div className="card bg-light" style={{ width: "50rem" }} onSubmit={handleSubmit}>
             <form className="m-4" method="post" encType="multipart/form-data">
               <div className="row border-3 form-group mb-3 align-items-center">
                 <SelectBox
@@ -517,7 +514,7 @@ function AdmissionForm() {
               <button
                 type="submit"
                 className="btn btn-primary btn-lg w-100"
-                onClick={handleSubmit}
+              // onClick={handleSubmit}
               >
                 Submit
               </button>

@@ -46,7 +46,7 @@ export default function ViewTc() {
       <Header />
 
       <div
-        className="container p-2"
+        className="container p-5 bg-light"
         style={{ height: "297mm", width: "210mm" }}
         ref={documentRef}
       >

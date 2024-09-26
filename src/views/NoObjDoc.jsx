@@ -23,7 +23,7 @@ function NoObjDoc() {
         <>
             <Header />
             <div className="container">
-                <h2 className="text-center mt-3">No Objection Certificate</h2>
+                <h2 className="text-center mt-3 text-light">No Objection Certificate</h2>
                 <div className="col d-flex justify-content-center py-3">
                     <div className="card bg-light" style={{ width: "50rem" }}>
                         <form className="m-4" method="post">

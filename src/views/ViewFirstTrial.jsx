@@ -6,6 +6,7 @@ import { DocHeader } from "../Component/DocHeader";
 import { Header } from "../Component/Header";
 import DocFooter from "../Component/DocFooter";
 import { Badge } from "../Component/Badge";
+import { useNavigate } from "react-router-dom";
 
 export function ViewFirstTrial() {
   const currentDate = new Date();
@@ -14,6 +15,7 @@ export function ViewFirstTrial() {
   if (student == null) {
     alert("Student is empty");
   }
+  const navigate = useNavigate();
 
   const handleDownload = () => {
     html2canvas(documentRef.current).then((canvas) => {
@@ -46,7 +48,11 @@ export function ViewFirstTrial() {
         a.download = student.docName;
 
         a.click();
+
+
+        navigate("/");
         // localStorage.removeItem("first-trial-info");
+
       });
     });
   };
@@ -56,13 +62,14 @@ export function ViewFirstTrial() {
       <Header />
 
       <div
-        className="container p-0"
+        className="container p-5 bg-light"
         style={{ height: "297mm", width: "210mm" }}
         ref={documentRef}
       >
         <DocHeader />
-        <h1 className="text-center pt-5">First Trial Document</h1>
-        <Badge>TC No: {student.ftSerial}</Badge>
+        <hr />
+        <h1 className="text-center ">First Trial Document</h1>
+        <Badge>FT No: {student.ftSerial}</Badge>
         <br />
         <div className="p-4">
           <p className="text-end">

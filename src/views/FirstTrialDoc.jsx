@@ -43,7 +43,7 @@ function FirstTrialDoc() {
     //ToDo add serial to localstorage
 
     const res = await fetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-ft-serial`
+      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial`
     );
     const jsonBody = await res.json();
     const serial = (jsonBody.serial || 0) + 1;
@@ -68,7 +68,7 @@ function FirstTrialDoc() {
     <>
       <Header />
       <div className="container">
-        <h2 className="text-center mt-3">First Trial Certificate</h2>
+        <h2 className="text-center mt-3 text-light">First Trial Certificate</h2>
         <div className="col d-flex justify-content-center py-3">
           <div className="card bg-light" style={{ width: "50rem" }}>
             <form className="m-4" method="post">

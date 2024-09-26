@@ -89,9 +89,9 @@ export function StudentsList() {
         <Loading />
       ) : (
         <>
-          <h2 className="text-center m-4">Student Info</h2>
-          <div className="container mb-3  align-items-center">
-            <div className="border border-3 rounded-1 justify-content-between ">
+          <h2 className="text-center m-4 text-light">Student Info</h2>
+          <div className="container mb-3  align-items-center bg-light p-2">
+            <div className=" justify-content-between ">
               <div className="row  align-items-center form-group m-2">
                 <SelectBox
                   name="stream"
@@ -101,19 +101,19 @@ export function StudentsList() {
                   data={
                     institute_type === "SFI"
                       ? [
-                          ...SFI_STREAMS,
-                          {
-                            label: "View All",
-                            value: "",
-                          },
-                        ]
+                        ...SFI_STREAMS,
+                        {
+                          label: "View All",
+                          value: "",
+                        },
+                      ]
                       : [
-                          ...GIA_STREAMS,
-                          {
-                            label: "View All",
-                            value: "",
-                          },
-                        ]
+                        ...GIA_STREAMS,
+                        {
+                          label: "View All",
+                          value: "",
+                        },
+                      ]
                   }
                 />
                 {stream !== "" && (
@@ -150,7 +150,7 @@ export function StudentsList() {
               </div>
             </div>
           </div>
-          <div className="container">
+          <div className="container mb-3 bg-light">
             <table
               className="table table-bordered"
               id="my-table"
@@ -186,6 +186,7 @@ export function StudentsList() {
                   <th>Last Studied Year</th>
                   <th>Elective Course</th>
                   <th>Admission Date</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>

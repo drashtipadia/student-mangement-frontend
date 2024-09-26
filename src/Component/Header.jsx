@@ -11,7 +11,7 @@ function Header() {
       <Link to={"/"} className="navbar-brand"><h1>Student Mangement Admin</h1></Link>
 
       <button
-        className="btn btn-primary"
+        className="btn btn-danger"
         onClick={() => {
           localStorage.removeItem("token");
           window.location.reload();
