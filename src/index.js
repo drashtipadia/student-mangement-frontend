@@ -12,13 +12,14 @@ import { StudentsList } from "./views/StudentsList";
 import { Login } from "./views/AuthLogin";
 import TCDoc from "./views/TCDoc";
 import NoObjDoc from "./views/NoObjDoc";
-import { ViewStudent } from "./views/ViewStudent";
+import { ViewStudentDetails } from "./views/ViewStudentDetails";
 import BonafideDoc from "./views/BonafideDoc";
 import FirstTrialDoc from "./views/FirstTrialDoc";
 import { ViewFirstTrial } from "./views/ViewFirstTrial";
 import ViewTc from "./views/ViewTc";
 import ViewNoObj from "./views/ViewNoObj";
 import { ViewBonafide } from "./views/ViewBonafide";
+import { UpdateStudent } from "./views/UpdateStudent";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -27,7 +28,7 @@ let allRoutes = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/admissionForm", element: <AdmissionForm /> },
   { path: "/viewdata", element: <StudentsList /> },
-  { path: "/students/:id", element: <ViewStudent /> },
+  { path: "/students/:id", element: <ViewStudentDetails /> },
   { path: "*", element: <Error404 /> },
   { path: "/tcdoc", element: <TCDoc /> },
   { path: "/noObjdoc", element: <NoObjDoc /> },
@@ -37,6 +38,7 @@ let allRoutes = createBrowserRouter([
   { path: "/view-tc", element: <ViewTc /> },
   { path: "/view-noobj", element: <ViewNoObj /> },
   { path: "/view-bonafide", element: <ViewBonafide /> },
+  { path: "/updateStudent", element: <UpdateStudent /> },
 ]);
 
 root.render(<RouterProvider router={allRoutes} />);

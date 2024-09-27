@@ -68,6 +68,20 @@ function AdmissionForm() {
 
   // useEffetct localstorage student record check setuser json parse student details
 
+  // useEffect(() => {
+
+  //   if (localStorage.getItem("student") !== null) {
+  //     const stu = JSON.parse(localStorage.getItem("student"));
+  //     setUser(...stu);
+
+  //   }
+  //   else {
+  //     alert("Student Empty");
+  //   }
+  // }, [])
+
+  //======
+
   const handleInputs = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };

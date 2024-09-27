@@ -51,7 +51,7 @@ export function ViewFirstTrial() {
 
 
         navigate("/");
-        // localStorage.removeItem("first-trial-info");
+        localStorage.removeItem("first-trial-info");
 
       });
     });

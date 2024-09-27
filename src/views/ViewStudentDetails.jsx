@@ -15,7 +15,7 @@ import { Input } from "../Component/Input";
 //   return await response.json();
 // };
 
-export function ViewStudent() {
+export function ViewStudentDetails() {
   const [isLoading, setIsLoading] = useState(true);
   // eslint-disable-next-line
   const [student, setStudent] = useState({});
@@ -43,9 +43,9 @@ export function ViewStudent() {
       {isLoading ? (
         <h2>Loading...</h2>
       ) : (
-        <div className="container ">
+        <div className="container align-item-center ">
 
-          <div className="row g-3 m-0">
+          <div className="row g-3">
             <Link to={`/tcdoc?id=${params.id}`}>
               <button className="btn btn-primary w-25">TC Document</button>
             </Link>
@@ -66,9 +66,18 @@ export function ViewStudent() {
                 First Trial Certificate
               </button>
             </Link>
+
+            <Link to={`/updateStudent?id=${params.id}`}>
+              <button className="btn btn-primary w-25">
+                Update Student
+              </button>
+            </Link>
+
+
             {student &&
               <Input
-                value={student.birth_date}
+                name="name"
+                value={student.name}
               />}
           </div>
 

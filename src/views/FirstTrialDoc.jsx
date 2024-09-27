@@ -19,7 +19,7 @@ function FirstTrialDoc() {
     alert("Get yourself an ID first");
   }
 
-  const FT_PREFIX = `TC-${inst_type}-`;
+  const FT_PREFIX = `FT-${inst_type}-`;
 
   const [student, setStudent] = useState({
     studentName: "",
@@ -43,9 +43,12 @@ function FirstTrialDoc() {
     //ToDo add serial to localstorage
 
     const res = await fetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial`
-    );
-    const jsonBody = await res.json();
+      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/first-trial`
+    )
+      .then(console.log);
+
+    let jsonBody = await res.json();
+
     const serial = (jsonBody.serial || 0) + 1;
     let docName =
       FT_PREFIX +
@@ -59,7 +62,7 @@ function FirstTrialDoc() {
       docName,
       ftSerial: String(serial),
     };
-
+    console.log(data);
     localStorage.setItem("first-trial-info", JSON.stringify(data));
     window.location.href = "/view-firstTrial";
   };
