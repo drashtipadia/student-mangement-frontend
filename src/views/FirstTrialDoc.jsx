@@ -44,8 +44,7 @@ function FirstTrialDoc() {
 
     const res = await fetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/first-trial`
-    )
-      .then(console.log);
+    );
 
     let jsonBody = await res.json();
 

@@ -2,22 +2,48 @@ import React, { useState } from 'react'
 import { Header } from '../Component/Header'
 import { Input } from "../Component/Input";
 import { SelectBox } from "../Component/SelectBox";
-import { GIA_STREAMS, SFI_STREAMS, SEMESTER } from "../utils/constants";
+import { GIA_STREAMS, SFI_STREAMS, SEMESTER, STREAM_ACRONYMS } from "../utils/constants";
+import { SERVER_HOST, SERVER_PORT } from '../utils/config';
+import { useSearchParams } from 'react-router-dom';
 
 function NoObjDoc() {
     const inst_type = localStorage.getItem("token");
+
+    let [searchParams] = useSearchParams();
+
+    if (searchParams.get("id") == null) {
+        alert("Student not available");
+    }
     const [studnet, setStudent] = useState({
         studentName: '',
         stream: '',
         year: '',
+        uuid: searchParams.get("id"),
     })
+
+    const NO_PREFIX = `NO-${inst_type}-`;
+
+
+
     const handleInputs = (e) => {
         setStudent({ ...studnet, [e.target.name]: e.target.value })
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(studnet);
+        //console.log(studnet);
         // window.location.href = "/view-noobj";
+
+        const res = await fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-serial/no-objection`);
+
+        let jsonBody = await res.json();
+        const serial = (jsonBody.serial || 0) + 1;
+        let docName = NO_PREFIX + STREAM_ACRONYMS[studnet.stream] + "-" + String(serial) + ".png";
+
+        let data = { ...studnet, docName, noSerial: String(serial), };
+
+        localStorage.setItem("no-objection-info", JSON.stringify(data));
+        window.location.href = "/view-noobj";
+
     }
     return (
         <>
@@ -57,7 +83,7 @@ function NoObjDoc() {
                                 <Input
                                     type="number"
                                     name="year"
-                                    placeholder={"year"}
+                                    placeholder={"Starting year"}
                                     min="2000"
                                     max={new Date().getFullYear()}
                                     onChange={handleInputs}

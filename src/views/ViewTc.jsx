@@ -1,42 +1,62 @@
 import React, { useRef } from "react";
 import "../styles/view.css";
 import html2canvas from "html2canvas";
+import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { DocHeader } from "../Component/DocHeader";
 import { Header } from "../Component/Header";
 import DocFooter from "../Component/DocFooter";
+import { Badge } from "../Component/Badge";
+import { useNavigate } from "react-router-dom";
 
 export default function ViewTc() {
   const currentDate = new Date();
-  // const student = JSON.parse(localStorage.getItem("first-trial-info"));
+  const student = JSON.parse(localStorage.getItem("tc-info"));
   const documentRef = useRef(null);
-  //if (student == null) {
-  //   alert("Student is empty");
-  // }
+  if (student == null) {
+    alert("Student is empty");
+  }
+  const navigate = useNavigate();
 
   const handleDownload = () => {
     html2canvas(documentRef.current).then((canvas) => {
       canvas.toBlob((blob) => {
         let data = new FormData();
-        //     // temporarily named hello.png. -- Still have to do something about doc name prefix
-        data.append("first-trial-doc", blob, "hello.png");
+
+        data.append("tc-doc", blob, student.docName);
         //     // eslint-diable-next-line
 
-        //     fetch(`http://${SERVER_HOST}:${SERVER_PORT}/upload-first-trial`, {
-        //         body: data,
-        //         method: "POST",
-        //         headers: {
-        //             uuid: student.uuid,
-        //         },
-        //         uuid: student.uuid,
-        //     })
-        //         .then((res) => res.json())
-        //         .then(console.log);
+        fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-serial`, {
+          method: "POST",
+          headers: {
+            doc_type: "tc-doc",
+            uuid: student.uuid,
+            docname: student.docName,
+          },
+        });
+
+
+
+
+
+        fetch(`http://${SERVER_HOST}:${SERVER_PORT}/upload-tc`, {
+          body: data,
+          method: "POST",
+          headers: {
+            uuid: student.uuid,
+          },
+          uuid: student.uuid,
+        })
+          .then((res) => res.json())
+          .then(console.log);
 
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
-        a.download = "mytc.png";
+        a.download = student.docName;
 
         a.click();
+
+        navigate("/viewdata");
+        localStorage.removeItem("tc-info");
       });
     });
   };
@@ -52,54 +72,48 @@ export default function ViewTc() {
       >
         <DocHeader />
         <div className="p-4">
-          <h1 className="text-center">Leaving Certificate</h1>
+          <h4 className="text-center">Leaving Certificate</h4>
           <br />
-          <div className="p-4">
+          <Badge>TC No: {student.tcSerial}</Badge>
+          <div className="">
             <p className="text-end">
               Date:
               {currentDate.getDate() +
                 "/" +
                 currentDate.getMonth() +
                 "/" +
-                currentDate.getFullYear()}
+                currentDate.getFullYear()
+              }
             </p>
             <p>
-              &emsp; &emsp; &emsp; &emsp; This is to certify to that, Mr.\Ms.{" "}
-              <span className="h6">
-                {" "}
-                <abbr title="attribute">---Name--- </abbr>{" "}
-              </span>{" "}
+              &emsp; &emsp; &emsp; &emsp; This is to certify to that, Mr.\Ms.
+              <span className="h6"><abbr title="attribute"> {student.studentName}</abbr>
+              </span> {" "}
               was the student of this college.
             </p>
-            <ol>
+            <ol className="m-0">
               <li>
-                He/She gave exam of <span className="h6">---Stream---</span> in
-                year <span className="h6">--2023--</span> <br />
-                <span className="h6">-----</span>June
-                <span className="h6">-YEAR-</span>to October,
-                <span className="h6">-YEAR-</span>
-                <br />
-                <span className="h6">-----</span>Navember
-                <span className="h6">-YEAR-</span>to March,
-                <span className="h6">-YEAR-</span>
+                He/She gave exam of <span className="h6">{student.stream}{" "}sem {student.semester}</span> in
+                year <span className="h6">{student.examyear}</span> <br />
+                <span className="h6">{student.start_date} to {student.end_date}</span>
                 <br />
               </li>
               <li>
                 As a student of this college he/she has passed/not-passed{" "}
-                <span className="h6">B.A.</span> exam in{" "}
-                <span className="h6">July 2023</span> but got exam exemption in
-                <span className="h6"> 7 </span>Subjects.
+                <span className="h6">{student.lastexam}</span> exam in{" "}
+                <span className="h6">{student.exam_month} - {student.examyear}</span> but got exam exemption in
+                <span className="h6"> {student.no_pass_subject} </span>Subjects.
               </li>
               <li>
                 He/she Would have been on{" "}
-                <span className="h6"> BCA SEM-6 </span> if his/her education was
+                <span className="h6"> {student.next_study_stream} sem-{student.next_study_sem} </span> if his/her education was
                 continued.
               </li>
               <li>He/She does not have debts of this college's books </li>
               <li>He/She does not have any other debts of this college</li>
               <li>His/Her behavior is good.</li>
               <li>His/Her Optional subjects were as given below.</li>
-              <li>------Optional Subjcet--------</li>
+
               <li>
                 The University has satisfactorily completed the prescribed
                 course of exercises. He/She was given medical reasons/N.C.C.
@@ -107,25 +121,26 @@ export default function ViewTc() {
               </li>
               <li>
                 His/Her Enrollment/Eligibility Certificate/T.C. Number{" "}
-                <span className="h6">TC-BCA-6</span>as of date{" "}
-                <span className="h6"> 27/10/2022</span>
+                <span className="h6"> TC.No.{student.tcSerial} </span>as of date{" "}
+                <span className="h6">  {currentDate.getDate() + "/" + currentDate.getMonth() + "/" + currentDate.getFullYear()}
+                </span>
               </li>
               <li>
-                His/Her Examination of <span className="h6">TC-BCA-6</span> seat
-                number <span className="h6">2596333</span>. Result{" "}
-                <span className="h6">Pass/Failed</span>
+                His/Her Examination of <span className="h6">{student.lastexam} sem- {student.semester}</span> seat
+                number <span className="h6">{student.seatno}</span>. Result{" "}
+                <span className="h6">{student.result}</span>
               </li>
               <li>
                 They are not debarred or rusticated by uinversity or college.
               </li>
               <li>Note:(Inform about EBC-CB & other scholarship)</li>
             </ol>
-            <p>
-              No:G.K.C.K/TC/Migration <span className="h6">-------</span>
+            <p className="m-0">
+              No:G.K.C.K/TC/Migration <span className="h6">{student.tc_mg_no}</span>
             </p>
-            <p>
+            <p className="m-0">
               The Principal/The General Secretary
-              <span className="h6">-------</span> college/university.
+              <span className="h6">{student.nameofhead}</span> college/university.
             </p>
 
             <DocFooter />

@@ -1,22 +1,58 @@
 import React, { useState } from 'react'
+import { useSearchParams } from "react-router-dom";
 import { Header } from '../Component/Header'
 import { Input } from "../Component/Input";
 import { SelectBox } from "../Component/SelectBox";
-import { GIA_STREAMS, SFI_STREAMS, SEMESTER } from "../utils/constants";
+import { GIA_STREAMS, SFI_STREAMS, SEMESTER, STREAM_ACRONYMS } from "../utils/constants";
+import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 
 function BonafideDoc() {
     const inst_type = localStorage.getItem("token");
-    const [studnet, setStudent] = useState({
+    let [searchParams] = useSearchParams();
+    if (searchParams.get("id") === null) {
+        alert("Student Not exits");
+    }
+    const [student, setStudent] = useState({
         studentName: '',
         stream: '',
         year: '',
+        semester: '',
+        uuid: searchParams.get("id"),
     })
+    const BC_PREFIX = `BC-${inst_type}-`;
+
     const handleInputs = (e) => {
-        setStudent({ ...studnet, [e.target.name]: e.target.value })
+        setStudent({ ...student, [e.target.name]: e.target.value })
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(studnet);
+        //console.log(studnet);
+
+        const res = await fetch(
+            `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/bonafide`
+        );
+
+        let jsonBody = await res.json();
+
+        const serial = (jsonBody.serial || 0) + 1;
+        let docName =
+            BC_PREFIX +
+            STREAM_ACRONYMS[student.stream] +
+            "-" +
+            String(serial) +
+            ".png";
+        let data = {
+            ...student,
+            docName,
+            bcSerial: String(serial),
+        };
+        localStorage.setItem("bonafide-info", JSON.stringify(data));
+        window.location.href = "/view-bonafide";
+
+
+
+
+
         // window.location.href = "/view-bonafide";
     }
 
@@ -33,7 +69,7 @@ function BonafideDoc() {
                                     type="text"
                                     name="studentName"
                                     label="Student Name:"
-                                    value={studnet.studentName}
+                                    value={student.studentName}
                                     placeholder="SURNAME NAME FATHERNAME"
                                     onChange={handleInputs}
                                 />

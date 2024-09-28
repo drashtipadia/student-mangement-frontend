@@ -24,9 +24,10 @@ export function ViewFirstTrial() {
         data.append("first-trial-doc", blob, student.docName);
         // eslint-diable-next-line
 
-        fetch(`http://${SERVER_HOST}:${SERVER_PORT}/add-first-trial`, {
+        fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-serial`, {
           method: "POST",
           headers: {
+            doc_type: "first-trial",
             uuid: student.uuid,
             docname: student.docName,
           },
@@ -50,7 +51,7 @@ export function ViewFirstTrial() {
         a.click();
 
 
-        navigate("/");
+        navigate("/viewdata");
         localStorage.removeItem("first-trial-info");
 
       });
@@ -86,7 +87,7 @@ export function ViewFirstTrial() {
           </p>
           <p>
             &emsp; &emsp; &emsp; &emsp; &emsp; In Year{" "}
-            <span className="h6">{student.year}</span> was studying{" "}
+            <span className="h6">{student.year} - {Number(student.year) + 1}</span> was studying{" "}
             <span className="h6">{student.stream}</span> in this college.
             Examination of <span className="h6"> {student.examstream}</span>{" "}
             held in{" "}

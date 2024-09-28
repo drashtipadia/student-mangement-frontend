@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Header } from "../Component/Header";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
-import { Input } from "../Component/Input";
+
 
 /**
  * returns object containing student information.
@@ -15,11 +15,17 @@ import { Input } from "../Component/Input";
 //   return await response.json();
 // };
 
+
+
 export function ViewStudentDetails() {
+
   const [isLoading, setIsLoading] = useState(true);
   // eslint-disable-next-line
   const [student, setStudent] = useState({});
   const params = useParams();
+
+  //const a = fetch(`http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/first-trial`);
+
   useEffect(() => {
     fetch(`http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}`)
       .then(body => body.json())
@@ -32,6 +38,8 @@ export function ViewStudentDetails() {
     // eslint-disable-next-line
   }, []);
 
+
+
   return (
     <>
       <Header />
@@ -43,48 +51,44 @@ export function ViewStudentDetails() {
       {isLoading ? (
         <h2>Loading...</h2>
       ) : (
-        <div className="container align-item-center ">
+        <div className="container" style={{ paddingLeft: "21rem" }}>
 
           <div className="row g-3">
+
             <Link to={`/tcdoc?id=${params.id}`}>
-              <button className="btn btn-primary w-25">TC Document</button>
+              <span className="btn btn-primary w-50">TC Document </span>
             </Link>
 
             <Link to={`/noObjdoc?id=${params.id}`}>
-              <button className="btn btn-primary w-25">
-                No Objection Certificate
-              </button>
+              <span className="btn btn-primary w-50"> No Objection Certificate</span>
             </Link>
 
             <Link to={`/bonafidedoc?id=${params.id}`}>
-              <button className="btn btn-primary w-25">
-                Bonafide Certificate
-              </button>
+              <span className=" btn btn-primary w-50"> Bonafide Certificate</span>
             </Link>
+
             <Link to={`/firsttrialdoc?id=${params.id}`}>
-              <button className="btn btn-primary w-25">
-                First Trial Certificate
-              </button>
+              <span className="btn btn-primary w-50">First Trial Certificate</span>
             </Link>
 
             <Link to={`/updateStudent?id=${params.id}`}>
-              <button className="btn btn-primary w-25">
-                Update Student
-              </button>
+              <span className="btn btn-primary w-50">Update Student</span>
             </Link>
 
 
-            {student &&
+
+            {/* {student &&
               <Input
                 name="name"
                 value={student.name}
-              />}
+              />} */}
           </div>
 
 
-        </div>
+        </div >
 
-      )}
+      )
+      }
 
 
     </>

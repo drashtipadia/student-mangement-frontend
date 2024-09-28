@@ -19,7 +19,7 @@ export function Input({
         {required && <Badge />}
         {label}
       </label>
-      <div className="col">
+      <div className="col m-0 p-0">
         {type !== "textarea" ? (
           <input
             type={type}

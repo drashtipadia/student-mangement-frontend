@@ -4,7 +4,7 @@ import img2 from '../styles/naaclog.jpeg'
 
 export function DocHeader() {
     return (
-        <nav className='navbar bg-light container' style={{ width: "" }}>
+        <nav className='navbar bg-light container'>
             <img src={img1} alt='collegelogo' height="100" />
             <div className='text-center'>
                 <p className='m-0 fs-6'>since: June 1947</p>

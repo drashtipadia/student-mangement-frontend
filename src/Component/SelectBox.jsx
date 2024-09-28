@@ -5,7 +5,7 @@ export function SelectBox({ name, label, placeholder, onChange, data }) {
       <label className="col-auto text-center" htmlFor={name}>
         {label}
       </label>
-      <div className="col">
+      <div className="col m-0 p-0">
         <select className="form-select" name={name} onChange={onChange}>
           {placeholder && <option hidden>{placeholder}</option>}
 
