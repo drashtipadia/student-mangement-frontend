@@ -7,6 +7,7 @@ import { Input } from "../Component/Input";
 import { convertToCSV } from "../utils/table-to-excel";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { safeFetch } from "../utils";
 
 export function StudentsList() {
   const [records, setRecords] = useState([]);
@@ -24,21 +25,22 @@ export function StudentsList() {
     const a = document.createElement("a");
 
     a.href = file;
-    a.download = "file.csv";
+    a.download = "records.csv";
 
     a.click();
   };
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(
+      const [res, err] = await safeFetch(
         `http://${SERVER_HOST}:${SERVER_PORT}/students`
       );
-      const jsonResponse = await response.json();
-
-      setRecords([...jsonResponse.students]);
-      setRecordsCopy([...jsonResponse.students]);
-      setLoading(false);
+      if (err != null) console.log(err);
+      else {
+        setRecords([...res.students]);
+        setRecordsCopy([...res.students]);
+        setLoading(false);
+      }
     })();
     // eslint-disable-next-line
   }, []);
@@ -101,19 +103,19 @@ export function StudentsList() {
                   data={
                     institute_type === "SFI"
                       ? [
-                        ...SFI_STREAMS,
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
+                          ...SFI_STREAMS,
+                          {
+                            label: "View All",
+                            value: "",
+                          },
+                        ]
                       : [
-                        ...GIA_STREAMS,
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
+                          ...GIA_STREAMS,
+                          {
+                            label: "View All",
+                            value: "",
+                          },
+                        ]
                   }
                 />
                 {stream !== "" && (
@@ -138,7 +140,7 @@ export function StudentsList() {
 
                 <div className="col">
                   <button onClick={sortStudents} className="btn btn-primary">
-                    Sort
+                    Filter
                   </button>
                 </div>
 
@@ -150,7 +152,7 @@ export function StudentsList() {
               </div>
             </div>
           </div>
-          <div className="container mb-3 bg-light">
+          <div className="container mb-3 bg-light overflow-scroll">
             <table
               className="table table-bordered"
               id="my-table"

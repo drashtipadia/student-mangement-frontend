@@ -3,8 +3,14 @@ import { Header } from "../Component/Header";
 import { Input } from "../Component/Input";
 import { SelectBox } from "../Component/SelectBox";
 import { RadioGroup } from "../Component/RadioGroup";
-import { GIA_STREAMS, SEMESTER, SFI_STREAMS, STREAM_ACRONYMS } from "../utils/constants";
+import {
+  GIA_STREAMS,
+  SEMESTER,
+  SFI_STREAMS,
+  STREAM_ACRONYMS,
+} from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { handleError, safeFetch } from "../utils";
 
 function AdmissionForm() {
   const inst_type = localStorage.getItem("token");
@@ -44,17 +50,11 @@ function AdmissionForm() {
   let [inc, setInc] = useState(0);
   const [validForm, setValidForm] = useState(false);
 
-  // useEffect(() => {
-  // fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`)
-  //   .then((res) => res.json())
-  //   .then((d) => {
-  //     let gr = d.gr_no;
-  //     setInc((gr ? Number(gr.split("-")[3]) : 0) + 1);
-  //   });
-  //  }, []);
-
   useEffect(() => {
-    if (user.stream !== "Bachelor of Arts") {
+    if (
+      user.stream !== "Bachelor of Arts" ||
+      user.stream !== "Bachelor of Commerce"
+    ) {
       setUser({
         ...user,
         main_subject: "",
@@ -68,17 +68,12 @@ function AdmissionForm() {
 
   // useEffetct localstorage student record check setuser json parse student details
 
-  // useEffect(() => {
-
-  //   if (localStorage.getItem("student") !== null) {
-  //     const stu = JSON.parse(localStorage.getItem("student"));
-  //     setUser(...stu);
-
-  //   }
-  //   else {
-  //     alert("Student Empty");
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (localStorage.getItem("update-details")) {
+      const stu = JSON.parse(localStorage.getItem("update-details"));
+      setUser({ ...stu });
+    }
+  }, []);
 
   //======
 
@@ -93,8 +88,6 @@ function AdmissionForm() {
     setPreviewImage(URL.createObjectURL(file));
     setUser({ ...user, [name]: file });
   };
-
-  //=======================================
 
   const isNumber = (value) => !Number(value) === false;
 
@@ -137,11 +130,7 @@ function AdmissionForm() {
     }
 
     setError(validationError);
-    if (Object.keys(validationError).length === 0) {
-      return true;
-    }
-
-    return false;
+    return Object.keys(validationError).length === 0;
   };
 
   const STREAM = STREAM_ACRONYMS;
@@ -152,19 +141,18 @@ function AdmissionForm() {
   // submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`)
-      .then((res) => res.json())
-      .then((d) => {
-        let gr = d.gr_no;
-        setInc((gr ? Number(gr.split("-")[3]) : 0) + 1);
-      });
-
-    setValidForm(isValid);
-
+    setValidForm(isValid());
     if (!validForm) return;
 
+    let [res, err] = await safeFetch(
+      `http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`
+    );
+    handleError(err);
+    const gr = res.gr;
+    setInc((gr ? Number(gr.split("-")[3]) : 0) + 1);
+
     user.gr_no = GR_PREFIX + inc;
+    // setUser({ ...user, gr_no: GR_PREFIX + inc });
 
     const submitData = new FormData();
     Object.entries(user).forEach(([key, value]) => {
@@ -173,37 +161,46 @@ function AdmissionForm() {
       }
     });
 
-    const response = await fetch(
+    [res, err] = await safeFetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
       {
         method: "POST",
         body: submitData,
       }
     );
+    handleError(err);
 
-    const check = await response.json();
-    if (check.status === "success") {
-      alert("Record Insert");
+    if (res.status === "success") {
+      alert("record inserted");
+      if (localStorage.getItem("update-details"))
+        localStorage.removeItem("update-details");
       window.location.reload();
     } else {
-      alert("some error occured. Check console");
-      console.log(check);
+      alert("see console");
+      console.log(res);
     }
   };
+
   return (
     <>
       <Header />
       <div className="bg-dark">
         <h2 className="text-center mt-3 text-white">Admission Form</h2>
         <div className="col d-flex justify-content-center py-3">
-          <div className="card bg-light" style={{ width: "50rem" }} onSubmit={handleSubmit}>
-            <form className="m-4" method="post" encType="multipart/form-data">
+          <div className="card bg-light" style={{ width: "50rem" }}>
+            <form
+              className="m-4"
+              method="post"
+              onSubmit={handleSubmit}
+              encType="multipart/form-data"
+            >
               <div className="row border-3 form-group mb-3 align-items-center">
                 <SelectBox
                   name="stream"
                   onChange={handleInputs}
                   label={"Stream:"}
                   placeholder={"Select Stream"}
+                  selected={user.stream}
                   data={
                     inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
                   }
@@ -214,6 +211,7 @@ function AdmissionForm() {
                   onChange={handleInputs}
                   label={"Semester :"}
                   placeholder={"Select Semester"}
+                  selected={String(user.semester)}
                   data={[...SEMESTER]}
                 />
               </div>
@@ -528,7 +526,7 @@ function AdmissionForm() {
               <button
                 type="submit"
                 className="btn btn-primary btn-lg w-100"
-              // onClick={handleSubmit}
+                // onClick={handleSubmit}
               >
                 Submit
               </button>
