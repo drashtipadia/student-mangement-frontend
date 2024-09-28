@@ -99,7 +99,7 @@ export default function ViewTc() {
                 <br />
               </li>
               <li>
-                As a student of this college he/she has passed/not-passed{" "}
+                As a student of this college he/she has <span className="h6">{student.result}</span>
                 <span className="h6">{student.lastexam}</span> exam in{" "}
                 <span className="h6">{student.exam_month} - {student.examyear}</span> but got exam exemption in
                 <span className="h6"> {student.no_pass_subject} </span>Subjects.

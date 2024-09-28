@@ -24,7 +24,19 @@ export function ViewStudentDetails() {
   const [student, setStudent] = useState({});
   const params = useParams();
 
-  //const a = fetch(`http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/first-trial`);
+  // let hasFT;
+  // fetch(`http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/first-trial`)
+  //   .then(checkFT => checkFT.json())
+  //   .then(checkFT => hasFT = checkFT.exists);
+
+
+
+  let checkFT;
+  // fetch(`http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/first-trial`)
+  //   .then((body) => (body.json()))
+  //   .then(console.log);
+
+
 
   useEffect(() => {
     fetch(`http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}`)
@@ -32,9 +44,24 @@ export function ViewStudentDetails() {
       .then((stud) => {
         // console.log(stud);
         setStudent({ ...stud.student });
+
+        async function fetchAPI() {
+          fetch(`http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/first-trial`)
+            .then((body) => (body.json()))
+            //.then(console.log);
+            .then(res => checkFT = res.exists);
+        }
+
+        fetchAPI();
+
+        //console.log(checkFT);
+
         setIsLoading(false);
 
+
+
       });
+
     // eslint-disable-next-line
   }, []);
 
@@ -67,9 +94,11 @@ export function ViewStudentDetails() {
               <span className=" btn btn-primary w-50"> Bonafide Certificate</span>
             </Link>
 
+            {/* {checkFT && checkFT.exists && */}
             <Link to={`/firsttrialdoc?id=${params.id}`}>
               <span className="btn btn-primary w-50">First Trial Certificate</span>
             </Link>
+            {/* } */}
 
             <Link to={`/updateStudent?id=${params.id}`}>
               <span className="btn btn-primary w-50">Update Student</span>

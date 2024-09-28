@@ -7,7 +7,7 @@ export function DocHeader() {
         <nav className='navbar bg-light container'>
             <img src={img1} alt='collegelogo' height="100" />
             <div className='text-center'>
-                <p className='m-0 fs-6'>since: June 1947</p>
+                <p className='m-0 fs-6'>since: June 1972</p>
                 <p className='m-0 fs-6'>Managed by Shree Jetpur Kelavni Mandal Trust</p>
                 <p className='fs-5 m-0 fw-bold'>Shree G.K. & C.K. Bosamiya</p>
                 <p className='fs-5 m-0 fw-bold'>Arts and Commerce College </p>
