@@ -1,6 +1,12 @@
-export function SelectBox({ name, label, placeholder, onChange, data }) {
+export function SelectBox({
+  name,
+  label,
+  placeholder,
+  onChange,
+  data,
+  selected = "",
+}) {
   return (
-    // <div className="row border-3 form-group mb-3">
     <>
       <label className="col-auto text-center" htmlFor={name}>
         {label}
@@ -11,7 +17,12 @@ export function SelectBox({ name, label, placeholder, onChange, data }) {
 
           {data.map((entry) => {
             return (
-              <option key={entry.value} value={entry.value}>
+              <option
+                key={entry.value}
+                value={entry.value}
+                // eslint-disable-next-line
+                selected={selected === entry.value}
+              >
                 {entry.label}
               </option>
             );
@@ -19,6 +30,5 @@ export function SelectBox({ name, label, placeholder, onChange, data }) {
         </select>
       </div>
     </>
-    // </div>
   );
 }

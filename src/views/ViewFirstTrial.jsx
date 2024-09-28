@@ -50,10 +50,8 @@ export function ViewFirstTrial() {
 
         a.click();
 
-
         navigate("/viewdata");
         localStorage.removeItem("first-trial-info");
-
       });
     });
   };
@@ -87,10 +85,12 @@ export function ViewFirstTrial() {
           </p>
           <p>
             &emsp; &emsp; &emsp; &emsp; &emsp; In Year{" "}
-            <span className="h6">{student.year} - {Number(student.year) + 1}</span> was studying{" "}
-            <span className="h6">{student.stream}</span> in this college.
-            Examination of <span className="h6"> {student.examstream}</span>{" "}
-            held in{" "}
+            <span className="h6">
+              {student.year} - {Number(student.year) + 1}
+            </span>{" "}
+            was studying <span className="h6">{student.stream}</span> in this
+            college. Examination of{" "}
+            <span className="h6"> {student.examstream}</span> held in{" "}
             <span className="h6">
               {student.month}-{student.examyear}{" "}
             </span>

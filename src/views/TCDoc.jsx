@@ -3,9 +3,16 @@ import { Header } from "../Component/Header";
 import { useSearchParams } from "react-router-dom";
 import { Input } from "../Component/Input";
 import { SelectBox } from "../Component/SelectBox";
-import { SEMESTER, GIA_STREAMS, SFI_STREAMS, STREAM_ACRONYMS, MONTHS, } from "../utils/constants";
+import {
+  SEMESTER,
+  GIA_STREAMS,
+  SFI_STREAMS,
+  STREAM_ACRONYMS,
+  MONTHS,
+} from "../utils/constants";
 
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { handleError, safeFetch } from "../utils";
 
 function TCDoc() {
   const inst_type = localStorage.getItem("token");
@@ -40,15 +47,12 @@ function TCDoc() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-
-    const res = await fetch(
+    const [res, err] = await safeFetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/tc`
     );
+    handleError(err);
 
-    let jsonBody = await res.json();
-
-    const serial = (jsonBody.serial || 0) + 1;
+    const serial = (res.serial || 0) + 1;
     let docName =
       TC_PREFIX +
       STREAM_ACRONYMS[student.stream] +
@@ -91,9 +95,7 @@ function TCDoc() {
                   onChange={handleInputs}
                   placeholder={"Select stream"}
                   data={
-                    inst_type === "GIA"
-                      ? [...GIA_STREAMS]
-                      : [...SFI_STREAMS]
+                    inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
                   }
                 />
                 <SelectBox
@@ -114,7 +116,6 @@ function TCDoc() {
                 />
               </div>
               <div className="row border-3 form-group m-3 align-items-center">
-
                 <Input
                   type="date"
                   name="start_date"
@@ -127,11 +128,8 @@ function TCDoc() {
                   name="end_date"
                   label="Ending date"
                   value={student.end_date}
-
                   onChange={handleInputs}
                 />
-
-
               </div>
 
               <div className="row border-3 form-group m-3 align-items-center">
@@ -169,16 +167,13 @@ function TCDoc() {
               </div>
 
               <div className="row border-3 form-group m-2 align-items-center">
-
                 <SelectBox
                   name="next_study_stream"
                   label={"3.Next Study Year"}
                   onChange={handleInputs}
                   placeholder={"Select stream"}
                   data={
-                    inst_type === "GIA"
-                      ? [...GIA_STREAMS]
-                      : [...SFI_STREAMS]
+                    inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
                   }
                 />
                 <SelectBox
@@ -188,10 +183,8 @@ function TCDoc() {
                   placeholder={"Select Semester"}
                   data={[...SEMESTER]}
                 />
-
               </div>
               <div className="row border-3 form-group m-2 align-items-center">
-
                 <Input
                   type="text"
                   label="NO: G.K.C.K./TC/Migration"
@@ -199,7 +192,6 @@ function TCDoc() {
                   value={student.tc_mg_no}
                   onChange={handleInputs}
                   placeholder={"G.K.C.K./TC/Migration "}
-
                 />
                 <Input
                   type="text"
@@ -209,10 +201,7 @@ function TCDoc() {
                   onChange={handleInputs}
                   placeholder={"Name "}
                 />
-
-
               </div>
-
 
               <hr />
               <button
@@ -220,7 +209,6 @@ function TCDoc() {
                 className="btn btn-primary btn-lg w-100"
                 onClick={handleSubmit}
               >
-
                 Generate TC
               </button>
             </form>
@@ -228,7 +216,6 @@ function TCDoc() {
         </div>
       </div>
     </>
-
   );
 }
 

@@ -2,124 +2,115 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Header } from "../Component/Header";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
-
-
-/**
- * returns object containing student information.
- * @param {string} id ID of the student
- */
-// const fetchStudent = async (id) => {
-//   const response = await fetch(
-//     `http://${SERVER_HOST}:${SERVER_PORT}/students/${id}`
-//   );
-//   return await response.json();
-// };
-
-
+import { safeFetch } from "../utils";
+import { handleError } from "../utils";
+import { Loading } from "../Component/Loading";
 
 export function ViewStudentDetails() {
-
   const [isLoading, setIsLoading] = useState(true);
   // eslint-disable-next-line
   const [student, setStudent] = useState({});
+  const [firstTrial, setFirstTrial] = useState(false);
+  const [tc, setTc] = useState(false);
+  const [noObjection, setNoObjection] = useState(false);
+  const [bonafide, setBonafide] = useState(false);
+  /// Doesn't work...
+  // const [docs, setDocs] = useState({
+  //   firstTrial: false,
+  //   tc: false,
+  //   noObjection: false,
+  //   bonafide: false,
+  // });
   const params = useParams();
 
-  // let hasFT;
-  // fetch(`http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/first-trial`)
-  //   .then(checkFT => checkFT.json())
-  //   .then(checkFT => hasFT = checkFT.exists);
-
-
-
-  let checkFT;
-  // fetch(`http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/first-trial`)
-  //   .then((body) => (body.json()))
-  //   .then(console.log);
-
-
-
   useEffect(() => {
-    fetch(`http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}`)
-      .then(body => body.json())
-      .then((stud) => {
-        // console.log(stud);
-        setStudent({ ...stud.student });
+    async function callAPI() {
+      let [resp, err] = await safeFetch(
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}`
+      );
+      handleError(err);
+      setStudent({ ...resp.student });
 
-        async function fetchAPI() {
-          fetch(`http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/first-trial`)
-            .then((body) => (body.json()))
-            //.then(console.log);
-            .then(res => checkFT = res.exists);
-        }
+      [resp, err] = await safeFetch(
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/first-trial`
+      );
+      handleError(err);
+      setFirstTrial(resp.exists);
 
-        fetchAPI();
+      [resp, err] = await safeFetch(
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/bonafide`
+      );
+      handleError(err);
+      setBonafide(resp.exists);
 
-        //console.log(checkFT);
+      [resp, err] = await safeFetch(
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/tc`
+      );
+      handleError(err);
+      setTc(resp.exists);
 
-        setIsLoading(false);
+      [resp, err] = await safeFetch(
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/no-objection`
+      );
+      handleError(err);
+      setNoObjection(resp.exists);
 
+      setIsLoading(false);
+    }
 
+    callAPI();
+  });
 
-      });
-
-    // eslint-disable-next-line
-  }, []);
-
-
+  const handleClick = () => {
+    if (student) {
+      localStorage.setItem("update-details", JSON.stringify(student));
+    }
+  };
 
   return (
     <>
       <Header />
-
-
-
-      <p className="bg-light">Student {params.id}</p>
-      <hr />
       {isLoading ? (
-        <h2>Loading...</h2>
+        <Loading />
       ) : (
-        <div className="container" style={{ paddingLeft: "21rem" }}>
-
+        <div className="container pt-4" style={{ paddingLeft: "21rem" }}>
           <div className="row g-3">
+            {tc === false && (
+              <Link to={`/tcdoc?id=${params.id}`}>
+                <span className="btn btn-primary w-50">TC Document </span>
+              </Link>
+            )}
 
-            <Link to={`/tcdoc?id=${params.id}`}>
-              <span className="btn btn-primary w-50">TC Document </span>
-            </Link>
+            {noObjection === false && (
+              <Link to={`/noObjdoc?id=${params.id}`}>
+                <span className="btn btn-primary w-50">
+                  No Objection Certificate
+                </span>
+              </Link>
+            )}
 
-            <Link to={`/noObjdoc?id=${params.id}`}>
-              <span className="btn btn-primary w-50"> No Objection Certificate</span>
-            </Link>
+            {bonafide === false && (
+              <Link to={`/bonafidedoc?id=${params.id}`}>
+                <span className=" btn btn-primary w-50">
+                  Bonafide Certificate
+                </span>
+              </Link>
+            )}
 
-            <Link to={`/bonafidedoc?id=${params.id}`}>
-              <span className=" btn btn-primary w-50"> Bonafide Certificate</span>
-            </Link>
+            {firstTrial === false && (
+              <Link to={`/firsttrialdoc?id=${params.id}`}>
+                <span className="btn btn-primary w-50">
+                  First Trial Certificate
+                </span>
+              </Link>
+            )}
 
-            {/* {checkFT && checkFT.exists && */}
-            <Link to={`/firsttrialdoc?id=${params.id}`}>
-              <span className="btn btn-primary w-50">First Trial Certificate</span>
-            </Link>
-            {/* } */}
-
-            <Link to={`/updateStudent?id=${params.id}`}>
-              <span className="btn btn-primary w-50">Update Student</span>
-            </Link>
-
-
-
-            {/* {student &&
-              <Input
-                name="name"
-                value={student.name}
-              />} */}
+            <button className="btn btn-primary w-50" onClick={handleClick}>
+              Update Student
+            </button>
           </div>
-
-
-        </div >
-
-      )
-      }
-
-
+        </div>
+      )}
     </>
   );
 }

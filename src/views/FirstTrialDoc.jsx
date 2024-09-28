@@ -11,6 +11,7 @@ import {
   STREAM_ACRONYMS,
 } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { safeFetch } from "../utils";
 
 function FirstTrialDoc() {
   const inst_type = localStorage.getItem("token");
@@ -39,16 +40,16 @@ function FirstTrialDoc() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // ToDo fetch call for serial number
-    //ToDo add serial to localstorage
-
-    const res = await fetch(
+    const [res, err] = await safeFetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/first-trial`
     );
 
-    let jsonBody = await res.json();
+    if (err != null) {
+      alert("see console");
+      console.log(err);
+    }
 
-    const serial = (jsonBody.serial || 0) + 1;
+    const serial = (res.serial || 0) + 1;
     let docName =
       FT_PREFIX +
       STREAM_ACRONYMS[student.stream] +
@@ -150,8 +151,7 @@ function FirstTrialDoc() {
                 className="btn btn-primary btn-lg w-100"
                 onClick={handleSubmit}
               >
-                {" "}
-                First Trial Certificate{" "}
+                First Trial Certificate
               </button>
             </form>
           </div>
