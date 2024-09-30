@@ -33,7 +33,7 @@ function AdmissionForm() {
     father_name: "",
     mother_name: "",
     address: "",
-    wh_no: "",
+    whatsapp_no: "",
     parent_no: "",
     email: "",
     gender: "",
@@ -71,7 +71,10 @@ function AdmissionForm() {
   useEffect(() => {
     if (localStorage.getItem("update-details")) {
       const stu = JSON.parse(localStorage.getItem("update-details"));
-      setUser({ ...stu });
+      let birthdate = new Date(stu.birth_date);
+      let date = birthdate.toISOString().split("T")[0];
+      setUser({ ...stu, birth_date: date });
+      console.log({ ...stu });
     }
   }, []);
 
@@ -122,8 +125,8 @@ function AdmissionForm() {
     } else if (!user.fathername.trim()) {
       validationError.name = "Fathername is Required";
     }
-    if (!user.wh_no.trim()) {
-      validationError.wh_no = "WhatsApp Number is Required";
+    if (!user.whatsapp_no.trim()) {
+      validationError.whatsapp_no = "WhatsApp Number is Required";
     }
     if (!user.studentimg) {
       validationError.studentimg = "Please Upload Image";
@@ -394,10 +397,10 @@ function AdmissionForm() {
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
                   type="text"
-                  name="wh_no"
+                  name="whatsapp_no"
                   label="Mobile No:"
                   placeholder="Whatsapp No."
-                  value={user.wh_no}
+                  value={user.whatsapp_no}
                   onChange={(e) => handlenumber(e, 10)}
                   required
                 />
@@ -410,7 +413,7 @@ function AdmissionForm() {
                   onChange={(e) => handlenumber(e, 10)}
                 />
               </div>
-              {error.wh_no && <p className="text-danger">{error.wh_no}</p>}
+              {error.whatsapp_no && <p className="text-danger">{error.whatsapp_no}</p>}
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
                   type="email"
@@ -526,7 +529,7 @@ function AdmissionForm() {
               <button
                 type="submit"
                 className="btn btn-primary btn-lg w-100"
-                // onClick={handleSubmit}
+              // onClick={handleSubmit}
               >
                 Submit
               </button>

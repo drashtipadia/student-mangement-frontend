@@ -109,7 +109,7 @@ function NoObjDoc() {
                 onClick={handleSubmit}
               >
                 {" "}
-                Generate NoObjection Certificate{" "}
+                Generate NoObjection{" "}
               </button>
             </form>
           </div>

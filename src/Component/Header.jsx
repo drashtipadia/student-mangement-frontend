@@ -14,7 +14,7 @@ function Header() {
         className="btn btn-danger"
         onClick={() => {
           localStorage.removeItem("token");
-          localStorage.removeItem("student");
+          localStorage.removeItem("update-details");
           window.location.reload();
         }}
       >

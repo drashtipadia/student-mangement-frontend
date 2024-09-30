@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { Header } from "../Component/Header";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch } from "../utils";
@@ -61,9 +61,12 @@ export function ViewStudentDetails() {
     callAPI();
   });
 
+  let navigate = useNavigate();
+
   const handleClick = () => {
     if (student) {
       localStorage.setItem("update-details", JSON.stringify(student));
+      navigate("/admissionForm");
     }
   };
 
@@ -73,41 +76,44 @@ export function ViewStudentDetails() {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="container pt-4" style={{ paddingLeft: "21rem" }}>
-          <div className="row g-3">
-            {tc === false && (
-              <Link to={`/tcdoc?id=${params.id}`}>
-                <span className="btn btn-primary w-50">TC Document </span>
-              </Link>
-            )}
+        <div className="container p-3  ">
+          <div className="row g-3 justify-content-center d-flex align-items-center flex-column ">
+            <div className="w-50">
+              {tc === false && (
+                <Link to={`/tcdoc?id=${params.id}`} role="button" className="btn btn-primary w-100">
+                  TC Document
+                </Link>
+              )}
+            </div>
 
-            {noObjection === false && (
-              <Link to={`/noObjdoc?id=${params.id}`}>
-                <span className="btn btn-primary w-50">
+            <div className="w-50">
+              {noObjection === false && (
+                <Link to={`/noObjdoc?id=${params.id}`} role="button" className="btn btn-primary w-100">
                   No Objection Certificate
-                </span>
-              </Link>
-            )}
+                </Link>
+              )}
+            </div>
 
-            {bonafide === false && (
-              <Link to={`/bonafidedoc?id=${params.id}`}>
-                <span className=" btn btn-primary w-50">
+            <div className="w-50">
+              {bonafide === false && (
+                <Link to={`/bonafidedoc?id=${params.id}`} role="button" className="btn btn-primary w-100">
                   Bonafide Certificate
-                </span>
-              </Link>
-            )}
+                </Link>
+              )}
+            </div>
 
-            {firstTrial === false && (
-              <Link to={`/firsttrialdoc?id=${params.id}`}>
-                <span className="btn btn-primary w-50">
+            <div className="w-50">
+              {firstTrial === false && (
+                <Link to={`/firsttrialdoc?id=${params.id}`} role="button" className="btn btn-primary w-100">
                   First Trial Certificate
-                </span>
-              </Link>
-            )}
-
-            <button className="btn btn-primary w-50" onClick={handleClick}>
-              Update Student
-            </button>
+                </Link>
+              )}
+            </div>
+            <div className="w-50">
+              <span className="btn btn-primary w-100" onClick={handleClick}>
+                Update Student
+              </span>
+            </div>
           </div>
         </div>
       )}

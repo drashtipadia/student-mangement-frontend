@@ -65,7 +65,7 @@ export function ViewBonafide() {
         <DocHeader2 />
         <section className="p-5">
           <div className="text-center text-primary">
-            <h5>Bonofide Certificate</h5>
+            <h5>Bonafide Certificate</h5>
           </div>
           <Badge>Bonafide No:{student.bcSerial}</Badge>
           <p className="text-end">
@@ -92,7 +92,7 @@ export function ViewBonafide() {
         <hr />
         <DocHeader />
         <div className="p-4 mb-3">
-          <h1 className="text-center">Bonofide certificate</h1>
+          <h1 className="text-center">Bonafide Certificate</h1>
           <br />
           <div className="p-4">
             <p className="text-end">

@@ -109,7 +109,7 @@ function BonafideDoc() {
                 onClick={handleSubmit}
               >
                 {" "}
-                Generate BONOFIDE{" "}
+                Generate Bonafide{" "}
               </button>
             </form>
           </div>

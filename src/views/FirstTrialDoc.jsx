@@ -151,7 +151,7 @@ function FirstTrialDoc() {
                 className="btn btn-primary btn-lg w-100"
                 onClick={handleSubmit}
               >
-                First Trial Certificate
+                Generate First Trial
               </button>
             </form>
           </div>

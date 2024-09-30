@@ -18,13 +18,25 @@ function App() {
       <div className="App">
         <div className="conatiner p-5">
           <div className="row g-3">
-            <Link to={"/admissionForm"}>
-              <button className="btn btn-primary w-25">AdmissionForm</button>
-            </Link>
+            <div className="w-100">
+              <Link
+                to={"/admissionForm"}
+                role="button"
+                className="btn btn-primary w-25"
+              >
+                AdmissionForm
+              </Link>
+            </div>
 
-            <Link to={"/viewdata"}>
-              <button className="btn btn-primary w-25">View Data</button>
-            </Link>
+            <div className="w-100">
+              <Link
+                to={"/viewdata"}
+                role="button"
+                className="btn btn-primary w-25"
+              >
+                View Data
+              </Link>
+            </div>
 
             {/* <span>
               <button
