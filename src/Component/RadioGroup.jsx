@@ -1,4 +1,4 @@
-export function RadioGroup({ name, label, data, onChange }) {
+export function RadioGroup({ name, label, data, onChange, checked }) {
   return (
     <div className="row broder-3 form-group mb-3">
       <label className="col-auto text-center">{label}</label>
@@ -13,6 +13,7 @@ export function RadioGroup({ name, label, data, onChange }) {
                 id={entry.value}
                 value={entry.value}
                 onChange={onChange}
+
               />
               <label className="form-check-label" htmlFor={entry.value}>
                 {entry.label}

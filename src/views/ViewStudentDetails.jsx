@@ -25,13 +25,13 @@ export function ViewStudentDetails() {
 
   useEffect(() => {
     async function callAPI() {
-      let [resp, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}`
-      );
-      handleError(err);
-      setStudent({ ...resp.student });
+      // let [resp, err] = await safeFetch(
+      //   `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}`
+      // );
+      // handleError(err);
+      // setStudent({ ...resp.student });
 
-      [resp, err] = await safeFetch(
+      let [resp, err] = await safeFetch(
         `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/first-trial`
       );
       handleError(err);
@@ -59,7 +59,7 @@ export function ViewStudentDetails() {
     }
 
     callAPI();
-  });
+  }, []);
 
   let navigate = useNavigate();
 
@@ -81,7 +81,7 @@ export function ViewStudentDetails() {
             <div className="w-50">
               {tc === false && (
                 <Link to={`/tcdoc?id=${params.id}`} role="button" className="btn btn-primary w-100">
-                  TC Document
+                  Leaving Certificate
                 </Link>
               )}
             </div>
@@ -110,9 +110,9 @@ export function ViewStudentDetails() {
               )}
             </div>
             <div className="w-50">
-              <span className="btn btn-primary w-100" onClick={handleClick}>
+              <Link to={`/UpdateStudent?id=${params.id}`} role="button" className="btn btn-primary w-100">
                 Update Student
-              </span>
+              </Link>
             </div>
           </div>
         </div>

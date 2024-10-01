@@ -15,7 +15,7 @@ function Header() {
         onClick={() => {
           localStorage.removeItem("token");
           localStorage.removeItem("update-details");
-          window.location.reload();
+          window.location.href = "/login";
         }}
       >
         Logout

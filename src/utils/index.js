@@ -5,7 +5,7 @@
 export function handleError(err) {
   if (err !== null) {
     alert("Got an error! Check the console.");
-    console.log(err);
+    //console.log(err);
     throw new Error(err);
   }
 }
@@ -20,14 +20,15 @@ export async function safeFetch(url, opts = undefined) {
   try {
     const resp = await fetch(url, opts);
 
-    if (!resp.ok) {
-      return [null, resp.statusText];
-    }
-
+    // if (!resp.ok) {
+    //   return [null, resp.statusText];
+    // }
+    // console.log(resp);
     const jsonBody = await resp.json();
 
     return [jsonBody, null];
   } catch (err) {
+    //console.log(err);
     return [null, err.toString()];
   }
 }

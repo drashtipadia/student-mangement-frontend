@@ -12,6 +12,8 @@ export function Input({
   accept = null,
   required = false,
   errorMessage = "",
+
+
 }) {
   return (
     <>
@@ -32,6 +34,7 @@ export function Input({
             max={max}
             placeholder={placeholder}
             accept={accept}
+
           />
         ) : (
           <textarea

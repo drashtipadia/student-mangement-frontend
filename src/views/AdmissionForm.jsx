@@ -34,7 +34,7 @@ function AdmissionForm() {
     mother_name: "",
     address: "",
     whatsapp_no: "",
-    parent_no: "",
+    parent_contact_no: "",
     email: "",
     gender: "",
     birth_date: "",
@@ -68,15 +68,15 @@ function AdmissionForm() {
 
   // useEffetct localstorage student record check setuser json parse student details
 
-  useEffect(() => {
-    if (localStorage.getItem("update-details")) {
-      const stu = JSON.parse(localStorage.getItem("update-details"));
-      let birthdate = new Date(stu.birth_date);
-      let date = birthdate.toISOString().split("T")[0];
-      setUser({ ...stu, birth_date: date });
-      console.log({ ...stu });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (localStorage.getItem("update-details")) {
+  //     const stu = JSON.parse(localStorage.getItem("update-details"));
+  //     let birthdate = new Date(stu.birth_date);
+  //     let date = birthdate.toISOString().split("T")[0];
+  //     setUser({ ...stu, birth_date: date });
+  //     console.log({ ...stu });
+  //   }
+  // }, []);
 
   //======
 
@@ -203,7 +203,7 @@ function AdmissionForm() {
                   onChange={handleInputs}
                   label={"Stream:"}
                   placeholder={"Select Stream"}
-                  selected={user.stream}
+
                   data={
                     inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
                   }
@@ -214,7 +214,7 @@ function AdmissionForm() {
                   onChange={handleInputs}
                   label={"Semester :"}
                   placeholder={"Select Semester"}
-                  selected={String(user.semester)}
+
                   data={[...SEMESTER]}
                 />
               </div>
@@ -407,9 +407,9 @@ function AdmissionForm() {
 
                 <Input
                   type="text"
-                  name="parent_no"
+                  name="parent_contact_no"
                   placeholder="Parent No."
-                  value={user.parent_no}
+                  value={user.parent_contact_no}
                   onChange={(e) => handlenumber(e, 10)}
                 />
               </div>
