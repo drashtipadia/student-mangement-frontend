@@ -32,25 +32,25 @@ export function ViewStudentDetails() {
       // setStudent({ ...resp.student });
 
       let [resp, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/first-trial`
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/first-trial`,
       );
       handleError(err);
       setFirstTrial(resp.exists);
 
       [resp, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/bonafide`
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/bonafide`,
       );
       handleError(err);
       setBonafide(resp.exists);
 
       [resp, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/tc`
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/tc`,
       );
       handleError(err);
       setTc(resp.exists);
 
       [resp, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/no-objection`
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/no-objection`,
       );
       handleError(err);
       setNoObjection(resp.exists);
@@ -59,10 +59,12 @@ export function ViewStudentDetails() {
     }
 
     callAPI();
+    // eslint-disable-next-line
   }, []);
 
   let navigate = useNavigate();
 
+  // eslint-disable-next-line
   const handleClick = () => {
     if (student) {
       localStorage.setItem("update-details", JSON.stringify(student));
@@ -80,7 +82,11 @@ export function ViewStudentDetails() {
           <div className="row g-3 justify-content-center d-flex align-items-center flex-column ">
             <div className="w-50">
               {tc === false && (
-                <Link to={`/tcdoc?id=${params.id}`} role="button" className="btn btn-primary w-100">
+                <Link
+                  to={`/tcdoc?id=${params.id}`}
+                  role="button"
+                  className="btn btn-primary w-100"
+                >
                   Leaving Certificate
                 </Link>
               )}
@@ -88,7 +94,11 @@ export function ViewStudentDetails() {
 
             <div className="w-50">
               {noObjection === false && (
-                <Link to={`/noObjdoc?id=${params.id}`} role="button" className="btn btn-primary w-100">
+                <Link
+                  to={`/noObjdoc?id=${params.id}`}
+                  role="button"
+                  className="btn btn-primary w-100"
+                >
                   No Objection Certificate
                 </Link>
               )}
@@ -96,7 +106,11 @@ export function ViewStudentDetails() {
 
             <div className="w-50">
               {bonafide === false && (
-                <Link to={`/bonafidedoc?id=${params.id}`} role="button" className="btn btn-primary w-100">
+                <Link
+                  to={`/bonafidedoc?id=${params.id}`}
+                  role="button"
+                  className="btn btn-primary w-100"
+                >
                   Bonafide Certificate
                 </Link>
               )}
@@ -104,14 +118,31 @@ export function ViewStudentDetails() {
 
             <div className="w-50">
               {firstTrial === false && (
-                <Link to={`/firsttrialdoc?id=${params.id}`} role="button" className="btn btn-primary w-100">
+                <Link
+                  to={`/firsttrialdoc?id=${params.id}`}
+                  role="button"
+                  className="btn btn-primary w-100"
+                >
                   First Trial Certificate
                 </Link>
               )}
             </div>
             <div className="w-50">
-              <Link to={`/UpdateStudent?id=${params.id}`} role="button" className="btn btn-primary w-100">
+              <Link
+                to={`/UpdateStudent?id=${params.id}`}
+                role="button"
+                className="btn btn-primary w-100"
+              >
                 Update Student
+              </Link>
+            </div>
+            <div className="w-50">
+              <Link
+                to={`/update-img/${params.id}`}
+                role="button"
+                className="btn btn-primary w-100"
+              >
+                Update Image
               </Link>
             </div>
           </div>

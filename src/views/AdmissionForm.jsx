@@ -113,7 +113,7 @@ function AdmissionForm() {
       validationError.email = "Email is Required";
     } else if (
       !user.email.match(
-        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
       )
     ) {
       validationError.email = "Email is Not Valid";
@@ -148,15 +148,24 @@ function AdmissionForm() {
     if (!validForm) return;
 
     let [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`
+      `http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`,
     );
     handleError(err);
-    const gr = res.gr;
-    setInc((gr ? Number(gr.split("-")[3]) : 0) + 1);
+    // =================
+    // console.log(res);
+    const gr = res.gr_no;
+    await setInc((gr ? Number(gr.split("-")[3]) : 0) + 1);
+    // console.log(inc);
 
-    user.gr_no = GR_PREFIX + inc;
-    // setUser({ ...user, gr_no: GR_PREFIX + inc });
+    // user.gr_no = GR_PREFIX + inc;
+    await setUser({ ...user, gr_no: `${GR_PREFIX}${inc}` });
 
+    // console.log(user.gr_no);
+
+    // return;
+    // =================
+
+    // eslint-disable-next-line
     const submitData = new FormData();
     Object.entries(user).forEach(([key, value]) => {
       if (user[key] !== null) {
@@ -164,12 +173,16 @@ function AdmissionForm() {
       }
     });
 
+    // ========================
+    // console.log(submitData);
+    // ========================
+
     [res, err] = await safeFetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
       {
         method: "POST",
         body: submitData,
-      }
+      },
     );
     handleError(err);
 
@@ -203,7 +216,6 @@ function AdmissionForm() {
                   onChange={handleInputs}
                   label={"Stream:"}
                   placeholder={"Select Stream"}
-
                   data={
                     inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
                   }
@@ -214,7 +226,6 @@ function AdmissionForm() {
                   onChange={handleInputs}
                   label={"Semester :"}
                   placeholder={"Select Semester"}
-
                   data={[...SEMESTER]}
                 />
               </div>
@@ -228,6 +239,7 @@ function AdmissionForm() {
                     { label: "Accountancy", value: "accountancy" },
                     { label: "Computer Science", value: "computer science" },
                   ]}
+                  checked={user.elective_course}
                 />
               )}
 
@@ -240,6 +252,7 @@ function AdmissionForm() {
                     { label: "English", value: "english" },
                     { label: "Hindi", value: "hindi" },
                   ]}
+                  checked={user.elective_course}
                 />
               )}
 
@@ -256,6 +269,7 @@ function AdmissionForm() {
                     { label: "Psychology", value: "psychology" },
                     { label: "Hindi", value: "hindi" },
                   ]}
+                  checked={user.main_subject}
                 />
               )}
 
@@ -269,6 +283,7 @@ function AdmissionForm() {
                     { label: "Hindi", value: "hindi" },
                     { label: "Psychology", value: "psychology" },
                   ]}
+                  checked={user.first_secondary_subject}
                 />
               )}
 
@@ -283,6 +298,7 @@ function AdmissionForm() {
                       { label: "Hindi", value: "hindi" },
                       { label: "Psychology", value: "psychology" },
                     ]}
+                    checked={user.tertiary_secondary_subject}
                   />
                   <hr />
                 </>
@@ -337,6 +353,7 @@ function AdmissionForm() {
                   { label: "PH", value: "PH" },
                   { label: "EX-ARMY", value: "EX-ARMY" },
                 ]}
+                checked={user.caste}
               />
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
@@ -413,7 +430,9 @@ function AdmissionForm() {
                   onChange={(e) => handlenumber(e, 10)}
                 />
               </div>
-              {error.whatsapp_no && <p className="text-danger">{error.whatsapp_no}</p>}
+              {error.whatsapp_no && (
+                <p className="text-danger">{error.whatsapp_no}</p>
+              )}
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
                   type="email"
@@ -436,6 +455,7 @@ function AdmissionForm() {
                   { label: "Male", value: "male" },
                   { label: "Female", value: "female" },
                 ]}
+                checked={user.gender}
               />
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
@@ -529,7 +549,7 @@ function AdmissionForm() {
               <button
                 type="submit"
                 className="btn btn-primary btn-lg w-100"
-              // onClick={handleSubmit}
+                // onClick={handleSubmit}
               >
                 Submit
               </button>
