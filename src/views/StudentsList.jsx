@@ -10,9 +10,7 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch } from "../utils";
 
 export function StudentsList() {
-
   const inst_type = localStorage.getItem("token");
-
 
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -37,7 +35,7 @@ export function StudentsList() {
   useEffect(() => {
     (async () => {
       const [res, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students`
+        `http://${SERVER_HOST}:${SERVER_PORT}/students`,
       );
       if (err != null) console.log(err);
       else {
@@ -107,19 +105,19 @@ export function StudentsList() {
                   data={
                     institute_type === "SFI"
                       ? [
-                        ...SFI_STREAMS,
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
+                          ...SFI_STREAMS,
+                          {
+                            label: "View All",
+                            value: "",
+                          },
+                        ]
                       : [
-                        ...GIA_STREAMS,
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
+                          ...GIA_STREAMS,
+                          {
+                            label: "View All",
+                            value: "",
+                          },
+                        ]
                   }
                 />
                 {stream !== "" && (
@@ -164,17 +162,21 @@ export function StudentsList() {
             >
               <thead>
                 <tr>
-
                   <th>ID</th>
                   <th>Enrollment</th>
                   <th>ABC ID</th>
                   <th>Gr No</th>
+                  <th>UDISK No</th>
                   <th>Aadhar Number</th>
                   <th>Stream</th>
                   <th>Semester</th>
-                  {inst_type === "GIA" && <><th>Main Course</th>
-                    <th>First Secondary Subject</th>
-                    <th>Tertiary Secondary Subject</th></>}
+                  {inst_type === "GIA" && (
+                    <>
+                      <th>Main Course</th>
+                      <th>First Secondary Subject</th>
+                      <th>Tertiary Secondary Subject</th>
+                    </>
+                  )}
                   <th>Gender</th>
                   <th>Email</th>
                   <th>Whatsapp Number</th>
@@ -197,7 +199,6 @@ export function StudentsList() {
                 </tr>
               </thead>
               <tbody>
-
                 {recordsCopy &&
                   recordsCopy.map((e) => {
                     // console.log(e);

@@ -20,7 +20,6 @@ export function SelectBox({
               <option
                 key={entry.value}
                 value={entry.value}
-                // eslint-disable-next-line
                 selected={selected === entry.value}
               >
                 {entry.label}

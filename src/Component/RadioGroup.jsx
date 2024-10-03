@@ -2,7 +2,7 @@ export function RadioGroup({ name, label, data, onChange, checked }) {
   return (
     <div className="row broder-3 form-group mb-3">
       <label className="col-auto text-center">{label}</label>
-      {data.map((entry) => {
+      {data.map((entry, idx) => {
         return (
           <div key={entry.value} className="col-auto">
             <div className="form-check form-check-inline m-0">
@@ -13,7 +13,7 @@ export function RadioGroup({ name, label, data, onChange, checked }) {
                 id={entry.value}
                 value={entry.value}
                 onChange={onChange}
-
+                checked={checked === entry.value}
               />
               <label className="form-check-label" htmlFor={entry.value}>
                 {entry.label}
