@@ -47,8 +47,9 @@ function AdmissionForm() {
     last_organization_studied_from: "",
     last_studied_year: "",
   });
-  let [inc, setInc] = useState(0);
+  // let [inc, setInc] = useState(0);
   const [validForm, setValidForm] = useState(false);
+  // const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (
@@ -153,12 +154,15 @@ function AdmissionForm() {
     handleError(err);
     // =================
     // console.log(res);
-    const gr = res.gr_no;
-    await setInc((gr ? Number(gr.split("-")[3]) : 0) + 1);
+    const gr = Number(res.gr_no);
+    const statelessInc = gr + 1;
+    // setInc(gr + 1);
+    // console.log(inc);
+
     // console.log(inc);
 
     // user.gr_no = GR_PREFIX + inc;
-    await setUser({ ...user, gr_no: `${GR_PREFIX}${inc}` });
+    setUser({ ...user, gr_no: `${GR_PREFIX}${statelessInc}` });
 
     // console.log(user.gr_no);
 
@@ -166,34 +170,37 @@ function AdmissionForm() {
     // =================
 
     // eslint-disable-next-line
-    const submitData = new FormData();
-    Object.entries(user).forEach(([key, value]) => {
-      if (user[key] !== null) {
-        submitData.append(key, value);
+    if (user.gr_no) {
+      const submitData = new FormData();
+      Object.entries(user).forEach(([key, value]) => {
+        if (user[key] !== null) {
+          submitData.append(key, value);
+        }
+      });
+
+      // ========================
+      // console.log(submitData);
+      // ========================
+
+      // setSubmitting(true);
+      [res, err] = await safeFetch(
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
+        {
+          method: "POST",
+          body: submitData,
+        },
+      );
+      handleError(err);
+
+      if (res.status === "success") {
+        alert("record inserted");
+        if (localStorage.getItem("update-details"))
+          localStorage.removeItem("update-details");
+        window.location.reload();
+      } else {
+        alert("see console");
+        console.log(res);
       }
-    });
-
-    // ========================
-    // console.log(submitData);
-    // ========================
-
-    [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
-      {
-        method: "POST",
-        body: submitData,
-      },
-    );
-    handleError(err);
-
-    if (res.status === "success") {
-      alert("record inserted");
-      if (localStorage.getItem("update-details"))
-        localStorage.removeItem("update-details");
-      window.location.reload();
-    } else {
-      alert("see console");
-      console.log(res);
     }
   };
 
@@ -550,6 +557,7 @@ function AdmissionForm() {
                 type="submit"
                 className="btn btn-primary btn-lg w-100"
                 // onClick={handleSubmit}
+                // disabled={submitting}
               >
                 Submit
               </button>
