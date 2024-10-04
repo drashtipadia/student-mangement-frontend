@@ -29,7 +29,6 @@ function Login() {
     }
   };
 
-  // navigate('/')
   return (
     <div>
       <section
@@ -50,17 +49,6 @@ function Login() {
                     </h2>
 
                     <div className="form-outline mb-4">
-                      {/* <div className="row border-3 form-group mb-3 align-items-center">
-                                                <Input
-                                                    type="text"
-                                                    name="username"
-                                                    label="Admin Name:"
-                                                    // value={admin.username}
-                                                    placeholder="Enter Admin Name."
-                                                    // onChange={handleInputs}
-                                                    required
-                                                />
-                                            </div> */}
                       <input
                         type="text"
                         id="adminname"

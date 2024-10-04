@@ -5,7 +5,7 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { DocHeader } from "../Component/DocHeader";
 import { Header } from "../Component/Header";
 import DocFooter from "../Component/DocFooter";
-import { Badge } from "../Component/Badge";
+
 import { useNavigate } from "react-router-dom";
 
 export default function ViewTc() {
@@ -33,10 +33,6 @@ export default function ViewTc() {
             docname: student.docName,
           },
         });
-
-
-
-
 
         fetch(`http://${SERVER_HOST}:${SERVER_PORT}/upload-doc`, {
           body: data,
@@ -71,7 +67,7 @@ export default function ViewTc() {
         ref={documentRef}
       >
         <DocHeader title={"TRANSFER CERTIFICATE"} serialNo={`TC No: ${student.tcSerial}`} />
-        <div className="p-4">
+        <div className="p-5">
 
           <p>
             &emsp; &emsp; &emsp; &emsp; This is to certify to that, Mr./Ms.

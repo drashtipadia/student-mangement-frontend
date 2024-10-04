@@ -35,7 +35,6 @@ function NoObjDoc() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     //console.log(studnet);
-    // window.location.href = "/view-noobj";
 
     const [res, err] = await safeFetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/no-objection`

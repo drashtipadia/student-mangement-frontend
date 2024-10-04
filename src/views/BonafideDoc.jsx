@@ -53,8 +53,6 @@ function BonafideDoc() {
     };
     localStorage.setItem("bonafide-info", JSON.stringify(data));
     window.location.href = "/view-bonafide";
-
-    // window.location.href = "/view-bonafide";
   };
 
   return (

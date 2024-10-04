@@ -76,10 +76,8 @@ export function UpdateStudent() {
       submitData.append(key, value);
     });
 
-    console.log(user);
-    //return;
+    // console.log(user);
 
-    // =============================
     const [res, err] = await safeFetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/${id}/edit`,
       {
@@ -89,9 +87,16 @@ export function UpdateStudent() {
     );
 
     handleError(err);
+    if (res.result === "success") {
+      alert("record update");
+    } else {
+      alert("see console");
+      console.log(res);
+    }
+
     nav(-1);
-    //console.log(res);
-    // =============================
+
+
   };
 
   return (
@@ -104,7 +109,6 @@ export function UpdateStudent() {
             <form
               className="m-4"
               method="post"
-              // onSubmit={handleSubmit}
               encType="multipart/form-data"
             >
               <div className="row border-3 form-group mb-3 align-items-center">

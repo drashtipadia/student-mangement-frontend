@@ -15,13 +15,13 @@ export function DocHeader({ title, serialNo, }) {
                     <p className='fs-5 m-0 fw-bold'>Shree G.K. & C.K. Bosamia Arts & Commerce College </p>
                     <small className='m-0'>Post Box No.20, Junagadh road, Jetpur. No-220356, 227356</small>
                     <br />
-                    <small className='m-0'>website: www.bosamiacollege.org  &emsp;&emsp;&emsp;&emsp; &emsp;  email:gkck.college@gmail.com</small>
+                    <small className='m-0'>website: www.bosamiacollege.org  &emsp;&emsp;&emsp;&emsp; &emsp;  email: gkck.college@gmail.com</small>
                 </div>
                 <img src={img2} alt='naaclogo' height="80" />
             </nav>
 
             <hr />
-            <div className='d-flex py-2 align-items-center justify-content-between'>
+            <div className='d-flex pb-4 pt-2 align-items-center justify-content-between'>
                 <Badge>{serialNo}</Badge>
 
 

@@ -5,9 +5,8 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { DocHeader } from "../Component/DocHeader";
 import { Header } from "../Component/Header";
 import DocFooter from "../Component/DocFooter";
-import { Badge } from "../Component/Badge";
 import { useNavigate } from "react-router-dom";
-import ImagePlaceholder from "../Component/ImagePlaceholder";
+
 
 export function ViewFirstTrial() {
 
@@ -68,19 +67,7 @@ export function ViewFirstTrial() {
       >
         <DocHeader title={"FIRST TRIAL CERTIFICATE"} serialNo={`FT No: ${student.ftSerial}`} />
 
-        {/* <h1 className="text-center ">FIRST TRIAL CERTIFICATE</h1>
-        <Badge>FT No: {student.ftSerial}</Badge>
-        <br />
-     
-          <p className="text-end"> */}
-        {/* Date: {" "} {currentDate.toISOString().split("T")[0]} */}
-        {/* {currentDate.getDate() +
-              "/" +
-              currentDate.getMonth() +
-              "/" +
-              currentDate.getFullYear()}
-          </p> */}
-        <div className="p-4">
+        <div className="p-5">
           <p className="text-center">This is to certify that,</p>
           <p className="h6">
             Mr./Ms. <abbr title="attribute ">{student.studentName} </abbr>{" "}

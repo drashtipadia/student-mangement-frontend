@@ -3,11 +3,9 @@ import "../styles/view.css";
 import html2canvas from "html2canvas";
 import { DocHeader } from "../Component/DocHeader";
 import { Header } from "../Component/Header";
-import { DocHeader2 } from "../Component/DocHeader2";
 import DocFooter from "../Component/DocFooter";
 import { useNavigate } from "react-router-dom";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
-import { Badge } from "../Component/Badge";
 import ImagePlaceholder from "../Component/ImagePlaceholder";
 
 export function ViewBonafide() {
@@ -16,7 +14,6 @@ export function ViewBonafide() {
   if (student == null) {
     alert("Student is empty");
   }
-  const currentDate = new Date();
   const navigate = useNavigate();
 
   const handleDownload = () => {
@@ -58,75 +55,33 @@ export function ViewBonafide() {
   return (
     <>
       <Header />
-
       <div
         className="container p-5 bg-light"
         style={{ height: "297mm", width: "210mm" }}
         ref={documentRef}
       >
-        {/* <DocHeader2 /> */}
-        {/* <section className="p-5">
-          <div className="text-center text-primary">
-            <h5>Bonafide Certificate</h5>
-          </div>
-          <Badge>Bonafide No:{student.bcSerial}</Badge>
-          <p className="text-end">
-            Date:
-            {currentDate.getDate() +
-              "/" +
-              currentDate.getMonth() +
-              "/" +
-              currentDate.getFullYear()}
-          </p>
-          <div>
-            <p className="text-center">
-              It is to certify to that,Mr./Ms.{" "}
-              <abbr title="attribute" className="fw-bold">
-                {student.studentName}
-              </abbr>{" "}
-              is/was enrolled student of this college.He/She is studying{" "}
-              <span className="h6"> {student.stream} </span> in year{" "}
-              <span className="h6">{student.year}</span>
-              in this college.
-            </p>
-          </div>
-        </section> 
-        <hr />*/}
         <DocHeader title={"BONAFIDE CERTIFICATE"} serialNo={`Bonafide No:${student.bcSerial}`} />
-        <div className="p-4 mb-3">
-          {/* <h1 className="text-center">BONAFIDE CERTIFICATE</h1>
-          <br /> */}
-          <div className="p-4">
-            {/* <p className="text-end">
-              Date:{" "}
-              {currentDate.getDate() +
-                "/" +
-                currentDate.getMonth() +
-                "/" +
-                currentDate.getFullYear()}{" "}
-            </p> */}
+        <div className="p-5">
 
-            <ImagePlaceholder />
-            <div>
-              <p className="text-center">
-                It is to certify to that, Mr./Ms.{" "}
-                <abbr title="attribute" className="fw-bold">
-                  {student.studentName}
-                </abbr>{" "}
-                is/was enrolled student of this college. He/She is studying{" "}
-                <span className="h6 fw-bold">{student.stream}</span> in year{" "}
-                <span className="h6 fw-bold">{student.year}</span>{" "}
-                in this college.
-              </p>
-              <p className="text-center">
-                As per our belief, he/she has a good characteristic.
-              </p>
-            </div>
-          </div>
+          <ImagePlaceholder />
+
+          <p className="text-center">
+            It is to certify to that, Mr./Ms.{" "}
+            <abbr title="attribute" className="fw-bold">
+              {student.studentName}
+            </abbr>{" "}
+            is/was enrolled student of this college. He/She is studying{" "}
+            <span className="h6 fw-bold">{student.stream}</span> in year{" "}
+            <span className="h6 fw-bold">{student.year}</span>{" "}
+            in this college.
+          </p>
+          <p className="text-center">
+            As per our belief, he/she has a good characteristic.
+          </p>
+
         </div>
         <DocFooter />
       </div>
-
       <hr />
       <div className="justify-content-center">
         <button className="btn btn-primary " onClick={handleDownload}>

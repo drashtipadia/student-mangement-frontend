@@ -9,27 +9,17 @@ import { Loading } from "../Component/Loading";
 export function ViewStudentDetails() {
   const [isLoading, setIsLoading] = useState(true);
   // eslint-disable-next-line
-  const [student, setStudent] = useState({});
+  //const [student, setStudent] = useState({});
   const [firstTrial, setFirstTrial] = useState(false);
   const [tc, setTc] = useState(false);
   const [noObjection, setNoObjection] = useState(false);
   const [bonafide, setBonafide] = useState(false);
-  /// Doesn't work...
-  // const [docs, setDocs] = useState({
-  //   firstTrial: false,
-  //   tc: false,
-  //   noObjection: false,
-  //   bonafide: false,
-  // });
+
   const params = useParams();
 
   useEffect(() => {
     async function callAPI() {
-      // let [resp, err] = await safeFetch(
-      //   `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}`
-      // );
-      // handleError(err);
-      // setStudent({ ...resp.student });
+
 
       let [resp, err] = await safeFetch(
         `http://${SERVER_HOST}:${SERVER_PORT}/students/${params.id}/has/first-trial`,
@@ -62,15 +52,15 @@ export function ViewStudentDetails() {
     // eslint-disable-next-line
   }, []);
 
-  let navigate = useNavigate();
+  // let navigate = useNavigate();
 
   // eslint-disable-next-line
-  const handleClick = () => {
-    if (student) {
-      localStorage.setItem("update-details", JSON.stringify(student));
-      navigate("/admissionForm");
-    }
-  };
+  // const handleClick = () => {
+  //   if (student) {
+  //     localStorage.setItem("update-details", JSON.stringify(student));
+  //     navigate("/admissionForm");
+  //   }
+  // };
 
   return (
     <>

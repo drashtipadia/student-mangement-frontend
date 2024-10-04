@@ -47,9 +47,9 @@ function AdmissionForm() {
     last_organization_studied_from: "",
     last_studied_year: "",
   });
-  // let [inc, setInc] = useState(0);
+
   const [validForm, setValidForm] = useState(false);
-  // const [submitting, setSubmitting] = useState(false);
+
 
   useEffect(() => {
     if (
@@ -66,20 +66,6 @@ function AdmissionForm() {
     }
     // eslint-disable-next-line
   }, [user.stream]);
-
-  // useEffetct localstorage student record check setuser json parse student details
-
-  // useEffect(() => {
-  //   if (localStorage.getItem("update-details")) {
-  //     const stu = JSON.parse(localStorage.getItem("update-details"));
-  //     let birthdate = new Date(stu.birth_date);
-  //     let date = birthdate.toISOString().split("T")[0];
-  //     setUser({ ...stu, birth_date: date });
-  //     console.log({ ...stu });
-  //   }
-  // }, []);
-
-  //======
 
   const handleInputs = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -152,22 +138,11 @@ function AdmissionForm() {
       `http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`,
     );
     handleError(err);
-    // =================
-    // console.log(res);
+
     const gr = Number(res.gr_no);
     const statelessInc = gr + 1;
-    // setInc(gr + 1);
-    // console.log(inc);
 
-    // console.log(inc);
-
-    // user.gr_no = GR_PREFIX + inc;
     setUser({ ...user, gr_no: `${GR_PREFIX}${statelessInc}` });
-
-    // console.log(user.gr_no);
-    //console.log(user);
-    //return;
-    // =================
 
     // eslint-disable-next-line
     if (user.gr_no) {
@@ -178,11 +153,6 @@ function AdmissionForm() {
         }
       });
 
-      // ========================
-      // console.log(submitData);
-      // ========================
-
-      // setSubmitting(true);
       [res, err] = await safeFetch(
         `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
         {
@@ -194,8 +164,6 @@ function AdmissionForm() {
 
       if (res.status === "success") {
         alert("record inserted");
-        if (localStorage.getItem("update-details"))
-          localStorage.removeItem("update-details");
         window.location.reload();
       } else {
         alert("see console");
@@ -214,7 +182,6 @@ function AdmissionForm() {
             <form
               className="m-4"
               method="post"
-              onSubmit={handleSubmit}
               encType="multipart/form-data"
             >
               <div className="row border-3 form-group mb-3 align-items-center">
@@ -556,8 +523,7 @@ function AdmissionForm() {
               <button
                 type="submit"
                 className="btn btn-primary btn-lg w-100"
-              // onClick={handleSubmit}
-              // disabled={submitting}
+                onClick={handleSubmit}
               >
                 Submit
               </button>

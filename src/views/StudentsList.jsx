@@ -47,9 +47,7 @@ export function StudentsList() {
     })();
     // eslint-disable-next-line
   }, []);
-  // /** @type {string} */
-  // let foo = "";
-  // foo.includes
+
 
   const handleSearch = () => {
     let filteredRecords = records.filter((val) => val.full_name.toLowerCase().includes(searchName.toLowerCase()));
@@ -85,9 +83,6 @@ export function StudentsList() {
           allowed = false;
           return;
         }
-
-
-        // allowed = year === val;
       });
 
       return allowed;
