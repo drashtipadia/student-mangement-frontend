@@ -7,9 +7,10 @@ import { Header } from "../Component/Header";
 import DocFooter from "../Component/DocFooter";
 import { Badge } from "../Component/Badge";
 import { useNavigate } from "react-router-dom";
+import ImagePlaceholder from "../Component/ImagePlaceholder";
 
 export function ViewFirstTrial() {
-  const currentDate = new Date();
+
   const student = JSON.parse(localStorage.getItem("first-trial-info"));
   const documentRef = useRef(null);
   if (student == null) {
@@ -21,7 +22,7 @@ export function ViewFirstTrial() {
     html2canvas(documentRef.current).then((canvas) => {
       canvas.toBlob((blob) => {
         let data = new FormData();
-        data.append("first-trial-doc", blob, student.docName);
+        data.append("doc", blob, student.docName);
         // eslint-diable-next-line
 
         fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-serial`, {
@@ -33,7 +34,7 @@ export function ViewFirstTrial() {
           },
         });
 
-        fetch(`http://${SERVER_HOST}:${SERVER_PORT}/upload-first-trial`, {
+        fetch(`http://${SERVER_HOST}:${SERVER_PORT}/upload-doc`, {
           body: data,
           method: "POST",
           headers: {
@@ -65,40 +66,41 @@ export function ViewFirstTrial() {
         style={{ height: "297mm", width: "210mm" }}
         ref={documentRef}
       >
-        <DocHeader />
-        <hr />
-        <h1 className="text-center ">First Trial Document</h1>
+        <DocHeader title={"FIRST TRIAL CERTIFICATE"} serialNo={`FT No: ${student.ftSerial}`} />
+
+        {/* <h1 className="text-center ">FIRST TRIAL CERTIFICATE</h1>
         <Badge>FT No: {student.ftSerial}</Badge>
         <br />
-        <div className="p-4">
-          <p className="text-end">
-            Date:{" "}
-            {currentDate.getDate() +
+     
+          <p className="text-end"> */}
+        {/* Date: {" "} {currentDate.toISOString().split("T")[0]} */}
+        {/* {currentDate.getDate() +
               "/" +
               currentDate.getMonth() +
               "/" +
               currentDate.getFullYear()}
-          </p>
+          </p> */}
+        <div className="p-4">
           <p className="text-center">This is to certify that,</p>
           <p className="h6">
-            Mr.\Ms. <abbr title="attribute">{student.studentName} </abbr>{" "}
+            Mr./Ms. <abbr title="attribute ">{student.studentName} </abbr>{" "}
           </p>
           <p>
             &emsp; &emsp; &emsp; &emsp; &emsp; In Year{" "}
-            <span className="h6">
+            <span className="h6 fw-bold">
               {student.year} - {Number(student.year) + 1}
-            </span>{" "}
-            was studying <span className="h6">{student.stream}</span> in this
+            </span>,{" "}
+            was studying <span className="h6 fw-bold">{student.stream}</span> in this
             college. Examination of{" "}
-            <span className="h6"> {student.examstream}</span> held in{" "}
-            <span className="h6">
+            <span className="h6 fw-bold"> {student.examstream}</span> held in{" "}
+            <span className="h6 fw-bold">
               {student.month}-{student.examyear}{" "}
             </span>
             was completed by them in first attempt.
           </p>
         </div>
         <DocFooter />
-      </div>
+      </div >
 
       <hr />
       <div className="justify-content-center">

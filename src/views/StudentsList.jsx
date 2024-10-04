@@ -12,6 +12,7 @@ import { safeFetch } from "../utils";
 export function StudentsList() {
   const inst_type = localStorage.getItem("token");
 
+  const [searchName, setSearchName] = useState();
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [recordsCopy, setRecordsCopy] = useState([]);
@@ -46,7 +47,15 @@ export function StudentsList() {
     })();
     // eslint-disable-next-line
   }, []);
+  // /** @type {string} */
+  // let foo = "";
+  // foo.includes
 
+  const handleSearch = () => {
+    let filteredRecords = records.filter((val) => val.full_name.toLowerCase().includes(searchName.toLowerCase()));
+
+    setRecordsCopy(filteredRecords);
+  };
   const handleChange = (e) => {
     let result = e.target.value;
 
@@ -77,6 +86,7 @@ export function StudentsList() {
           return;
         }
 
+
         // allowed = year === val;
       });
 
@@ -105,19 +115,19 @@ export function StudentsList() {
                   data={
                     institute_type === "SFI"
                       ? [
-                          ...SFI_STREAMS,
-                          {
-                            label: "View All",
-                            value: "",
-                          },
-                        ]
+                        ...SFI_STREAMS,
+                        {
+                          label: "View All",
+                          value: "",
+                        },
+                      ]
                       : [
-                          ...GIA_STREAMS,
-                          {
-                            label: "View All",
-                            value: "",
-                          },
-                        ]
+                        ...GIA_STREAMS,
+                        {
+                          label: "View All",
+                          value: "",
+                        },
+                      ]
                   }
                 />
                 {stream !== "" && (
@@ -143,6 +153,20 @@ export function StudentsList() {
                 <div className="col">
                   <button onClick={sortStudents} className="btn btn-primary">
                     Filter
+                  </button>
+                </div>
+
+                <Input
+                  type="text"
+                  name="studentname"
+                  label=""
+                  placeholder={"Student Name"}
+                  onChange={(e) => setSearchName(e.target.value)}
+                />
+
+                <div className="col">
+                  <button onClick={handleSearch} className="btn btn-primary">
+                    Search
                   </button>
                 </div>
 

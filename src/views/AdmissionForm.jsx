@@ -165,8 +165,8 @@ function AdmissionForm() {
     setUser({ ...user, gr_no: `${GR_PREFIX}${statelessInc}` });
 
     // console.log(user.gr_no);
-
-    // return;
+    //console.log(user);
+    //return;
     // =================
 
     // eslint-disable-next-line
@@ -556,8 +556,8 @@ function AdmissionForm() {
               <button
                 type="submit"
                 className="btn btn-primary btn-lg w-100"
-                // onClick={handleSubmit}
-                // disabled={submitting}
+              // onClick={handleSubmit}
+              // disabled={submitting}
               >
                 Submit
               </button>

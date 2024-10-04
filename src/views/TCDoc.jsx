@@ -74,7 +74,7 @@ function TCDoc() {
     <>
       <Header />
       <div className="container">
-        <h2 className="text-center mt-3 text-light">Leaving Certificate</h2>
+        <h2 className="text-center mt-3 text-light">Transfer Certificate</h2>
         <div className="col d-flex justify-content-center py-3">
           <div className="card bg-light" style={{ width: "50rem" }}>
             <form className="m-4" method="post">
@@ -145,8 +145,8 @@ function TCDoc() {
                   name="result"
                   placeholder={"Result"}
                   data={[
-                    { label: "Pass", value: "Pass" },
-                    { label: "Fail", value: "Fail" },
+                    { label: "Passed", value: "Passed" },
+                    { label: "Failed", value: "Failed" },
                   ]}
                   onChange={handleInputs}
                 />

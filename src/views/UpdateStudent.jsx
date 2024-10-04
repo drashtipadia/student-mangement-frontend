@@ -6,7 +6,7 @@ import { RadioGroup } from "../Component/RadioGroup";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export function UpdateStudent() {
   const inst_type = localStorage.getItem("token");
@@ -14,6 +14,7 @@ export function UpdateStudent() {
 
   let [params] = useSearchParams();
   const id = params.get("id");
+  const nav = useNavigate();
 
   useEffect(() => {
     async function callAPI() {
@@ -75,6 +76,9 @@ export function UpdateStudent() {
       submitData.append(key, value);
     });
 
+    console.log(user);
+    //return;
+
     // =============================
     const [res, err] = await safeFetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/${id}/edit`,
@@ -85,8 +89,8 @@ export function UpdateStudent() {
     );
 
     handleError(err);
-
-    console.log(res);
+    nav(-1);
+    //console.log(res);
     // =============================
   };
 
@@ -344,7 +348,7 @@ export function UpdateStudent() {
                   { label: "Male", value: "male" },
                   { label: "Female", value: "female" },
                 ]}
-                checked={user.student_gender}
+                checked={user.gender}
               />
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
