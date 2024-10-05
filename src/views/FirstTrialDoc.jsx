@@ -14,13 +14,13 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch } from "../utils";
 
 function FirstTrialDoc() {
-  const inst_type = localStorage.getItem("token");
+  const INSTITUTE_TYPE = localStorage.getItem("token");
   let [searchParams] = useSearchParams();
   if (searchParams.get("id") === null) {
     alert("Get yourself an ID first");
   }
 
-  const FT_PREFIX = `FT-${inst_type}-`;
+  const FT_PREFIX = `FT-${INSTITUTE_TYPE}-`;
 
   const [student, setStudent] = useState({
     studentName: "",
@@ -41,7 +41,7 @@ function FirstTrialDoc() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/first-trial`
+      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/first-trial`,
     );
 
     if (err != null) {
@@ -91,7 +91,9 @@ function FirstTrialDoc() {
                   label={"Last Study Stream"}
                   placeholder={"stream"}
                   data={
-                    inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
+                    INSTITUTE_TYPE === "GIA"
+                      ? [...GIA_STREAMS]
+                      : [...SFI_STREAMS]
                   }
                   onChange={handleInput}
                 />
@@ -117,7 +119,9 @@ function FirstTrialDoc() {
                   label={"Exam of"}
                   placeholder={"stream"}
                   data={
-                    inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
+                    INSTITUTE_TYPE === "GIA"
+                      ? [...GIA_STREAMS]
+                      : [...SFI_STREAMS]
                   }
                   onChange={handleInput}
                 />

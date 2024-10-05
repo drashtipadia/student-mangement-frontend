@@ -9,7 +9,7 @@ import { handleError, safeFetch } from "../utils";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export function UpdateStudent() {
-  const inst_type = localStorage.getItem("token");
+  const INSTITUTE_TYPE = localStorage.getItem("token");
   const [user, setUser] = useState({ udisk_no: "" });
 
   let [params] = useSearchParams();
@@ -95,8 +95,6 @@ export function UpdateStudent() {
     }
 
     nav(-1);
-
-
   };
 
   return (
@@ -106,11 +104,7 @@ export function UpdateStudent() {
         <h2 className="text-center mt-3 text-white">Update Student Details</h2>
         <div className="col d-flex justify-content-center py-3">
           <div className="card bg-light" style={{ width: "50rem" }}>
-            <form
-              className="m-4"
-              method="post"
-              encType="multipart/form-data"
-            >
+            <form className="m-4" method="post" encType="multipart/form-data">
               <div className="row border-3 form-group mb-3 align-items-center">
                 <SelectBox
                   name="stream"
@@ -119,7 +113,9 @@ export function UpdateStudent() {
                   placeholder={"Select Stream"}
                   selected={user.stream}
                   data={
-                    inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
+                    INSTITUTE_TYPE === "GIA"
+                      ? [...GIA_STREAMS]
+                      : [...SFI_STREAMS]
                   }
                 />
 

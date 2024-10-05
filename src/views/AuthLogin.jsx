@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { safeFetch, handleError } from "../utils";
 
 function Login() {
   const navigate = useNavigate();
@@ -9,6 +11,7 @@ function Login() {
     adminpassword: "",
     institute_type: "",
   });
+  const [error, setError] = useState("");
 
   let a_name, a_value;
   const handleInput = (e) => {
@@ -22,8 +25,24 @@ function Login() {
     e.preventDefault();
 
     token = admin.institute_type;
+    let formData = new FormData();
+    formData.append("username", admin.adminname);
+    formData.append("password", admin.adminpassword);
 
-    if (admin.adminname === "admin" && admin.adminpassword === "admin") {
+    const [res, err] = await safeFetch(
+      `http://${SERVER_HOST}:${SERVER_PORT}/admin-creds`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+    handleError(err);
+
+    if (res.status === "failed") {
+      setError(res.err);
+    }
+
+    if (res.status === "success" && res.exists === 1) {
       localStorage.setItem("token", token);
       navigate("/");
     }
@@ -42,7 +61,11 @@ function Login() {
             <div className="col-lg-6 col-md-6">
               <div className="card bg-light text-black">
                 <div className="card-body p-5 text-center">
-                  <form id="adminloginform" method="POST">
+                  <form
+                    id="adminloginform"
+                    encType="multipart/form-data"
+                    method="POST"
+                  >
                     <h2 className="fw-bold mb-3 text-uppercase">
                       {" "}
                       Admin Login
@@ -104,6 +127,7 @@ function Login() {
                         </label>
                       </div>
                     </div>
+                    {error && <div className="text-danger">{error}</div>}
                     <button
                       className="btn btn-outline-dark btn-lg px-5"
                       type="submit"

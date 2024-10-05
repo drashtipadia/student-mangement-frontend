@@ -15,13 +15,13 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
 function TCDoc() {
-  const inst_type = localStorage.getItem("token");
+  const INSTITUTE_TYPE = localStorage.getItem("token");
   let [searchParams] = useSearchParams();
   if (searchParams.get("id") === null) {
     alert("Get yourself an ID first");
   }
 
-  const TC_PREFIX = `TC-${inst_type}-`;
+  const TC_PREFIX = `TC-${INSTITUTE_TYPE}-`;
 
   const [student, setStudent] = useState({
     studentName: "",
@@ -48,7 +48,7 @@ function TCDoc() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/tc`
+      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/tc`,
     );
     handleError(err);
 
@@ -95,7 +95,9 @@ function TCDoc() {
                   onChange={handleInputs}
                   placeholder={"Select stream"}
                   data={
-                    inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
+                    INSTITUTE_TYPE === "GIA"
+                      ? [...GIA_STREAMS]
+                      : [...SFI_STREAMS]
                   }
                 />
                 <SelectBox
@@ -173,7 +175,9 @@ function TCDoc() {
                   onChange={handleInputs}
                   placeholder={"Select stream"}
                   data={
-                    inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
+                    INSTITUTE_TYPE === "GIA"
+                      ? [...GIA_STREAMS]
+                      : [...SFI_STREAMS]
                   }
                 />
                 <SelectBox

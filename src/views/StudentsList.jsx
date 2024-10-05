@@ -10,15 +10,14 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch } from "../utils";
 
 export function StudentsList() {
-  const inst_type = localStorage.getItem("token");
-
+  const INSTITUTE_TYPE = localStorage.getItem("token");
+  // eslint-disable-next-line
   const [searchName, setSearchName] = useState();
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [recordsCopy, setRecordsCopy] = useState([]);
   const [year, setYear] = useState(0);
   const tableRef = useRef();
-  const institute_type = localStorage.getItem("token");
   const [stream, setStream] = useState("");
   const [filters, setFilters] = useState({});
 
@@ -45,15 +44,28 @@ export function StudentsList() {
         setLoading(false);
       }
     })();
+
     // eslint-disable-next-line
   }, []);
 
+  /// This is when directly working with `Input` component instead of button click
+  // const handleSearch = (e) => {
+  //   let filteredRecords = records.filter((val) =>
+  //     val.full_name.toLowerCase().includes(e.target.value.toLowerCase()),
+  //   );
 
+  //   setRecordsCopy(filteredRecords);
+  // };
+
+  /// This is when working with button click
   const handleSearch = () => {
-    let filteredRecords = records.filter((val) => val.full_name.toLowerCase().includes(searchName.toLowerCase()));
+    let filteredRecords = records.filter((val) =>
+      val.full_name.toLowerCase().includes(searchName.toLowerCase()),
+    );
 
     setRecordsCopy(filteredRecords);
   };
+
   const handleChange = (e) => {
     let result = e.target.value;
 
@@ -108,21 +120,21 @@ export function StudentsList() {
                   placeholder={"Select Stream"}
                   onChange={handleChange}
                   data={
-                    institute_type === "SFI"
+                    INSTITUTE_TYPE === "SFI"
                       ? [
-                        ...SFI_STREAMS,
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
+                          ...SFI_STREAMS,
+                          {
+                            label: "View All",
+                            value: "",
+                          },
+                        ]
                       : [
-                        ...GIA_STREAMS,
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
+                          ...GIA_STREAMS,
+                          {
+                            label: "View All",
+                            value: "",
+                          },
+                        ]
                   }
                 />
                 {stream !== "" && (
@@ -156,9 +168,12 @@ export function StudentsList() {
                   name="studentname"
                   label=""
                   placeholder={"Student Name"}
-                  onChange={(e) => setSearchName(e.target.value)}
+                  // uncomment this line when directly working with input event
+                  // onChange={(e) => setSearchName(e.target.value)}
+                  onChange={handleSearch}
                 />
 
+                {/* Comment this when working with input directly */}
                 <div className="col">
                   <button onClick={handleSearch} className="btn btn-primary">
                     Search
@@ -189,7 +204,7 @@ export function StudentsList() {
                   <th>Aadhar Number</th>
                   <th>Stream</th>
                   <th>Semester</th>
-                  {inst_type === "GIA" && (
+                  {INSTITUTE_TYPE === "GIA" && (
                     <>
                       <th>Main Course</th>
                       <th>First Secondary Subject</th>
@@ -212,7 +227,7 @@ export function StudentsList() {
                   <th>Parent Contact Number</th>
                   <th>Last Organization Studied From</th>
                   <th>Last Studied Year</th>
-                  {inst_type === "GIA" && <th>Elective Course</th>}
+                  {INSTITUTE_TYPE === "GIA" && <th>Elective Course</th>}
                   <th>Admission Date</th>
                   <th></th>
                 </tr>
