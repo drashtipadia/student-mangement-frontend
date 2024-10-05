@@ -34,7 +34,7 @@ REACT_APP_SERVER_PORT=8000
 ```sh
 npm start # or npm run start
 ```
-- Backend repository is ``` github.com/raj-p26/student-mgmt-system-backend ```  created by Raj Peshavariya
+
   
 - If you have backend in folder named `backend`, you can run both frontend and backend at the same time using:
 
