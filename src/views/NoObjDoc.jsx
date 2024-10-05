@@ -13,8 +13,7 @@ import { useSearchParams } from "react-router-dom";
 import { handleError, safeFetch } from "../utils";
 
 function NoObjDoc() {
-  const inst_type = localStorage.getItem("token");
-
+  const INSTITUTE_TYPE = localStorage.getItem("token");
   let [searchParams] = useSearchParams();
 
   if (searchParams.get("id") == null) {
@@ -27,7 +26,7 @@ function NoObjDoc() {
     uuid: searchParams.get("id"),
   });
 
-  const NO_PREFIX = `NO-${inst_type}-`;
+  const NO_PREFIX = `NO-${INSTITUTE_TYPE}-`;
 
   const handleInputs = (e) => {
     setStudent({ ...studnet, [e.target.name]: e.target.value });
@@ -37,7 +36,7 @@ function NoObjDoc() {
     //console.log(studnet);
 
     const [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/no-objection`
+      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/no-objection`,
     );
     handleError(err);
 
@@ -81,7 +80,9 @@ function NoObjDoc() {
                   placeholder={"Select stream"}
                   onChange={handleInputs}
                   data={
-                    inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
+                    INSTITUTE_TYPE === "GIA"
+                      ? [...GIA_STREAMS]
+                      : [...SFI_STREAMS]
                   }
                 />
                 <SelectBox

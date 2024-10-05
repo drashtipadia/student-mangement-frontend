@@ -13,7 +13,7 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
 function BonafideDoc() {
-  const inst_type = localStorage.getItem("token");
+  const INSTITUTE_TYPE = localStorage.getItem("token");
   let [searchParams] = useSearchParams();
   if (searchParams.get("id") === null) {
     alert("Student Not exits");
@@ -24,8 +24,9 @@ function BonafideDoc() {
     year: "",
     semester: "",
     uuid: searchParams.get("id"),
+    haveImgPlaceholder: false,
   });
-  const BC_PREFIX = `BC-${inst_type}-`;
+  const BC_PREFIX = `BC-${INSTITUTE_TYPE}-`;
 
   const handleInputs = (e) => {
     setStudent({ ...student, [e.target.name]: e.target.value });
@@ -35,7 +36,7 @@ function BonafideDoc() {
     //console.log(studnet);
 
     const [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/bonafide`
+      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/bonafide`,
     );
     handleError(err);
 
@@ -80,7 +81,9 @@ function BonafideDoc() {
                   placeholder={"Select stream"}
                   onChange={handleInputs}
                   data={
-                    inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
+                    INSTITUTE_TYPE === "GIA"
+                      ? [...GIA_STREAMS]
+                      : [...SFI_STREAMS]
                   }
                 />
                 <SelectBox
@@ -97,6 +100,16 @@ function BonafideDoc() {
                   min="2000"
                   max={new Date().getFullYear()}
                   onChange={handleInputs}
+                />
+              </div>
+              <div>
+                <input
+                  type="checkbox"
+                  name="haveImgPlaceholder"
+                  checked={student.haveImgPlaceholder}
+                  onChange={() =>
+                    (student.haveImgPlaceholder = !student.haveImgPlaceholder)
+                  }
                 />
               </div>
 

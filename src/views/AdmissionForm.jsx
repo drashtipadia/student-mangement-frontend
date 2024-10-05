@@ -13,7 +13,7 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
 function AdmissionForm() {
-  const inst_type = localStorage.getItem("token");
+  const INSTITUTE_TYPE = localStorage.getItem("token");
   const [previewImage, setPreviewImage] = useState(null);
   const [user, setUser] = useState({
     stream: "",
@@ -49,7 +49,6 @@ function AdmissionForm() {
   });
 
   const [validForm, setValidForm] = useState(false);
-
 
   useEffect(() => {
     if (
@@ -125,8 +124,7 @@ function AdmissionForm() {
 
   const STREAM = STREAM_ACRONYMS;
 
-  const GR_PREFIX =
-    "GR-" + localStorage.getItem("token") + "-" + STREAM[user.stream] + "-";
+  const GR_PREFIX = "GR-" + INSTITUTE_TYPE + "-" + STREAM[user.stream] + "-";
 
   // submit
   const handleSubmit = async (e) => {
@@ -179,11 +177,7 @@ function AdmissionForm() {
         <h2 className="text-center mt-3 text-white">Admission Form</h2>
         <div className="col d-flex justify-content-center py-3">
           <div className="card bg-light" style={{ width: "50rem" }}>
-            <form
-              className="m-4"
-              method="post"
-              encType="multipart/form-data"
-            >
+            <form className="m-4" method="post" encType="multipart/form-data">
               <div className="row border-3 form-group mb-3 align-items-center">
                 <SelectBox
                   name="stream"
@@ -191,7 +185,9 @@ function AdmissionForm() {
                   label={"Stream:"}
                   placeholder={"Select Stream"}
                   data={
-                    inst_type === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
+                    INSTITUTE_TYPE === "GIA"
+                      ? [...GIA_STREAMS]
+                      : [...SFI_STREAMS]
                   }
                 />
 
