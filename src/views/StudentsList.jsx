@@ -122,19 +122,19 @@ export function StudentsList() {
                   data={
                     INSTITUTE_TYPE === "SFI"
                       ? [
-                          ...SFI_STREAMS,
-                          {
-                            label: "View All",
-                            value: "",
-                          },
-                        ]
+                        ...SFI_STREAMS,
+                        {
+                          label: "View All",
+                          value: "",
+                        },
+                      ]
                       : [
-                          ...GIA_STREAMS,
-                          {
-                            label: "View All",
-                            value: "",
-                          },
-                        ]
+                        ...GIA_STREAMS,
+                        {
+                          label: "View All",
+                          value: "",
+                        },
+                      ]
                   }
                 />
                 {stream !== "" && (
@@ -196,7 +196,7 @@ export function StudentsList() {
             >
               <thead>
                 <tr>
-                  <th>ID</th>
+                  {/* <th>ID</th> */}
                   <th>Enrollment</th>
                   <th>ABC ID</th>
                   <th>Gr No</th>

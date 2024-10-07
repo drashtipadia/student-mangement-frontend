@@ -37,6 +37,15 @@ function App() {
                 View Data
               </Link>
             </div>
+            <div className="w-100">
+              <Link
+                to={"/count-student"}
+                className="btn btn-primary w-25"
+                role="button"
+              >
+                Student Count
+              </Link>
+            </div>
 
             {/* <span>
               <button

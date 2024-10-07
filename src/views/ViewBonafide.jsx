@@ -60,20 +60,18 @@ export function ViewBonafide() {
         style={{ height: "297mm", width: "210mm" }}
         ref={documentRef}
       >
-        <DocHeader title={"BONAFIDE CERTIFICATE"} serialNo={`Bonafide No:${student.bcSerial}`} />
+        <DocHeader title={"BONAFIDE CERTIFICATE"} serialNo={`Bonafide No:${student.bcSerial}`} docDate={"___ /___ /_______"} />
         <div className="p-5">
 
-          <ImagePlaceholder />
+          {student.haveImgPlaceholder && <ImagePlaceholder />}
 
           <p className="text-center">
             It is to certify to that, Mr./Ms.{" "}
             <abbr title="attribute" className="fw-bold">
               {student.studentName}
             </abbr>{" "}
-            is/was enrolled student of this college. He/She is studying{" "}
-            <span className="h6 fw-bold">{student.stream}</span> in year{" "}
-            <span className="h6 fw-bold">{student.year}</span>{" "}
-            in this college.
+            is/was enrolled student of this college. He/She is studying ________________________________________________________ in year{" "}
+            _______ - _______ in this college.
           </p>
           <p className="text-center">
             As per our belief, he/she has a good characteristic.

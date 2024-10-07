@@ -3,7 +3,7 @@ import img1 from '../styles/collegelogo.jpeg'
 import img2 from '../styles/naaclog.jpeg'
 import { Badge } from "../Component/Badge";
 
-export function DocHeader({ title, serialNo, }) {
+export function DocHeader({ title, serialNo, docDate }) {
     const currentDate = new Date();
 
     return (
@@ -27,7 +27,8 @@ export function DocHeader({ title, serialNo, }) {
 
                 <span className="text-end">
                     Date:{" "}
-                    {currentDate.getDate() +
+
+                    {docDate || currentDate.getDate() +
                         "/" +
                         currentDate.getMonth() +
                         "/" +

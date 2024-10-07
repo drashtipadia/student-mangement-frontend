@@ -12,6 +12,7 @@ export function TableRow({ data }) {
   const fields = [];
   Object.entries(data).forEach(([k, v]) => {
     if (INSTITUTE_TYPE !== "GIA" && GIA_COls.includes(k)) return;
+    if (k === "id") return;
 
     fields.push(<td key={k}>{v || "None"}</td>);
   });

@@ -24,8 +24,9 @@ function BonafideDoc() {
     year: "",
     semester: "",
     uuid: searchParams.get("id"),
-    haveImgPlaceholder: false,
+    // haveImgPlaceholder: false,
   });
+  const [haveImgPlaceholder, setHaveImgPlaceholder] = useState(false);
   const BC_PREFIX = `BC-${INSTITUTE_TYPE}-`;
 
   const handleInputs = (e) => {
@@ -51,6 +52,8 @@ function BonafideDoc() {
       ...student,
       docName,
       bcSerial: String(serial),
+      haveImgPlaceholder,
+
     };
     localStorage.setItem("bonafide-info", JSON.stringify(data));
     window.location.href = "/view-bonafide";
@@ -74,8 +77,8 @@ function BonafideDoc() {
                   onChange={handleInputs}
                 />
               </div>
-              <div className="row border-3 form-group m-3 align-items-center">
-                <SelectBox
+              <div className=" border-3 form-group ms-auto align-items-center">
+                {/* <SelectBox
                   name="stream"
                   label={"Stream"}
                   placeholder={"Select stream"}
@@ -85,8 +88,8 @@ function BonafideDoc() {
                       ? [...GIA_STREAMS]
                       : [...SFI_STREAMS]
                   }
-                />
-                <SelectBox
+                /> */}
+                {/* <SelectBox
                   name="semester"
                   label={""}
                   placeholder={"Select Semester"}
@@ -100,17 +103,19 @@ function BonafideDoc() {
                   min="2000"
                   max={new Date().getFullYear()}
                   onChange={handleInputs}
-                />
-              </div>
-              <div>
+                /> */}
+                <label>with Image: </label>
                 <input
+                  className="inline"
                   type="checkbox"
                   name="haveImgPlaceholder"
                   checked={student.haveImgPlaceholder}
-                  onChange={() =>
-                    (student.haveImgPlaceholder = !student.haveImgPlaceholder)
-                  }
+                  onChange={() => setHaveImgPlaceholder(!haveImgPlaceholder)}
                 />
+              </div>
+              <div>
+
+
               </div>
 
               <hr />

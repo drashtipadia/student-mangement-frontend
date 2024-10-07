@@ -21,6 +21,7 @@ import ViewNoObj from "./views/ViewNoObj";
 import { ViewBonafide } from "./views/ViewBonafide";
 import { UpdateStudent } from "./views/UpdateStudent";
 import { UpdateStudentImage } from "./views/UpdateStudentImage";
+import StudentCount from "./views/StudentCount";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -41,6 +42,7 @@ let allRoutes = createBrowserRouter([
   { path: "/view-bonafide", element: <ViewBonafide /> },
   { path: "/updateStudent", element: <UpdateStudent /> },
   { path: "/update-img/:id", element: <UpdateStudentImage /> },
+  { path: "/count-student", element: <StudentCount /> },
 ]);
 
 root.render(<RouterProvider router={allRoutes} />);
