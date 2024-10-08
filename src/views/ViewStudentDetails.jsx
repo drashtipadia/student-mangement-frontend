@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { Header } from "../Component/Header";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch } from "../utils";

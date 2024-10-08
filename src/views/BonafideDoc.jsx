@@ -2,13 +2,8 @@ import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Header } from "../Component/Header";
 import { Input } from "../Component/Input";
-import { SelectBox } from "../Component/SelectBox";
-import {
-  GIA_STREAMS,
-  SFI_STREAMS,
-  SEMESTER,
-  STREAM_ACRONYMS,
-} from "../utils/constants";
+// import { SelectBox } from "../Component/SelectBox";
+import { STREAM_ACRONYMS } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 

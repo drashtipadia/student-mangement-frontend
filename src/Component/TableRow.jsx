@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
-export function TableRow({ data }) {
+export function TableRow({ data, children }) {
   const INSTITUTE_TYPE = localStorage.getItem("token");
   const GIA_COls = [
     "main_course",
@@ -14,15 +14,23 @@ export function TableRow({ data }) {
     if (INSTITUTE_TYPE !== "GIA" && GIA_COls.includes(k)) return;
     if (k === "id") return;
 
-    fields.push(<td key={k}>{v || "None"}</td>);
+    if (v instanceof Array) {
+      v.forEach((elem) => {
+        fields.push(<td key={k}>{elem || "None"}</td>);;
+      })
+    } else {
+      fields.push(<td key={k}>{v || "None"}</td>);
+    }
   });
 
   return (
     <tr>
+
       {fields.map((e) => e)}
-      <td>
+      {children}
+      {/* <td> 
         <Link to={`/students/${data.id}`}>View Details &rarr;</Link>
-      </td>
+      </td> */}
     </tr>
   );
 }

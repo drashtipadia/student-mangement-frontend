@@ -8,6 +8,7 @@ import { convertToCSV } from "../utils/table-to-excel";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch } from "../utils";
+import { Link } from "react-router-dom";
 
 export function StudentsList() {
   const INSTITUTE_TYPE = localStorage.getItem("token");
@@ -236,8 +237,13 @@ export function StudentsList() {
                 {recordsCopy &&
                   recordsCopy.map((e) => {
                     // console.log(e);
-                    return <TableRow data={e} key={e.id} />;
+                    return <TableRow data={e} key={e.id}>
+                      <td>
+                        <Link to={`/students/${e.id}`}>View Details &rarr;</Link>
+                      </td>
+                    </TableRow>
                   })}
+
               </tbody>
             </table>
           </div>
