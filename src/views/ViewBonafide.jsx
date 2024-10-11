@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "../styles/view.css";
 import html2canvas from "html2canvas";
 import { DocHeader } from "../Component/DocHeader";
@@ -9,6 +9,9 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import ImagePlaceholder from "../Component/ImagePlaceholder";
 
 export function ViewBonafide() {
+
+  useEffect(() => { document.title = "Bonafide Document" })
+
   const student = JSON.parse(localStorage.getItem("bonafide-info"));
   const documentRef = useRef(null);
   if (student == null) {
@@ -55,6 +58,11 @@ export function ViewBonafide() {
   return (
     <>
       <Header />
+      <div className="justify-content-end d-flex p-4">
+        <button className="btn btn-primary " onClick={handleDownload}>
+          Download
+        </button>
+      </div>
       <div
         className="container p-5 bg-light"
         style={{ height: "297mm", width: "210mm" }}
@@ -81,11 +89,7 @@ export function ViewBonafide() {
         <DocFooter />
       </div>
       <hr />
-      <div className="justify-content-center">
-        <button className="btn btn-primary " onClick={handleDownload}>
-          Download
-        </button>
-      </div>
+
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "../styles/view.css";
 import html2canvas from "html2canvas";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 
 
 export function ViewFirstTrial() {
+
+  useEffect(() => { document.title = "First-Trial Document" })
 
   const student = JSON.parse(localStorage.getItem("first-trial-info"));
   const documentRef = useRef(null);
@@ -59,6 +61,11 @@ export function ViewFirstTrial() {
   return (
     <>
       <Header />
+      <div className="justify-content-end  d-flex p-4">
+        <button className="btn btn-primary " onClick={handleDownload}>
+          Download
+        </button>
+      </div>
 
       <div
         className="container p-5 bg-light"
@@ -89,12 +96,6 @@ export function ViewFirstTrial() {
         <DocFooter />
       </div >
 
-      <hr />
-      <div className="justify-content-center">
-        <button className="btn btn-primary " onClick={handleDownload}>
-          Download
-        </button>
-      </div>
     </>
   );
 }

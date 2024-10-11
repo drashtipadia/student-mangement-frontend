@@ -5,6 +5,9 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { Loading } from "../Component/Loading";
 
 export function UpdateStudentImage() {
+
+  useEffect(() => { document.title = "Update Stduent Image" })
+
   const [img, setImg] = useState("");
   const [loading, setLoading] = useState(true);
   const nav = useNavigate();

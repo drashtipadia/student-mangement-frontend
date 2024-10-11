@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Header } from "../Component/Header";
 import { Input } from "../Component/Input";
@@ -8,6 +8,9 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
 function BonafideDoc() {
+
+  useEffect(() => { document.title = "Bonafide Form" })
+
   const INSTITUTE_TYPE = localStorage.getItem("token");
   let [searchParams] = useSearchParams();
   if (searchParams.get("id") === null) {

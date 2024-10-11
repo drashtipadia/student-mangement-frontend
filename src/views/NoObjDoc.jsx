@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../Component/Header";
 import { Input } from "../Component/Input";
 import { SelectBox } from "../Component/SelectBox";
@@ -13,6 +13,9 @@ import { useSearchParams } from "react-router-dom";
 import { handleError, safeFetch } from "../utils";
 
 function NoObjDoc() {
+
+  useEffect(() => { document.title = "NoObjection Form" })
+
   const INSTITUTE_TYPE = localStorage.getItem("token");
   let [searchParams] = useSearchParams();
 

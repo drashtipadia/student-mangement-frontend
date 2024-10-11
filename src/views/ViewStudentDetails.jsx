@@ -7,6 +7,9 @@ import { handleError } from "../utils";
 import { Loading } from "../Component/Loading";
 
 export function ViewStudentDetails() {
+
+  useEffect(() => { document.title = "Student Details" })
+
   const [isLoading, setIsLoading] = useState(true);
   // eslint-disable-next-line
   //const [student, setStudent] = useState({});

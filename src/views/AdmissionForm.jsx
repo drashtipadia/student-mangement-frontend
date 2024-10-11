@@ -12,7 +12,13 @@ import {
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
+
 function AdmissionForm() {
+
+  //=====
+  useEffect(() => { document.title = "Admission Form" })
+
+  //=====
   const INSTITUTE_TYPE = localStorage.getItem("token");
   const [previewImage, setPreviewImage] = useState(null);
   const [user, setUser] = useState({

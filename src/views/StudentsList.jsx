@@ -11,9 +11,11 @@ import { safeFetch } from "../utils";
 import { Link } from "react-router-dom";
 
 export function StudentsList() {
+
+  useEffect(() => { document.title = "Student List" })
   const INSTITUTE_TYPE = localStorage.getItem("token");
   // eslint-disable-next-line
-  const [searchName, setSearchName] = useState();
+  const [searchName, setSearchName] = useState([]);
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [recordsCopy, setRecordsCopy] = useState([]);
@@ -49,21 +51,10 @@ export function StudentsList() {
     // eslint-disable-next-line
   }, []);
 
-  /// This is when directly working with `Input` component instead of button click
-  // const handleSearch = (e) => {
-  //   let filteredRecords = records.filter((val) =>
-  //     val.full_name.toLowerCase().includes(e.target.value.toLowerCase()),
-  //   );
-
-  //   setRecordsCopy(filteredRecords);
-  // };
-
-  /// This is when working with button click
   const handleSearch = () => {
     let filteredRecords = records.filter((val) =>
       val.full_name.toLowerCase().includes(searchName.toLowerCase()),
     );
-
     setRecordsCopy(filteredRecords);
   };
 
@@ -169,12 +160,10 @@ export function StudentsList() {
                   name="studentname"
                   label=""
                   placeholder={"Student Name"}
-                  // uncomment this line when directly working with input event
-                  // onChange={(e) => setSearchName(e.target.value)}
-                  onChange={handleSearch}
+                  onChange={(e) => setSearchName(e.target.value)}
                 />
 
-                {/* Comment this when working with input directly */}
+
                 <div className="col">
                   <button onClick={handleSearch} className="btn btn-primary">
                     Search

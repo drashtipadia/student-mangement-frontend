@@ -4,6 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    document.title = "Dashboard";
+  });
   const navigate = useNavigate();
   useEffect(() => {
     if (!localStorage.getItem("token")) {

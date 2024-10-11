@@ -7,6 +7,7 @@ import { TableRow } from "../Component/TableRow";
 
 export default function StudentCount() {
 
+
     const INSTITUTE_TYPE = localStorage.getItem("token");
 
 

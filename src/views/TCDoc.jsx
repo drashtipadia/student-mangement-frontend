@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "../Component/Header";
 import { useSearchParams } from "react-router-dom";
 import { Input } from "../Component/Input";
@@ -15,6 +15,9 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
 function TCDoc() {
+
+  useEffect(() => { document.title = "Leaving Form" })
+
   const INSTITUTE_TYPE = localStorage.getItem("token");
   let [searchParams] = useSearchParams();
   if (searchParams.get("id") === null) {
