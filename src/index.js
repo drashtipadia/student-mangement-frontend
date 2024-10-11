@@ -34,7 +34,7 @@ let allRoutes = createBrowserRouter([
   { path: "*", element: <Error404 /> },
   { path: "/tcdoc", element: <TCDoc /> },
   { path: "/noObjdoc", element: <NoObjDoc /> },
-  { path: "/bonafidedoc", element: <BonafideDoc /> },
+  { path: "/bonafidedoc", element: <ViewBonafide /> },
   { path: "/firsttrialdoc", element: <FirstTrialDoc /> },
   { path: "/view-firstTrial", element: <ViewFirstTrial /> },
   { path: "/view-tc", element: <ViewTc /> },

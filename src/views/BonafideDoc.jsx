@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Header } from "../Component/Header";
 import { Input } from "../Component/Input";
-// import { SelectBox } from "../Component/SelectBox";
 import { STREAM_ACRONYMS } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
@@ -24,7 +23,7 @@ function BonafideDoc() {
     uuid: searchParams.get("id"),
     // haveImgPlaceholder: false,
   });
-  const [haveImgPlaceholder, setHaveImgPlaceholder] = useState(false);
+  // const [haveImgPlaceholder, setHaveImgPlaceholder] = useState(false);
   const BC_PREFIX = `BC-${INSTITUTE_TYPE}-`;
 
   const handleInputs = (e) => {
@@ -50,7 +49,7 @@ function BonafideDoc() {
       ...student,
       docName,
       bcSerial: String(serial),
-      haveImgPlaceholder,
+      // haveImgPlaceholder,
 
     };
     localStorage.setItem("bonafide-info", JSON.stringify(data));
@@ -102,14 +101,14 @@ function BonafideDoc() {
                   max={new Date().getFullYear()}
                   onChange={handleInputs}
                 /> */}
-                <label>with Image: </label>
+                {/* <label>with Image: </label>
                 <input
                   className="inline"
                   type="checkbox"
                   name="haveImgPlaceholder"
                   checked={student.haveImgPlaceholder}
                   onChange={() => setHaveImgPlaceholder(!haveImgPlaceholder)}
-                />
+                /> */}
               </div>
               <div>
 

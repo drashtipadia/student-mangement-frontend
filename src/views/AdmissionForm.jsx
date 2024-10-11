@@ -52,6 +52,7 @@ function AdmissionForm() {
     studentimg: null,
     last_organization_studied_from: "",
     last_studied_year: "",
+    institute_type: INSTITUTE_TYPE,
   });
 
   const [validForm, setValidForm] = useState(false);

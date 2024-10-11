@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../styles/view.css";
 import html2canvas from "html2canvas";
 import { DocHeader } from "../Component/DocHeader";
@@ -11,6 +11,7 @@ import ImagePlaceholder from "../Component/ImagePlaceholder";
 export function ViewBonafide() {
 
   useEffect(() => { document.title = "Bonafide Document" })
+  const [haveImgPlaceholder, setHaveImgPlaceholder] = useState(false)
 
   const student = JSON.parse(localStorage.getItem("bonafide-info"));
   const documentRef = useRef(null);
@@ -58,6 +59,14 @@ export function ViewBonafide() {
   return (
     <>
       <Header />
+      <label className="text-white p-2">With Image PlaceHolder{" "}</label>
+      <input
+        className="inline"
+        type="checkbox"
+        name=""
+        checked={haveImgPlaceholder}
+        onChange={() => setHaveImgPlaceholder(!haveImgPlaceholder)}
+      />
       <div className="justify-content-end d-flex p-4">
         <button className="btn btn-primary " onClick={handleDownload}>
           Download
@@ -71,7 +80,7 @@ export function ViewBonafide() {
         <DocHeader title={"BONAFIDE CERTIFICATE"} serialNo={`Bonafide No:${student.bcSerial}`} docDate={"___ /___ /_______"} />
         <div className="p-5">
 
-          {student.haveImgPlaceholder && <ImagePlaceholder />}
+          {haveImgPlaceholder && <ImagePlaceholder />}
 
           <p className="text-center">
             It is to certify to that, Mr./Ms.{" "}

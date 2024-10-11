@@ -38,7 +38,7 @@ export function StudentsList() {
   useEffect(() => {
     (async () => {
       const [res, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students`,
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}`,
       );
       if (err != null) console.log(err);
       else {
@@ -226,7 +226,7 @@ export function StudentsList() {
                 {recordsCopy &&
                   recordsCopy.map((e) => {
                     // console.log(e);
-                    return <TableRow data={e} key={e.id}>
+                    return <TableRow data={e} key={e.id} after>
                       <td>
                         <Link to={`/students/${e.id}`}>View Details &rarr;</Link>
                       </td>
