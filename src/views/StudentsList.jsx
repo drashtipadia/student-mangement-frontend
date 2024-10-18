@@ -11,8 +11,9 @@ import { safeFetch } from "../utils";
 import { Link } from "react-router-dom";
 
 export function StudentsList() {
-
-  useEffect(() => { document.title = "Student List" })
+  useEffect(() => {
+    document.title = "Student List";
+  });
   const INSTITUTE_TYPE = localStorage.getItem("token");
   // eslint-disable-next-line
   const [searchName, setSearchName] = useState([]);
@@ -38,7 +39,7 @@ export function StudentsList() {
   useEffect(() => {
     (async () => {
       const [res, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}`,
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}`
       );
       if (err != null) console.log(err);
       else {
@@ -53,7 +54,7 @@ export function StudentsList() {
 
   const handleSearch = () => {
     let filteredRecords = records.filter((val) =>
-      val.full_name.toLowerCase().includes(searchName.toLowerCase()),
+      val.full_name.toLowerCase().includes(searchName.toLowerCase())
     );
     setRecordsCopy(filteredRecords);
   };
@@ -114,19 +115,19 @@ export function StudentsList() {
                   data={
                     INSTITUTE_TYPE === "SFI"
                       ? [
-                        ...SFI_STREAMS,
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
+                          ...SFI_STREAMS,
+                          {
+                            label: "View All",
+                            value: "",
+                          },
+                        ]
                       : [
-                        ...GIA_STREAMS,
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
+                          ...GIA_STREAMS,
+                          {
+                            label: "View All",
+                            value: "",
+                          },
+                        ]
                   }
                 />
                 {stream !== "" && (
@@ -163,7 +164,6 @@ export function StudentsList() {
                   onChange={(e) => setSearchName(e.target.value)}
                 />
 
-
                 <div className="col">
                   <button onClick={handleSearch} className="btn btn-primary">
                     Search
@@ -178,15 +178,14 @@ export function StudentsList() {
               </div>
             </div>
           </div>
-          <div className="container mb-3 bg-light overflow-scroll">
+          <div className="container mb-3 bg-light overflow-scroll overflow-y-hidden">
             <table
-              className="table table-bordered"
+              className="table table-bordered table-hover"
               id="my-table"
               ref={tableRef}
             >
               <thead>
                 <tr>
-                  {/* <th>ID</th> */}
                   <th>Enrollment</th>
                   <th>ABC ID</th>
                   <th>Gr No</th>
@@ -226,13 +225,21 @@ export function StudentsList() {
                 {recordsCopy &&
                   recordsCopy.map((e) => {
                     // console.log(e);
-                    return <TableRow data={e} key={e.id} after>
-                      <td>
-                        <Link to={`/students/${e.id}`}>View Details &rarr;</Link>
-                      </td>
-                    </TableRow>
+                    return (
+                      <TableRow
+                        data={e}
+                        key={e.id}
+                        after
+                        ignoreCols={["id", "institute_type"]}
+                      >
+                        <td>
+                          <Link to={`/students/${e.id}`}>
+                            View Details &rarr;
+                          </Link>
+                        </td>
+                      </TableRow>
+                    );
                   })}
-
               </tbody>
             </table>
           </div>

@@ -1,60 +1,81 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../styles/view.css";
-import html2canvas from "html2canvas";
-import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+// import html2canvas from "html2canvas";
+import { BASE_URL } from "../utils/config";
 import { DocHeader } from "../Component/DocHeader";
 import { Header } from "../Component/Header";
 import DocFooter from "../Component/DocFooter";
-import { useNavigate } from "react-router-dom";
-
+import { safeFetch } from "../utils";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { STREAM_ACRONYMS } from "../utils/constants";
+import html2canvas from "html2canvas";
 
 export function ViewFirstTrial() {
+  const INSTITUTE_TYPE = localStorage.getItem("token");
+  const [student, setStudent] = useState({});
+  const [serial, setSerial] = useState(0);
+  const [downloading, setDownloading] = useState(false);
+  const [queryParams] = useSearchParams();
 
-  useEffect(() => { document.title = "First-Trial Document" })
+  useEffect(() => {
+    document.title = "First-Trial Document";
 
-  const student = JSON.parse(localStorage.getItem("first-trial-info"));
+    safeFetch(`${BASE_URL}/students/id/${queryParams.get("id")}`)
+      .then(([resp, _]) => setStudent({ ...resp.student }))
+      .catch(console.log);
+
+    safeFetch(`${BASE_URL}/last-serial/first-trial`)
+      .then(([res, err]) => {
+        if (err !== null) throw new Error(err);
+
+        setSerial((Number(res.serial) || 0) + 1);
+      })
+      .catch(console.log);
+
+    // eslint-disable-next-line
+  }, []);
+  const currentYear = new Date().getFullYear();
+
+  const FT_PREFIX = `FT-${INSTITUTE_TYPE}-${STREAM_ACRONYMS[student.stream]}-`;
+
   const documentRef = useRef(null);
-  if (student == null) {
-    alert("Student is empty");
-  }
   const navigate = useNavigate();
 
-  const handleDownload = () => {
-    html2canvas(documentRef.current).then((canvas) => {
-      canvas.toBlob((blob) => {
-        let data = new FormData();
-        data.append("doc", blob, student.docName);
-        // eslint-diable-next-line
+  const handleDownload = async () => {
+    const docName = FT_PREFIX + serial.toString() + ".png";
+    setDownloading(true);
+    const canvas = await html2canvas(documentRef.current);
 
-        fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-serial`, {
-          method: "POST",
-          headers: {
-            doc_type: "first-trial",
-            uuid: student.uuid,
-            docname: student.docName,
-          },
-        });
-
-        fetch(`http://${SERVER_HOST}:${SERVER_PORT}/upload-doc`, {
-          body: data,
-          method: "POST",
-          headers: {
-            uuid: student.uuid,
-          },
-          uuid: student.uuid,
-        })
-          .then((res) => res.json())
-          .then(console.log);
-
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = student.docName;
-
-        a.click();
-
-        navigate("/viewdata");
-        localStorage.removeItem("first-trial-info");
+    canvas.toBlob((blob) => {
+      fetch(`${BASE_URL}/last-serial`, {
+        method: "POST",
+        headers: {
+          doc_type: "first-trial",
+          uuid: student.id,
+          docname: docName,
+        },
       });
+
+      let data = new FormData();
+      data.append("doc", blob, docName);
+
+      fetch(`${BASE_URL}/upload-doc`, {
+        body: data,
+        method: "POST",
+        headers: {
+          uuid: student.id,
+        },
+        uuid: student.id,
+      })
+        .then((res) => res.json())
+        .then(console.log);
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = docName;
+      a.click();
+
+      setDownloading(false);
+      navigate(-1);
     });
   };
 
@@ -62,7 +83,11 @@ export function ViewFirstTrial() {
     <>
       <Header />
       <div className="justify-content-end  d-flex p-4">
-        <button className="btn btn-primary " onClick={handleDownload}>
+        <button
+          className="btn btn-primary"
+          disabled={downloading}
+          onClick={handleDownload}
+        >
           Download
         </button>
       </div>
@@ -72,30 +97,35 @@ export function ViewFirstTrial() {
         style={{ height: "297mm", width: "210mm" }}
         ref={documentRef}
       >
-        <DocHeader title={"FIRST TRIAL CERTIFICATE"} serialNo={`FT No: ${student.ftSerial}`} />
+        <DocHeader
+          title={"FIRST TRIAL CERTIFICATE"}
+          serialNo={`Serial No: ${serial}`}
+        />
 
         <div className="p-5">
           <p className="text-center">This is to certify that,</p>
           <p className="h6">
-            Mr./Ms. <abbr title="attribute ">{student.studentName} </abbr>{" "}
+            Mr./Ms.{" "}
+            <abbr title="attribute ">
+              {`${student.surname} ${student.name} ${student.fathername}`}{" "}
+            </abbr>{" "}
           </p>
           <p>
             &emsp; &emsp; &emsp; &emsp; &emsp; In Year{" "}
             <span className="h6 fw-bold">
-              {student.year} - {Number(student.year) + 1}
-            </span>,{" "}
-            was studying <span className="h6 fw-bold">{student.stream}</span> in this
-            college. Examination of{" "}
-            <span className="h6 fw-bold"> {student.examstream}</span> held in{" "}
+              {currentYear}-{(currentYear + 1) % 100}
+            </span>
+            , was studying <span className="h6 fw-bold">{"MSCIT"}</span> in this
+            college. Examination of <span className="h6 fw-bold"> {"BCA"}</span>{" "}
+            held in{" "}
             <span className="h6 fw-bold">
-              {student.month}-{student.examyear}{" "}
+              {"March"}-{"2024"}{" "}
             </span>
             was completed by them in first attempt.
           </p>
         </div>
         <DocFooter />
-      </div >
-
+      </div>
     </>
   );
 }
