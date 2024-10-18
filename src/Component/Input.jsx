@@ -12,8 +12,6 @@ export function Input({
   accept = null,
   required = false,
   errorMessage = "",
-
-
 }) {
   return (
     <>
@@ -34,7 +32,6 @@ export function Input({
             max={max}
             placeholder={placeholder}
             accept={accept}
-
           />
         ) : (
           <textarea
@@ -46,7 +43,7 @@ export function Input({
             placeholder={placeholder}
           />
         )}
-        {/* TODO: add a bootstrap span to show Err. */}
+        {errorMessage && <span className="text-danger">{errorMessage}</span>}
       </div>
     </>
   );

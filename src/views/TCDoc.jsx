@@ -15,8 +15,9 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
 function TCDoc() {
-
-  useEffect(() => { document.title = "Leaving Form" })
+  useEffect(() => {
+    document.title = "Transfer Certificate";
+  });
 
   const INSTITUTE_TYPE = localStorage.getItem("token");
   let [searchParams] = useSearchParams();
@@ -51,7 +52,7 @@ function TCDoc() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/tc`,
+      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/tc`
     );
     handleError(err);
 

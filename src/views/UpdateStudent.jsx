@@ -9,8 +9,9 @@ import { handleError, safeFetch } from "../utils";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export function UpdateStudent() {
-
-  useEffect(() => { document.title = "Update Student Form" })
+  useEffect(() => {
+    document.title = "Update Student Form";
+  });
 
   const INSTITUTE_TYPE = localStorage.getItem("token");
   const [user, setUser] = useState({ udisk_no: "" });
@@ -22,7 +23,7 @@ export function UpdateStudent() {
   useEffect(() => {
     async function callAPI() {
       let [resp, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/${id}`,
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/id/${id}`
       );
       handleError(err);
       // console.log(resp);
@@ -86,7 +87,7 @@ export function UpdateStudent() {
       {
         method: "POST",
         body: submitData,
-      },
+      }
     );
 
     handleError(err);

@@ -1,8 +1,14 @@
 // import { Link } from "react-router-dom";
 
-export function TableRow({ data, children, before = false, after, defValue = "None" }) {
+export function TableRow({
+  data,
+  children,
+  before = false,
+  after,
+  defValue = "None",
+  ignoreCols = [],
+}) {
   const INSTITUTE_TYPE = localStorage.getItem("token");
-  const IGNORE_COLS = ['id', 'institute_type'];
   const GIA_COls = [
     "main_course",
     "first_secondary_subject",
@@ -13,7 +19,7 @@ export function TableRow({ data, children, before = false, after, defValue = "No
   const fields = [];
   Object.entries(data).forEach(([k, v]) => {
     if (INSTITUTE_TYPE !== "GIA" && GIA_COls.includes(k)) return;
-    if (IGNORE_COLS.includes(k)) return;
+    if (ignoreCols.includes(k)) return;
 
     if (v instanceof Array) {
       v.forEach((elem) => {
@@ -25,7 +31,7 @@ export function TableRow({ data, children, before = false, after, defValue = "No
   });
 
   return (
-    <tr>
+    <tr className="text-center">
       {before && children}
       {fields.map((e) => e)}
       {after && children}
