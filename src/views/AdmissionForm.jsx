@@ -13,12 +13,10 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
 function AdmissionForm() {
-  //=====
   useEffect(() => {
     document.title = "Admission Form";
   });
 
-  //=====
   const INSTITUTE_TYPE = localStorage.getItem("token");
   const [previewImage, setPreviewImage] = useState(null);
   const [submitting, setSubmitting] = useState(false);
@@ -66,9 +64,6 @@ function AdmissionForm() {
     studentImg: "",
   });
 
-  // eslint-disable-next-line
-  const [validForm, setValidForm] = useState(true);
-
   useEffect(() => {
     if (
       user.stream !== "Bachelor of Arts" ||
@@ -109,9 +104,11 @@ function AdmissionForm() {
     setUser({ ...user, [e.target.name]: value });
   };
 
-  // eslint-disable-next-line
-  const [error, setError] = useState({});
-
+  /**
+   * Validates the form and populates the errors object.
+   * Return false if errors occured, true otherwise.
+   * @returns {boolean}
+   */
   function validate() {
     let errs = {};
     let valid = true;
@@ -159,49 +156,16 @@ function AdmissionForm() {
     return valid;
   }
 
-  // const isValid = () => {
-  //   const validationError = {};
-
-  //   if (!user.email.trim()) {
-  //     validationError.email = "Email is Required";
-  //   } else if (
-  //     !user.email.match(
-  //       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-  //     )
-  //   ) {
-  //     validationError.email = "Email is Not Valid";
-  //   }
-  //   if (!user.name.trim()) {
-  //     validationError.name = "Name is Required";
-  //   } else if (!user.surname.trim()) {
-  //     validationError.name = "Surname is Required";
-  //   } else if (!user.fathername.trim()) {
-  //     validationError.name = "Fathername is Required";
-  //   }
-  //   if (!user.whatsapp_no.trim()) {
-  //     validationError.whatsapp_no = "WhatsApp Number is Required";
-  //   }
-  //   if (!user.studentimg) {
-  //     validationError.studentimg = "Please Upload Image";
-  //   }
-
-  //   setError(validationError);
-  //   return Object.keys(validationError).length === 0;
-  // };
-
   const STREAM = STREAM_ACRONYMS;
 
   const GR_PREFIX = "GR-" + INSTITUTE_TYPE + "-" + STREAM[user.stream] + "-";
 
-  // submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitting(validate());
-    // setValidForm(isValid());
-    // if (!validForm) {
-    //   setSubmitting(false);
-    //   return;
-    // }
+
+    let valid = validate();
+    if (!valid) return;
+    setSubmitting(valid);
 
     let [res, err] = await safeFetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`
@@ -212,13 +176,8 @@ function AdmissionForm() {
     // statelessInc because previous test was with stateful incrementor (used useState, nothing else)
     const statelessInc = gr + 1;
 
-    // setUser({ ...user, gr_no: `${GR_PREFIX}${statelessInc}` });
     user.gr_no = `${GR_PREFIX}${statelessInc}`;
 
-    // console.log(errors);
-    // return;
-
-    // eslint-disable-next-line
     if (user.gr_no) {
       const submitData = new FormData();
       Object.entries(user).forEach(([key, value]) => {
@@ -251,10 +210,10 @@ function AdmissionForm() {
   return (
     <>
       <Header />
-      <div className="bg-dark">
-        <h2 className="text-center mt-3 text-white">Admission Form</h2>
+      <div>
+        <h2 className="text-center mt-3">Admission Form</h2>
         <div className="col d-flex justify-content-center py-3">
-          <div className="card bg-light" style={{ width: "50rem" }}>
+          <div className="card" style={{ width: "50rem" }}>
             <form className="m-4" method="post" encType="multipart/form-data">
               <div className="row border-3 form-group mb-3 align-items-center">
                 <SelectBox
@@ -384,10 +343,6 @@ function AdmissionForm() {
                 />
               </div>
 
-              {error.aadhar_number && (
-                <p className="text-danger">{error.aadhar_number}</p>
-              )}
-
               <RadioGroup
                 name={"caste"}
                 label={"Caste:"}
@@ -430,7 +385,6 @@ function AdmissionForm() {
                   errorMessage={errors.fatherName}
                 />
               </div>
-              {error.name && <p className="text-danger">{error.name}</p>}
 
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
@@ -482,9 +436,7 @@ function AdmissionForm() {
                   onChange={(e) => handlenumber(e, 10)}
                 />
               </div>
-              {error.whatsapp_no && (
-                <p className="text-danger">{error.whatsapp_no}</p>
-              )}
+
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
                   type="email"
@@ -497,8 +449,6 @@ function AdmissionForm() {
                   required
                 />
               </div>
-
-              {error.email && <p className="text-danger">{error.email}</p>}
 
               <RadioGroup
                 label={"Gender:"}
@@ -589,9 +539,6 @@ function AdmissionForm() {
                   required
                 />
               </div>
-              {error.studentimg && (
-                <p className="text-danger">{error.studentimg}</p>
-              )}
 
               {previewImage && (
                 <div className="my-2">

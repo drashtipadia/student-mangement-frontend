@@ -32,6 +32,7 @@ export function Input({
             max={max}
             placeholder={placeholder}
             accept={accept}
+            spellCheck="false"
           />
         ) : (
           <textarea
@@ -41,6 +42,7 @@ export function Input({
             className="form-control"
             onChange={onChange}
             placeholder={placeholder}
+            spellCheck="false"
           />
         )}
         {errorMessage && <span className="text-danger">{errorMessage}</span>}

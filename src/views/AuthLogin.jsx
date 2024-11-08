@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch, handleError } from "../utils";
-
+import { RadioGroup } from "../Component/RadioGroup";
 
 function Login() {
-  useEffect(() => { document.title = "Login" })
+  useEffect(() => {
+    document.title = "Login";
+  });
 
   const navigate = useNavigate();
 
@@ -16,18 +18,13 @@ function Login() {
   });
   const [error, setError] = useState("");
 
-  let a_name, a_value;
-  const handleInput = (e) => {
-    a_name = e.target.name;
-    a_value = e.target.value;
-    setAdmin({ ...admin, [a_name]: a_value });
+  const handleInput = ({ target }) => {
+    setAdmin({ ...admin, [target.name]: target.value });
   };
 
-  let token;
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    token = admin.institute_type;
     let formData = new FormData();
     formData.append("username", admin.adminname);
     formData.append("password", admin.adminpassword);
@@ -37,7 +34,7 @@ function Login() {
       {
         method: "POST",
         body: formData,
-      },
+      }
     );
     handleError(err);
 
@@ -46,16 +43,14 @@ function Login() {
     }
 
     if (res.status === "success" && res.exists === 1) {
-      localStorage.setItem("token", token);
+      localStorage.setItem("token", admin.institute_type);
       navigate("/");
     }
   };
 
   return (
     <>
-
       <div>
-
         <section
           style={{
             height: "625px",
@@ -73,7 +68,6 @@ function Login() {
                       method="POST"
                     >
                       <h2 className="fw-bold mb-3 text-uppercase">
-                        {" "}
                         Admin Login
                       </h2>
 
@@ -100,46 +94,24 @@ function Login() {
                         />
                       </div>
                       <div className="form-outline mb-5">
-                        <div className="form-check form-check-inline">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="institute_type"
-                            id="inlineRadio1"
-                            value="SFI"
-                            onChange={handleInput}
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="inlineRadio1"
-                          >
-                            SFI
-                          </label>
-                        </div>
-                        <div className="form-check form-check-inline">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="institute_type"
-                            id="inlineRadio2"
-                            value="GIA"
-                            onChange={handleInput}
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="inlineRadio2"
-                          >
-                            GIA
-                          </label>
-                        </div>
+                        <RadioGroup
+                          name={"institute_type"}
+                          label={"Institute Type:"}
+                          data={[
+                            { label: "GIA", value: "GIA" },
+                            { label: "SFI", value: "SFI" },
+                          ]}
+                          onChange={handleInput}
+                          checked={admin.institute_type}
+                        />
                       </div>
-                      {error && <div className="text-danger">{error}</div>}
+                      <div className="text-danger mb-4">{error}</div>
                       <button
                         className="btn btn-outline-dark btn-lg px-5"
                         type="submit"
                         onClick={handleSubmit}
                       >
-                        Login{" "}
+                        Login
                       </button>
                     </form>
                   </div>

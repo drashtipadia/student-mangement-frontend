@@ -80,7 +80,7 @@ function TCDoc() {
       <div className="container">
         <h2 className="text-center mt-3 text-light">Transfer Certificate</h2>
         <div className="col d-flex justify-content-center py-3">
-          <div className="card bg-light" style={{ width: "50rem" }}>
+          <div className="card" style={{ width: "50rem" }}>
             <form className="m-4" method="post">
               <div className="row border-3 form-group m-2 align-items-center">
                 <Input

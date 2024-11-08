@@ -25,9 +25,7 @@ export default function ViewTc() {
     html2canvas(documentRef.current).then((canvas) => {
       canvas.toBlob((blob) => {
         let data = new FormData();
-
         data.append("doc", blob, student.docName);
-        //     // eslint-diable-next-line
 
         fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-serial`, {
           method: "POST",
@@ -71,7 +69,7 @@ export default function ViewTc() {
       </div>
 
       <div
-        className="container p-5 bg-light"
+        className="container p-5 bg-light text-black"
         style={{ height: "297mm", width: "210mm" }}
         ref={documentRef}
       >
