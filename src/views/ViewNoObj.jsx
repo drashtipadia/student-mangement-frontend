@@ -3,6 +3,7 @@ import "../styles/view.css";
 import { DocHeader } from "../Component/DocHeader";
 import { Header } from "../Component/Header";
 import DocFooter from "../Component/DocFooter";
+import { Loading } from "../Component/Loading";
 import { safeFetch } from "../utils";
 import { BASE_URL } from "../utils/config";
 import { useSearchParams } from "react-router-dom";
@@ -12,22 +13,32 @@ import html2canvas from "html2canvas";
 export default function ViewNoObj() {
   const [queryParams] = useSearchParams();
   const [student, setStudent] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [serial, setSerial] = useState(0);
   const currentYear = new Date().getFullYear();
   const studentID = queryParams.get("id");
-  const [serial, setSerial] = useState(0);
+
+  const getData = async () => {
+    try {
+      let [resp, err] = await safeFetch(`${BASE_URL}/students/id/${studentID}`);
+      if (err) throw new Error(err);
+      setStudent({ ...resp.student });
+
+      [resp, err] = await safeFetch(`${BASE_URL}/last-serial/bonafide`);
+      if (err) throw new Error(err);
+      setSerial((Number(resp.serial) || 0) + 1);
+    } catch (e) {
+      alert("Some error occured");
+      throw new Error(e);
+    }
+  };
 
   useEffect(() => {
-    document.title = "NoObjection Document";
+    document.title = "No Objection Document";
 
-    safeFetch(`${BASE_URL}/students/id/${studentID}`)
-      .then(([resp, _]) => setStudent({ ...resp.student }))
-      .catch(console.log);
+    getData();
+    setLoading(false);
 
-    safeFetch(`${BASE_URL}/last-serial/no-objection`).then(([resp, err]) => {
-      if (err !== null) throw new Error(err);
-
-      setSerial((Number(resp.serial) || 0) + 1);
-    });
     // eslint-disable-next-line
   }, []);
 
@@ -69,38 +80,10 @@ export default function ViewNoObj() {
       a.download = docname;
       a.click();
     });
-    // html2canvas(documentRef.current).then((canvas) => {
-    //   canvas.toBlob((blob) => {
-    //     let data = new FormData();
-    //     data.append("doc", blob, student.docName);
-    //     // eslint-diable-next-line
-    //     fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-serial`, {
-    //       method: "POST",
-    //       headers: {
-    //         doc_type: "no-objection",
-    //         uuid: student.uuid,
-    //         docname: student.docName,
-    //       },
-    //     });
-    //     fetch(`http://${SERVER_HOST}:${SERVER_PORT}/upload-doc`, {
-    //       body: data,
-    //       method: "POST",
-    //       headers: {
-    //         uuid: student.uuid,
-    //       },
-    //       uuid: student.uuid,
-    //     })
-    //       .then((res) => res.json())
-    //       .then(console.log);
-    //     const a = document.createElement("a");
-    //     a.href = URL.createObjectURL(blob);
-    //     a.download = student.docName;
-    //     a.click();
-    //     navigate("/viewdata");
-    //     localStorage.removeItem("no-objection-info");
-    //   });
-    // });
   };
+
+  if (loading && !student) return <Loading />;
+
   return (
     <>
       <Header />
@@ -110,24 +93,26 @@ export default function ViewNoObj() {
         </button>
       </div>
       <div
-        className="container p-5 bg-light"
+        className="container p-5 bg-light text-black"
         style={{ height: "297mm", width: "210mm" }}
         ref={documentRef}
       >
         <DocHeader
           title={"NO OBJECTION CERTIFICATE"}
-          serialNo={`NoObj No: ${1}`}
+          serialNo={`NoObj No: ${serial}`}
         />
         <div className="p-5">
           <p className="text-center">
-            This is to certify that, Mr./Ms.{" "}
+            This is to certify that, Mr./Ms.&nbsp;
             <abbr title="attribute" className="fw-bold">
               {`${student.surname} ${student.name} ${student.fathername}`}
-            </abbr>{" "}
-            was studying <span className="h6 fw-bold">{student.stream} </span>in
-            the year <span className="h-6 fw-bold">{currentYear} </span>
-            in this college. This institution does not have any objection, if
-            he/she gets admission to another college in the current year.
+            </abbr>
+            &nbsp;was studying&nbsp;
+            <span className="h6 fw-bold">{student.stream}</span> in the
+            year&nbsp;
+            <span className="h-6 fw-bold">{currentYear}</span>&nbsp;in this
+            college. This institution does not have any objection, if he/she
+            gets admission to another college in the current year.
           </p>
         </div>
         <DocFooter />

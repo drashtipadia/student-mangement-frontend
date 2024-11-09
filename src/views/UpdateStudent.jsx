@@ -104,10 +104,10 @@ export function UpdateStudent() {
   return (
     <>
       <Header />
-      <div className="bg-dark">
+      <div>
         <h2 className="text-center mt-3 text-white">Update Student Details</h2>
         <div className="col d-flex justify-content-center py-3">
-          <div className="card bg-light" style={{ width: "50rem" }}>
+          <div className="card" style={{ width: "50rem" }}>
             <form className="m-4" method="post" encType="multipart/form-data">
               <div className="row border-3 form-group mb-3 align-items-center">
                 <SelectBox

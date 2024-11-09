@@ -9,28 +9,36 @@ import { safeFetch } from "../utils";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { STREAM_ACRONYMS } from "../utils/constants";
 import html2canvas from "html2canvas";
+import { Loading } from "../Component/Loading";
 
 export function ViewFirstTrial() {
   const INSTITUTE_TYPE = localStorage.getItem("token");
   const [student, setStudent] = useState({});
   const [serial, setSerial] = useState(0);
+  const [loading, setLoading] = useState(true);
   const [downloading, setDownloading] = useState(false);
   const [queryParams] = useSearchParams();
+  const studentID = queryParams.get("id");
+
+  const getData = async () => {
+    try {
+      let [resp, err] = await safeFetch(`${BASE_URL}/students/id/${studentID}`);
+      if (err) throw new Error(err);
+      setStudent({ ...resp.student });
+
+      [resp, err] = await safeFetch(`${BASE_URL}/last-serial/bonafide`);
+      if (err) throw new Error(err);
+      setSerial((Number(resp.serial) || 0) + 1);
+    } catch (e) {
+      alert("Some error occured");
+      throw new Error(e);
+    }
+  };
 
   useEffect(() => {
     document.title = "First-Trial Document";
-
-    safeFetch(`${BASE_URL}/students/id/${queryParams.get("id")}`)
-      .then(([resp, _]) => setStudent({ ...resp.student }))
-      .catch(console.log);
-
-    safeFetch(`${BASE_URL}/last-serial/first-trial`)
-      .then(([res, err]) => {
-        if (err !== null) throw new Error(err);
-
-        setSerial((Number(res.serial) || 0) + 1);
-      })
-      .catch(console.log);
+    getData();
+    setLoading(false);
 
     // eslint-disable-next-line
   }, []);
@@ -79,10 +87,12 @@ export function ViewFirstTrial() {
     });
   };
 
+  if (loading || !student) return <Loading />;
+
   return (
     <>
       <Header />
-      <div className="justify-content-end  d-flex p-4">
+      <div className="justify-content-end d-flex p-4">
         <button
           className="btn btn-primary"
           disabled={downloading}
@@ -93,7 +103,7 @@ export function ViewFirstTrial() {
       </div>
 
       <div
-        className="container p-5 bg-light"
+        className="container p-5 bg-light text-black"
         style={{ height: "297mm", width: "210mm" }}
         ref={documentRef}
       >
@@ -105,21 +115,22 @@ export function ViewFirstTrial() {
         <div className="p-5">
           <p className="text-center">This is to certify that,</p>
           <p className="h6">
-            Mr./Ms.{" "}
+            Mr./Ms.&nbsp;
             <abbr title="attribute ">
-              {`${student.surname} ${student.name} ${student.fathername}`}{" "}
-            </abbr>{" "}
+              {`${student.surname} ${student.name} ${student.fathername}`}&nbsp;
+            </abbr>
+            &nbsp;
           </p>
           <p>
-            &emsp; &emsp; &emsp; &emsp; &emsp; In Year{" "}
+            &emsp; &emsp; &emsp; &emsp; &emsp; In Year&nbsp;
             <span className="h6 fw-bold">
               {currentYear}-{(currentYear + 1) % 100}
             </span>
             , was studying <span className="h6 fw-bold">{"MSCIT"}</span> in this
-            college. Examination of <span className="h6 fw-bold"> {"BCA"}</span>{" "}
-            held in{" "}
+            college. Examination of <span className="h6 fw-bold"> {"BCA"}</span>
+            &nbsp;held in&nbsp;
             <span className="h6 fw-bold">
-              {"March"}-{"2024"}{" "}
+              {"March"}-{"2024"}&nbsp;
             </span>
             was completed by them in first attempt.
           </p>

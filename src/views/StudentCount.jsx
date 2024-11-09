@@ -109,7 +109,7 @@ export default function StudentCount() {
   return (
     <>
       <Header />
-      <div className="container mb-3 bg-light overflow-scroll">
+      <div className="container mb-3 overflow-scroll">
         <table className="table table-bordered" id="my-table">
           <thead>
             <tr className="text-center">

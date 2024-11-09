@@ -5,8 +5,9 @@ import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { Loading } from "../Component/Loading";
 
 export function UpdateStudentImage() {
-
-  useEffect(() => { document.title = "Update Stduent Image" })
+  useEffect(() => {
+    document.title = "Update Stduent Image";
+  });
 
   const [img, setImg] = useState("");
   const [loading, setLoading] = useState(true);
@@ -19,7 +20,7 @@ export function UpdateStudentImage() {
   useEffect(() => {
     async function getImageFromAPI() {
       const [res, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/${params.id}/get-img`,
+        `http://${SERVER_HOST}:${SERVER_PORT}/${params.id}/get-img`
       );
       handleError(err);
 
@@ -31,15 +32,14 @@ export function UpdateStudentImage() {
     // eslint-disable-next-line
   }, []);
 
+  if (loading) return <Loading />;
+
   return (
     <>
-      {loading && <Loading />}
-      {img && (
-        <img
-          src={`http://${SERVER_HOST}:${SERVER_PORT}/${img}`}
-          alt="student-img"
-        />
-      )}
+      <img
+        src={`http://${SERVER_HOST}:${SERVER_PORT}/${img}`}
+        alt="student-img"
+      />
       <button onClick={goBack} className="btn btn-primary">
         Go Back
       </button>
