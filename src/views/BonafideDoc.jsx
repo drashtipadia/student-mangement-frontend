@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Header } from "../Component/Header";
-import { Input } from "../Component/Input";
+import { Header, Input } from "../Component";
 import { STREAM_ACRONYMS } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
-function BonafideDoc() {
-
-  useEffect(() => { document.title = "Bonafide Form" })
+export function BonafideDoc() {
+  useEffect(() => {
+    document.title = "Bonafide Form";
+  });
 
   const INSTITUTE_TYPE = localStorage.getItem("token");
   let [searchParams] = useSearchParams();
@@ -21,9 +21,7 @@ function BonafideDoc() {
     year: "",
     semester: "",
     uuid: searchParams.get("id"),
-    // haveImgPlaceholder: false,
   });
-  // const [haveImgPlaceholder, setHaveImgPlaceholder] = useState(false);
   const BC_PREFIX = `BC-${INSTITUTE_TYPE}-`;
 
   const handleInputs = (e) => {
@@ -31,10 +29,9 @@ function BonafideDoc() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //console.log(studnet);
 
     const [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/bonafide`,
+      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/bonafide`
     );
     handleError(err);
 
@@ -49,8 +46,6 @@ function BonafideDoc() {
       ...student,
       docName,
       bcSerial: String(serial),
-      // haveImgPlaceholder,
-
     };
     localStorage.setItem("bonafide-info", JSON.stringify(data));
     window.location.href = "/view-bonafide";
@@ -74,47 +69,7 @@ function BonafideDoc() {
                   onChange={handleInputs}
                 />
               </div>
-              <div className=" border-3 form-group ms-auto align-items-center">
-                {/* <SelectBox
-                  name="stream"
-                  label={"Stream"}
-                  placeholder={"Select stream"}
-                  onChange={handleInputs}
-                  data={
-                    INSTITUTE_TYPE === "GIA"
-                      ? [...GIA_STREAMS]
-                      : [...SFI_STREAMS]
-                  }
-                /> */}
-                {/* <SelectBox
-                  name="semester"
-                  label={""}
-                  placeholder={"Select Semester"}
-                  onChange={handleInputs}
-                  data={[...SEMESTER]}
-                />
-                <Input
-                  type="number"
-                  name="year"
-                  placeholder={"year"}
-                  min="2000"
-                  max={new Date().getFullYear()}
-                  onChange={handleInputs}
-                /> */}
-                {/* <label>with Image: </label>
-                <input
-                  className="inline"
-                  type="checkbox"
-                  name="haveImgPlaceholder"
-                  checked={student.haveImgPlaceholder}
-                  onChange={() => setHaveImgPlaceholder(!haveImgPlaceholder)}
-                /> */}
-              </div>
-              <div>
-
-
-              </div>
-
+              <div className=" border-3 form-group ms-auto align-items-center"></div>
               <hr />
               <button
                 type="submit"
@@ -131,5 +86,3 @@ function BonafideDoc() {
     </>
   );
 }
-
-export default BonafideDoc;

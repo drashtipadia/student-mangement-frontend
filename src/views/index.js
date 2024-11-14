@@ -1,0 +1,16 @@
+export { AdmissionForm } from "./AdmissionForm";
+export { AuthLogin } from "./AuthLogin";
+export { BonafideDoc } from "./BonafideDoc";
+export { Error404 } from "./Error404";
+export { FirstTrialDoc } from "./FirstTrialDoc";
+export { NoObjDoc } from "./NoObjDoc";
+export { StudentCount } from "./StudentCount";
+export { StudentsList } from "./StudentsList";
+export { TCDoc } from "./TCDoc";
+export { UpdateStudent } from "./UpdateStudent";
+export { UpdateStudentImage } from "./UpdateStudentImage";
+export { ViewBonafide } from "./ViewBonafide";
+export { ViewFirstTrial } from "./ViewFirstTrial";
+export { ViewNoObj } from "./ViewNoObj";
+export { ViewStudentDetails } from "./ViewStudentDetails";
+export { ViewTc } from "./ViewTc";

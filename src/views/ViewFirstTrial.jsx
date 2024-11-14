@@ -1,15 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import "../styles/view.css";
-// import html2canvas from "html2canvas";
-import { BASE_URL } from "../utils/config";
-import { DocHeader } from "../Component/DocHeader";
-import { Header } from "../Component/Header";
-import DocFooter from "../Component/DocFooter";
-import { safeFetch } from "../utils";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { STREAM_ACRONYMS } from "../utils/constants";
 import html2canvas from "html2canvas";
-import { Loading } from "../Component/Loading";
+import { DocHeader, Header, DocFooter, Loading } from "../Component";
+import { BASE_URL } from "../utils/config";
+import { safeFetch } from "../utils";
+import { STREAM_ACRONYMS } from "../utils/constants";
+import "../styles/view.css";
 
 export function ViewFirstTrial() {
   const INSTITUTE_TYPE = localStorage.getItem("token");

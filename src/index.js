@@ -1,32 +1,29 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
+import {
+  AdmissionForm,
+  Error404,
+  StudentsList,
+  AuthLogin,
+  TCDoc,
+  ViewStudentDetails,
+  ViewFirstTrial,
+  ViewTc,
+  ViewNoObj,
+  UpdateStudent,
+  UpdateStudentImage,
+  ViewBonafide,
+  StudentCount,
+} from "./views";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle";
-import reportWebVitals from "./reportWebVitals";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { AdmissionForm } from "./views/AdmissionForm";
-import Error404 from "./views/Error404";
-import { StudentsList } from "./views/StudentsList";
-import { Login } from "./views/AuthLogin";
-import TCDoc from "./views/TCDoc";
-// import NoObjDoc from "./views/NoObjDoc";
-import { ViewStudentDetails } from "./views/ViewStudentDetails";
-// import BonafideDoc from "./views/BonafideDoc";
-// import FirstTrialDoc from "./views/FirstTrialDoc";
-import { ViewFirstTrial } from "./views/ViewFirstTrial";
-import ViewTc from "./views/ViewTc";
-import ViewNoObj from "./views/ViewNoObj";
-import { ViewBonafide } from "./views/ViewBonafide";
-import { UpdateStudent } from "./views/UpdateStudent";
-import { UpdateStudentImage } from "./views/UpdateStudentImage";
-import StudentCount from "./views/StudentCount";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 let allRoutes = createBrowserRouter([
-  { path: "/login", element: <Login /> },
+  { path: "/login", element: <AuthLogin /> },
   { path: "/", element: <App /> },
   { path: "/admissionForm", element: <AdmissionForm /> },
   { path: "/viewdata", element: <StudentsList /> },
@@ -46,8 +43,3 @@ let allRoutes = createBrowserRouter([
 ]);
 
 root.render(<RouterProvider router={allRoutes} />);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

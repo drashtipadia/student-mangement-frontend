@@ -1,16 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import "../styles/view.css";
-import html2canvas from "html2canvas";
-import { DocHeader } from "../Component/DocHeader";
-import { Header } from "../Component/Header";
-import DocFooter from "../Component/DocFooter";
 import { useNavigate, useSearchParams } from "react-router-dom";
-// eslint-disable-next-line
-import { BASE_URL, SERVER_HOST, SERVER_PORT } from "../utils/config";
-import ImagePlaceholder from "../Component/ImagePlaceholder";
+import html2canvas from "html2canvas";
+import {
+  DocHeader,
+  Header,
+  DocFooter,
+  ImagePlaceholder,
+  Loading,
+} from "../Component";
+import { BASE_URL } from "../utils/config";
 import { safeFetch } from "../utils";
 import { STREAM_ACRONYMS } from "../utils/constants";
-import { Loading } from "../Component/Loading";
+import "../styles/view.css";
 
 export function ViewBonafide() {
   const [queryParams] = useSearchParams();

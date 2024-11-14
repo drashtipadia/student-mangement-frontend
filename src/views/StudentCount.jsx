@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import React from "react";
-import { Header } from "../Component/Header";
+import { Header, TableRow } from "../Component";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch } from "../utils";
-import { TableRow } from "../Component/TableRow";
 
-export default function StudentCount() {
+export function StudentCount() {
   const INSTITUTE_TYPE = localStorage.getItem("token");
 
   /*

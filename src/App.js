@@ -1,7 +1,6 @@
-import "./App.css";
-import { Header } from "./Component/Header";
-import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Header } from "./Component";
 
 function App() {
   useEffect(() => {
@@ -49,18 +48,6 @@ function App() {
                 Student Count
               </Link>
             </div>
-
-            {/* <span>
-              <button
-                className="btn btn-primary w-50"
-                onClick={() => {
-                  localStorage.removeItem("token");
-                  window.location.reload();
-                }}
-              >
-                Logout
-              </button> */}
-            {/* </span> */}
           </div>
         </div>
       </div>

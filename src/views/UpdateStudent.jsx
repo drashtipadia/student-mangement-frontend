@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Header } from "../Component/Header";
-import { Input } from "../Component/Input";
-import { SelectBox } from "../Component/SelectBox";
-import { RadioGroup } from "../Component/RadioGroup";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Header, Input, SelectBox, RadioGroup } from "../Component";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
-import { useNavigate, useSearchParams } from "react-router-dom";
 
 export function UpdateStudent() {
   useEffect(() => {

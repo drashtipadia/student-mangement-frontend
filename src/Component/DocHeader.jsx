@@ -1,4 +1,3 @@
-import React from "react";
 import img1 from "../styles/collegelogo.jpeg";
 import img2 from "../styles/naaclog.jpeg";
 import { Badge } from "../Component/Badge";
