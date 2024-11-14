@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Header } from "../Component/Header";
-import { Input } from "../Component/Input";
-import { SelectBox } from "../Component/SelectBox";
-import { RadioGroup } from "../Component/RadioGroup";
+import { Header, Input, SelectBox, RadioGroup } from "../Component";
 import {
   GIA_STREAMS,
   SEMESTER,
@@ -56,12 +53,12 @@ function AdmissionForm() {
 
   const [errors, setErrors] = useState({
     aadharNumber: "",
-    mobileNo: "",
+    whatsapp_no: "",
     email: "",
     surname: "",
     name: "",
-    fatherName: "",
-    studentImg: "",
+    fathername: "",
+    studentimg: "",
   });
 
   useEffect(() => {
@@ -111,43 +108,24 @@ function AdmissionForm() {
    */
   function validate() {
     let errs = {};
+    const VALIDATE_FIELDS = [
+      "surname",
+      "name",
+      "fathername",
+      "whatsapp_no",
+      "studentimg",
+    ];
     let valid = true;
-    if (!user.email.trim()) {
-      errs.email = "Email is required!";
-      valid = false;
-    }
 
-    if (
-      !user.email.match(
-        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-      )
-    ) {
+    VALIDATE_FIELDS.forEach((field) => {
+      if (!user[field] || !user[field].trim()) {
+        errs[field] = `${field} is required.`;
+        valid = false;
+      }
+    });
+
+    if (!user.email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g)) {
       errs.email = "Email is not a valid Email!";
-      valid = false;
-    }
-
-    if (!user.surname.trim()) {
-      errs.surname = "Surname is required!";
-      valid = false;
-    }
-
-    if (!user.name.trim()) {
-      errs.name = "Name is required!";
-      valid = false;
-    }
-
-    if (!user.fathername.trim()) {
-      errs.fatherName = "Father name is required!";
-      valid = false;
-    }
-
-    if (!user.whatsapp_no.trim()) {
-      errs.mobileNo = "Whatsapp Number is required!";
-      valid = false;
-    }
-
-    if (!user.studentimg) {
-      errs.studentImg = "Student Image is required!";
       valid = false;
     }
 
@@ -173,10 +151,9 @@ function AdmissionForm() {
     handleError(err);
 
     const gr = Number(res.gr_no);
-    // statelessInc because previous test was with stateful incrementor (used useState, nothing else)
-    const statelessInc = gr + 1;
+    const appendGR = gr + 1;
 
-    user.gr_no = `${GR_PREFIX}${statelessInc}`;
+    user.gr_no = `${GR_PREFIX}${appendGR}`;
 
     if (user.gr_no) {
       const submitData = new FormData();
@@ -382,7 +359,7 @@ function AdmissionForm() {
                   placeholder="FATHERNAME"
                   value={user.fathername}
                   onChange={handleInputs}
-                  errorMessage={errors.fatherName}
+                  errorMessage={errors.fathername}
                 />
               </div>
 
@@ -424,7 +401,7 @@ function AdmissionForm() {
                   placeholder="Whatsapp No."
                   value={user.whatsapp_no}
                   onChange={(e) => handlenumber(e, 10)}
-                  errorMessage={errors.mobileNo}
+                  errorMessage={errors.whatsapp_no}
                   required
                 />
 
@@ -535,7 +512,7 @@ function AdmissionForm() {
                   name="studentimg"
                   onChange={handleFileUploads}
                   accept={"image/png, image/jpg, image/jpeg"}
-                  errorMessage={errors.studentImg}
+                  errorMessage={errors.studentimg}
                   required
                 />
               </div>

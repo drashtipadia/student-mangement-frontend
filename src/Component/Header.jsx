@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import darkThemeIcon from "../dark-theme.svg";
-import lightThemeIcon from "../light-theme.svg";
+import darkThemeIcon from "../images/dark-theme.svg";
+import lightThemeIcon from "../images/light-theme.svg";
 import { useLocation } from "react-router-dom";
 
 function Header() {

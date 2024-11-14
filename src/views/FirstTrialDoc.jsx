@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Header } from "../Component/Header";
-import { Input } from "../Component/Input";
-import { SelectBox } from "../Component/SelectBox";
+import { Header, Input, SelectBox } from "../Component";
 import {
   GIA_STREAMS,
   SFI_STREAMS,
@@ -13,11 +11,10 @@ import {
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch } from "../utils";
 
-function FirstTrialDoc() {
-
-  useEffect(() => { document.title = "First-Trial Form" })
-
-
+export function FirstTrialDoc() {
+  useEffect(() => {
+    document.title = "First-Trial Form";
+  });
 
   const INSTITUTE_TYPE = localStorage.getItem("token");
   let [searchParams] = useSearchParams();
@@ -46,7 +43,7 @@ function FirstTrialDoc() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/first-trial`,
+      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/first-trial`
     );
 
     if (err != null) {
@@ -169,5 +166,3 @@ function FirstTrialDoc() {
     </>
   );
 }
-
-export default FirstTrialDoc;

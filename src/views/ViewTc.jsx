@@ -1,14 +1,11 @@
 import React, { useEffect, useRef } from "react";
-import "../styles/view.css";
-import html2canvas from "html2canvas";
-import { SERVER_HOST, SERVER_PORT } from "../utils/config";
-import { DocHeader } from "../Component/DocHeader";
-import { Header } from "../Component/Header";
-import DocFooter from "../Component/DocFooter";
-
 import { useNavigate } from "react-router-dom";
+import html2canvas from "html2canvas";
+import { DocHeader, Header, DocFooter } from "../Component";
+import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import "../styles/view.css";
 
-export default function ViewTc() {
+export function ViewTc() {
   useEffect(() => {
     document.title = "Leaving Document";
   });

@@ -1,8 +1,8 @@
-import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Loading } from "../Component";
 import { safeFetch, handleError } from "../utils";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
-import { Loading } from "../Component/Loading";
 
 export function UpdateStudentImage() {
   useEffect(() => {

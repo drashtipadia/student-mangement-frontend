@@ -1,15 +1,10 @@
 /**
  * Converts given HTML table to the CSV file.
  * @param {HTMLTableElement} table Target table to extract data.
- * @param {{ separator: string; fileName: string; }} [opts] Config options for csv
+ * @param {number} maxCols Maximum columns to add to the csv file.
  * @returns object URL of created CSV file
  */
-export function convertToCSV(
-  table,
-  opts = {
-    separator: ",",
-  }
-) {
+export function convertToCSV(table, maxCols = -1) {
   if (!(table instanceof HTMLTableElement))
     throw new Error("`table` not a table. How the turn-tables?");
 
@@ -19,8 +14,11 @@ export function convertToCSV(
   rows.forEach((row) => {
     const columns = row.querySelectorAll("th, td");
 
-    columns.forEach((column) => {
-      content += column.textContent + opts.separator;
+    columns.forEach((column, idx) => {
+      if (maxCols !== -1 && idx + 1 > maxCols) return;
+
+      const text = column.textContent.trim().replace(",", "");
+      content += text + ",";
     });
     content += "\r\n";
   });

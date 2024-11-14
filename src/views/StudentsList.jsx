@@ -1,14 +1,10 @@
 import { useEffect, useState, useRef } from "react";
-import { Header } from "../Component/Header";
-import { TableRow } from "../Component/TableRow";
-import { Loading } from "../Component/Loading";
-import { SelectBox } from "../Component/SelectBox";
-import { Input } from "../Component/Input";
+import { Link } from "react-router-dom";
+import { Header, TableRow, Loading, SelectBox, Input } from "../Component";
 import { convertToCSV } from "../utils/table-to-excel";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch } from "../utils";
-import { Link } from "react-router-dom";
 
 export function StudentsList() {
   useEffect(() => {

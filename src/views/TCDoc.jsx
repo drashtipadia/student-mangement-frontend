@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { Header } from "../Component/Header";
 import { useSearchParams } from "react-router-dom";
-import { Input } from "../Component/Input";
-import { SelectBox } from "../Component/SelectBox";
+import { Header, Input, SelectBox } from "../Component";
 import {
   SEMESTER,
   GIA_STREAMS,
@@ -14,7 +12,7 @@ import {
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
-function TCDoc() {
+export function TCDoc() {
   useEffect(() => {
     document.title = "Transfer Certificate";
   });
@@ -226,5 +224,3 @@ function TCDoc() {
     </>
   );
 }
-
-export default TCDoc;

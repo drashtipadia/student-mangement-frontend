@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Header } from "../Component/Header";
-import { Input } from "../Component/Input";
-import { SelectBox } from "../Component/SelectBox";
+import { useSearchParams } from "react-router-dom";
+import { Header, Input, SelectBox } from "../Component";
 import {
   GIA_STREAMS,
   SFI_STREAMS,
@@ -9,12 +8,12 @@ import {
   STREAM_ACRONYMS,
 } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
-import { useSearchParams } from "react-router-dom";
 import { handleError, safeFetch } from "../utils";
 
-function NoObjDoc() {
-
-  useEffect(() => { document.title = "NoObjection Form" })
+export function NoObjDoc() {
+  useEffect(() => {
+    document.title = "NoObjection Form";
+  });
 
   const INSTITUTE_TYPE = localStorage.getItem("token");
   let [searchParams] = useSearchParams();
@@ -36,10 +35,9 @@ function NoObjDoc() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //console.log(studnet);
 
     const [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/no-objection`,
+      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/no-objection`
     );
     handleError(err);
 
@@ -121,5 +119,3 @@ function NoObjDoc() {
     </>
   );
 }
-
-export default NoObjDoc;

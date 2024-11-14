@@ -1,4 +1,4 @@
-import loading from "../loading.svg";
+import loading from "../images/loading.svg";
 
 export function Loading({ message = "Loading..." }) {
   return (

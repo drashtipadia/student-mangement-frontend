@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { RadioGroup } from "../Component";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch, handleError } from "../utils";
-import { RadioGroup } from "../Component/RadioGroup";
 
-function Login() {
+export function AuthLogin() {
   useEffect(() => {
     document.title = "Login";
   });
@@ -124,4 +124,3 @@ function Login() {
     </>
   );
 }
-export { Login };

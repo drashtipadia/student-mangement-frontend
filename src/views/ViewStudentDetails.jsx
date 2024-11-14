@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Header } from "../Component/Header";
+import { Header, Loading } from "../Component";
 import { BASE_URL } from "../utils/config";
 import { safeFetch } from "../utils";
 import { handleError } from "../utils";
-import { Loading } from "../Component/Loading";
 
 export function ViewStudentDetails() {
   useEffect(() => {
@@ -51,7 +50,7 @@ export function ViewStudentDetails() {
                 role="button"
                 className="btn btn-primary w-100"
               >
-                Leaving Certificate
+                Transfer Certificate
               </Link>
             </div>
           )}

@@ -1,16 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import "../styles/view.css";
-import { DocHeader } from "../Component/DocHeader";
-import { Header } from "../Component/Header";
-import DocFooter from "../Component/DocFooter";
-import { Loading } from "../Component/Loading";
+import { useSearchParams } from "react-router-dom";
+import html2canvas from "html2canvas";
+import { DocHeader, Header, DocFooter, Loading } from "../Component";
 import { safeFetch } from "../utils";
 import { BASE_URL } from "../utils/config";
-import { useSearchParams } from "react-router-dom";
 import { STREAM_ACRONYMS } from "../utils/constants";
-import html2canvas from "html2canvas";
+import "../styles/view.css";
 
-export default function ViewNoObj() {
+export function ViewNoObj() {
   const [queryParams] = useSearchParams();
   const [student, setStudent] = useState({});
   const [loading, setLoading] = useState(true);
@@ -47,7 +44,6 @@ export default function ViewNoObj() {
     STREAM_ACRONYMS[student.stream]
   }-`;
 
-  // const navigate = useNavigate();
   const handleDownload = async () => {
     const canvas = await html2canvas(documentRef.current);
     canvas.toBlob((blob) => {
