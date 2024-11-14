@@ -11,10 +11,11 @@ import { safeFetch } from "../utils";
 import { Link } from "react-router-dom";
 
 export function StudentsList() {
+  useEffect(() => {
+    document.title = "Student List";
+  });
 
-  useEffect(() => { document.title = "Student List" })
   const INSTITUTE_TYPE = localStorage.getItem("token");
-  // eslint-disable-next-line
   const [searchName, setSearchName] = useState([]);
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,22 +39,24 @@ export function StudentsList() {
   useEffect(() => {
     (async () => {
       const [res, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}`,
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}`
       );
       if (err != null) console.log(err);
       else {
         setRecords([...res.students]);
         setRecordsCopy([...res.students]);
+
         setLoading(false);
       }
     })();
+  }, [INSTITUTE_TYPE]);
 
-    // eslint-disable-next-line
-  }, []);
+  const STREAMS =
+    INSTITUTE_TYPE === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS];
 
   const handleSearch = () => {
     let filteredRecords = records.filter((val) =>
-      val.full_name.toLowerCase().includes(searchName.toLowerCase()),
+      val.full_name.toLowerCase().includes(searchName.toLowerCase())
     );
     setRecordsCopy(filteredRecords);
   };
@@ -64,6 +67,7 @@ export function StudentsList() {
     setStream(result);
     setFilters({ ...filters, stream: result });
   };
+
   const handleSemester = (e) => {
     let sem = e.target.value;
     setFilters({ ...filters, semester: sem });
@@ -95,149 +99,143 @@ export function StudentsList() {
     setRecordsCopy(filteredRecords);
   };
 
+  if (loading) return <Loading />;
+
   return (
     <>
       <Header />
-      {loading ? (
-        <Loading />
-      ) : (
-        <>
-          <h2 className="text-center m-4 text-light">Student Info</h2>
-          <div className="container mb-3  align-items-center bg-light p-2">
-            <div className=" justify-content-between ">
-              <div className="row  align-items-center form-group m-2">
+      <>
+        <h2 className="text-center m-4">Student Info</h2>
+        <div className="container mb-3  align-items-center p-2">
+          <div className=" justify-content-between ">
+            <div className="row  align-items-center form-group m-2">
+              <SelectBox
+                name="stream"
+                label={"Stream:"}
+                placeholder={"Select Stream"}
+                onChange={handleChange}
+                data={[
+                  ...STREAMS,
+                  {
+                    label: "View All",
+                    value: "",
+                  },
+                ]}
+              />
+              {stream !== "" && (
                 <SelectBox
-                  name="stream"
-                  label={"Stream:"}
-                  placeholder={"Select Stream"}
-                  onChange={handleChange}
-                  data={
-                    INSTITUTE_TYPE === "SFI"
-                      ? [
-                        ...SFI_STREAMS,
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
-                      : [
-                        ...GIA_STREAMS,
-                        {
-                          label: "View All",
-                          value: "",
-                        },
-                      ]
-                  }
+                  name="semester"
+                  label={"Sem :"}
+                  placeholder={"Semester"}
+                  onChange={handleSemester}
+                  data={[...SEMESTER]}
                 />
-                {stream !== "" && (
-                  <SelectBox
-                    name="semester"
-                    label={"Sem :"}
-                    placeholder={"Semester"}
-                    onChange={handleSemester}
-                    data={[...SEMESTER]}
-                  />
-                )}
-                <Input
-                  type="number"
-                  name="year"
-                  label=""
-                  value={year === 0 ? "" : year}
-                  min="2000"
-                  max={new Date().getFullYear()}
-                  placeholder={"Year"}
-                  onChange={handleYearChange}
-                />
+              )}
+              <Input
+                type="number"
+                name="year"
+                label=""
+                value={year === 0 ? "" : year}
+                min="2000"
+                max={new Date().getFullYear()}
+                placeholder={"Year"}
+                onChange={handleYearChange}
+              />
 
-                <div className="col">
-                  <button onClick={sortStudents} className="btn btn-primary">
-                    Filter
-                  </button>
-                </div>
+              <div className="col">
+                <button onClick={sortStudents} className="btn btn-primary">
+                  Filter
+                </button>
+              </div>
 
-                <Input
-                  type="text"
-                  name="studentname"
-                  label=""
-                  placeholder={"Student Name"}
-                  onChange={(e) => setSearchName(e.target.value)}
-                />
+              <Input
+                type="text"
+                name="studentname"
+                label=""
+                placeholder={"Student Name"}
+                onChange={(e) => setSearchName(e.target.value)}
+              />
 
+              <div className="col">
+                <button onClick={handleSearch} className="btn btn-primary">
+                  Search
+                </button>
+              </div>
 
-                <div className="col">
-                  <button onClick={handleSearch} className="btn btn-primary">
-                    Search
-                  </button>
-                </div>
-
-                <div className="col">
-                  <button className="btn btn-primary" onClick={handleClick}>
-                    Export to Excel (CSV)
-                  </button>
-                </div>
+              <div className="col">
+                <button className="btn btn-primary" onClick={handleClick}>
+                  Export to Excel (CSV)
+                </button>
               </div>
             </div>
           </div>
-          <div className="container mb-3 bg-light overflow-scroll">
-            <table
-              className="table table-bordered"
-              id="my-table"
-              ref={tableRef}
-            >
-              <thead>
-                <tr>
-                  {/* <th>ID</th> */}
-                  <th>Enrollment</th>
-                  <th>ABC ID</th>
-                  <th>Gr No</th>
-                  <th>UDISK No</th>
-                  <th>Aadhar Number</th>
-                  <th>Stream</th>
-                  <th>Semester</th>
-                  {INSTITUTE_TYPE === "GIA" && (
-                    <>
-                      <th>Main Course</th>
-                      <th>First Secondary Subject</th>
-                      <th>Tertiary Secondary Subject</th>
-                    </>
-                  )}
-                  <th>Gender</th>
-                  <th>Email</th>
-                  <th>Whatsapp Number</th>
-                  <th>Name</th>
-                  <th>Father Name</th>
-                  <th>Mother Name</th>
-                  <th>Address</th>
-                  <th>City</th>
-                  <th>District</th>
-                  <th>Pincode</th>
-                  <th>Birth Date</th>
-                  <th>Birth Place</th>
-                  <th>Caste</th>
-                  <th>Parent Contact Number</th>
-                  <th>Last Organization Studied From</th>
-                  <th>Last Studied Year</th>
-                  {INSTITUTE_TYPE === "GIA" && <th>Elective Course</th>}
-                  <th>Admission Date</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {recordsCopy &&
-                  recordsCopy.map((e) => {
-                    // console.log(e);
-                    return <TableRow data={e} key={e.id} after>
+        </div>
+        <div className="container mb-3 overflow-scroll overflow-y-hidden">
+          <table
+            className="table table-bordered table-hover"
+            id="my-table"
+            ref={tableRef}
+          >
+            <thead>
+              <tr>
+                <th>Enrollment</th>
+                <th>ABC ID</th>
+                <th>Gr No</th>
+                <th>UDISK No</th>
+                <th>Aadhar Number</th>
+                <th>Stream</th>
+                <th>Semester</th>
+                {INSTITUTE_TYPE === "GIA" && (
+                  <>
+                    <th>Main Course</th>
+                    <th>First Secondary Subject</th>
+                    <th>Tertiary Secondary Subject</th>
+                  </>
+                )}
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Whatsapp Number</th>
+                <th>Name</th>
+                <th>Father Name</th>
+                <th>Mother Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>District</th>
+                <th>Pincode</th>
+                <th>Birth Date</th>
+                <th>Birth Place</th>
+                <th>Caste</th>
+                <th>Parent Contact Number</th>
+                <th>Last Organization Studied From</th>
+                <th>Last Studied Year</th>
+                {INSTITUTE_TYPE === "GIA" && <th>Elective Course</th>}
+                <th>Admission Date</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {recordsCopy &&
+                recordsCopy.map((e) => {
+                  // console.log(e);
+                  return (
+                    <TableRow
+                      data={e}
+                      key={e.id}
+                      after
+                      ignoreCols={["id", "institute_type"]}
+                    >
                       <td>
-                        <Link to={`/students/${e.id}`}>View Details &rarr;</Link>
+                        <Link to={`/students/${e.id}`}>
+                          View Details &rarr;
+                        </Link>
                       </td>
                     </TableRow>
-                  })}
-
-              </tbody>
-            </table>
-          </div>
-        </>
-      )}
+                  );
+                })}
+            </tbody>
+          </table>
+        </div>
+      </>
     </>
   );
 }

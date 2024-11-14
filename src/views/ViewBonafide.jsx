@@ -4,101 +4,136 @@ import html2canvas from "html2canvas";
 import { DocHeader } from "../Component/DocHeader";
 import { Header } from "../Component/Header";
 import DocFooter from "../Component/DocFooter";
-import { useNavigate } from "react-router-dom";
-import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { useNavigate, useSearchParams } from "react-router-dom";
+// eslint-disable-next-line
+import { BASE_URL, SERVER_HOST, SERVER_PORT } from "../utils/config";
 import ImagePlaceholder from "../Component/ImagePlaceholder";
+import { safeFetch } from "../utils";
+import { STREAM_ACRONYMS } from "../utils/constants";
+import { Loading } from "../Component/Loading";
 
 export function ViewBonafide() {
+  const [queryParams] = useSearchParams();
+  const [student, setStudent] = useState({});
+  const [serial, setSerial] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const studentID = queryParams.get("id");
 
-  useEffect(() => { document.title = "Bonafide Document" })
-  const [haveImgPlaceholder, setHaveImgPlaceholder] = useState(false)
+  const getData = async () => {
+    try {
+      let [resp, err] = await safeFetch(`${BASE_URL}/students/id/${studentID}`);
+      if (err) throw new Error(err);
+      setStudent({ ...resp.student });
 
-  const student = JSON.parse(localStorage.getItem("bonafide-info"));
+      [resp, err] = await safeFetch(`${BASE_URL}/last-serial/bonafide`);
+      if (err) throw new Error(err);
+      setSerial((Number(resp.serial) || 0) + 1);
+    } catch (e) {
+      alert("Some error occured");
+      throw new Error(e);
+    }
+  };
+
+  useEffect(() => {
+    document.title = "Bonafide Document";
+
+    getData();
+    setLoading(false);
+    // eslint-disable-next-line
+  }, []);
+  const [haveImgPlaceholder, setHaveImgPlaceholder] = useState(false);
+
+  const PREFIX = `BC-${localStorage.getItem("token")}-${
+    STREAM_ACRONYMS[student.stream]
+  }-`;
+
   const documentRef = useRef(null);
-  if (student == null) {
-    alert("Student is empty");
-  }
+
   const navigate = useNavigate();
 
-  const handleDownload = () => {
-    html2canvas(documentRef.current).then((canvas) => {
-      canvas.toBlob(async (blob) => {
-        let data = new FormData();
-        data.append("doc", blob, student.docName);
-        // eslint-diable-next-line
-        await fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-serial`, {
-          method: "POST",
-          headers: {
-            doc_type: "bonafide",
-            uuid: student.uuid,
-            docname: student.docName,
-          },
-        });
+  const handleDownload = async () => {
+    const canvas = await html2canvas(documentRef.current);
+    canvas.toBlob(async (blob) => {
+      const docName = PREFIX + serial + ".png";
 
-        await fetch(`http://${SERVER_HOST}:${SERVER_PORT}/upload-doc`, {
-          body: data,
+      let data = new FormData();
+      data.append("doc", blob, docName);
+      console.log(docName);
 
-          method: "POST",
-          headers: {
-            uuid: student.uuid,
-          },
-          uuid: student.uuid,
-        });
-
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = student.docName;
-
-        a.click();
-        navigate("/viewdata");
-        localStorage.removeItem("bonafide-info");
+      await fetch(`${BASE_URL}/last-serial`, {
+        method: "POST",
+        headers: {
+          doc_type: "bonafide",
+          uuid: studentID,
+          docname: docName,
+        },
       });
+
+      await fetch(`${BASE_URL}/upload-doc`, {
+        body: data,
+        method: "POST",
+        headers: {
+          uuid: studentID,
+        },
+        uuid: studentID,
+      });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = docName;
+      a.click();
+      navigate(-1);
     });
   };
 
+  if (loading || !student) return <Loading />;
+
   return (
     <>
-      <Header />
-      <label className="text-white p-2">With Image PlaceHolder{" "}</label>
-      <input
-        className="inline"
-        type="checkbox"
-        name=""
-        checked={haveImgPlaceholder}
-        onChange={() => setHaveImgPlaceholder(!haveImgPlaceholder)}
-      />
-      <div className="justify-content-end d-flex p-4">
-        <button className="btn btn-primary " onClick={handleDownload}>
-          Download
-        </button>
-      </div>
-      <div
-        className="container p-5 bg-light"
-        style={{ height: "297mm", width: "210mm" }}
-        ref={documentRef}
-      >
-        <DocHeader title={"BONAFIDE CERTIFICATE"} serialNo={`Bonafide No:${student.bcSerial}`} docDate={"___ /___ /_______"} />
-        <div className="p-5">
-
-          {haveImgPlaceholder && <ImagePlaceholder />}
-
-          <p className="text-center">
-            It is to certify to that, Mr./Ms.{" "}
-            <abbr title="attribute" className="fw-bold">
-              {student.studentName}
-            </abbr>{" "}
-            is/was enrolled student of this college. He/She is studying ________________________________________________________ in year{" "}
-            _______ - _______ in this college.
-          </p>
-          <p className="text-center">
-            As per our belief, he/she has a good characteristic.
-          </p>
-
+      <>
+        <Header />
+        <div className="justify-content-between d-flex p-4">
+          <div>
+            <label className="px-2">With Image PlaceHolder</label>
+            <input
+              type="checkbox"
+              checked={haveImgPlaceholder}
+              onChange={() => setHaveImgPlaceholder(!haveImgPlaceholder)}
+            />
+          </div>
+          <button className="btn btn-primary" onClick={handleDownload}>
+            Download
+          </button>
         </div>
-        <DocFooter />
-      </div>
-      <hr />
+        <div
+          className="container p-5 bg-light text-black"
+          style={{ height: "297mm", width: "210mm" }}
+          ref={documentRef}
+        >
+          <DocHeader
+            title={"BONAFIDE CERTIFICATE"}
+            serialNo={`Serial No: ${serial}`}
+            docDate={"___/___/_______"}
+          />
+          <div className="p-5">
+            {haveImgPlaceholder && <ImagePlaceholder />}
 
+            <p className="text-center">
+              It is to certify to that, Mr./Ms.&nbsp;
+              <abbr title="attribute" className="fw-bold">
+                {`${student.surname} ${student.name} ${student.fathername}`}
+              </abbr>
+              &nbsp;is/was enrolled student of this college. He/She is studying
+              ________________________________________________________ in
+              year&nbsp; _______ - _______ in this college.
+            </p>
+            <p className="text-center">
+              As per our belief, he/she has a good characteristic.
+            </p>
+          </div>
+          <DocFooter />
+        </div>
+        <hr />
+      </>
     </>
   );
 }

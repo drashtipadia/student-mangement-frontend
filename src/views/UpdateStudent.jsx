@@ -9,8 +9,9 @@ import { handleError, safeFetch } from "../utils";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export function UpdateStudent() {
-
-  useEffect(() => { document.title = "Update Student Form" })
+  useEffect(() => {
+    document.title = "Update Student Form";
+  });
 
   const INSTITUTE_TYPE = localStorage.getItem("token");
   const [user, setUser] = useState({ udisk_no: "" });
@@ -22,7 +23,7 @@ export function UpdateStudent() {
   useEffect(() => {
     async function callAPI() {
       let [resp, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/${id}`,
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/id/${id}`
       );
       handleError(err);
       // console.log(resp);
@@ -86,7 +87,7 @@ export function UpdateStudent() {
       {
         method: "POST",
         body: submitData,
-      },
+      }
     );
 
     handleError(err);
@@ -103,10 +104,10 @@ export function UpdateStudent() {
   return (
     <>
       <Header />
-      <div className="bg-dark">
+      <div>
         <h2 className="text-center mt-3 text-white">Update Student Details</h2>
         <div className="col d-flex justify-content-center py-3">
-          <div className="card bg-light" style={{ width: "50rem" }}>
+          <div className="card" style={{ width: "50rem" }}>
             <form className="m-4" method="post" encType="multipart/form-data">
               <div className="row border-3 form-group mb-3 align-items-center">
                 <SelectBox

@@ -11,10 +11,10 @@ import Error404 from "./views/Error404";
 import { StudentsList } from "./views/StudentsList";
 import { Login } from "./views/AuthLogin";
 import TCDoc from "./views/TCDoc";
-import NoObjDoc from "./views/NoObjDoc";
+// import NoObjDoc from "./views/NoObjDoc";
 import { ViewStudentDetails } from "./views/ViewStudentDetails";
-import BonafideDoc from "./views/BonafideDoc";
-import FirstTrialDoc from "./views/FirstTrialDoc";
+// import BonafideDoc from "./views/BonafideDoc";
+// import FirstTrialDoc from "./views/FirstTrialDoc";
 import { ViewFirstTrial } from "./views/ViewFirstTrial";
 import ViewTc from "./views/ViewTc";
 import ViewNoObj from "./views/ViewNoObj";
@@ -33,9 +33,9 @@ let allRoutes = createBrowserRouter([
   { path: "/students/:id", element: <ViewStudentDetails /> },
   { path: "*", element: <Error404 /> },
   { path: "/tcdoc", element: <TCDoc /> },
-  { path: "/noObjdoc", element: <NoObjDoc /> },
+  { path: "/noObjdoc", element: <ViewNoObj /> },
   { path: "/bonafidedoc", element: <ViewBonafide /> },
-  { path: "/firsttrialdoc", element: <FirstTrialDoc /> },
+  { path: "/firsttrialdoc", element: <ViewFirstTrial /> },
   { path: "/view-firstTrial", element: <ViewFirstTrial /> },
   { path: "/view-tc", element: <ViewTc /> },
   { path: "/view-noobj", element: <ViewNoObj /> },

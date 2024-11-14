@@ -12,15 +12,14 @@ import {
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
-
 function AdmissionForm() {
+  useEffect(() => {
+    document.title = "Admission Form";
+  });
 
-  //=====
-  useEffect(() => { document.title = "Admission Form" })
-
-  //=====
   const INSTITUTE_TYPE = localStorage.getItem("token");
   const [previewImage, setPreviewImage] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
   const [user, setUser] = useState({
     stream: "",
     semester: "",
@@ -55,7 +54,15 @@ function AdmissionForm() {
     institute_type: INSTITUTE_TYPE,
   });
 
-  const [validForm, setValidForm] = useState(false);
+  const [errors, setErrors] = useState({
+    aadharNumber: "",
+    mobileNo: "",
+    email: "",
+    surname: "",
+    name: "",
+    fatherName: "",
+    studentImg: "",
+  });
 
   useEffect(() => {
     if (
@@ -97,59 +104,80 @@ function AdmissionForm() {
     setUser({ ...user, [e.target.name]: value });
   };
 
-  const [error, setError] = useState({});
-
-  const isValid = () => {
-    const validationError = {};
-
+  /**
+   * Validates the form and populates the errors object.
+   * Return false if errors occured, true otherwise.
+   * @returns {boolean}
+   */
+  function validate() {
+    let errs = {};
+    let valid = true;
     if (!user.email.trim()) {
-      validationError.email = "Email is Required";
-    } else if (
+      errs.email = "Email is required!";
+      valid = false;
+    }
+
+    if (
       !user.email.match(
-        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
       )
     ) {
-      validationError.email = "Email is Not Valid";
-    }
-    if (!user.name.trim()) {
-      validationError.name = "Name is Required";
-    } else if (!user.surname.trim()) {
-      validationError.name = "Surname is Required";
-    } else if (!user.fathername.trim()) {
-      validationError.name = "Fathername is Required";
-    }
-    if (!user.whatsapp_no.trim()) {
-      validationError.whatsapp_no = "WhatsApp Number is Required";
-    }
-    if (!user.studentimg) {
-      validationError.studentimg = "Please Upload Image";
+      errs.email = "Email is not a valid Email!";
+      valid = false;
     }
 
-    setError(validationError);
-    return Object.keys(validationError).length === 0;
-  };
+    if (!user.surname.trim()) {
+      errs.surname = "Surname is required!";
+      valid = false;
+    }
+
+    if (!user.name.trim()) {
+      errs.name = "Name is required!";
+      valid = false;
+    }
+
+    if (!user.fathername.trim()) {
+      errs.fatherName = "Father name is required!";
+      valid = false;
+    }
+
+    if (!user.whatsapp_no.trim()) {
+      errs.mobileNo = "Whatsapp Number is required!";
+      valid = false;
+    }
+
+    if (!user.studentimg) {
+      errs.studentImg = "Student Image is required!";
+      valid = false;
+    }
+
+    setErrors(errs);
+
+    return valid;
+  }
 
   const STREAM = STREAM_ACRONYMS;
 
   const GR_PREFIX = "GR-" + INSTITUTE_TYPE + "-" + STREAM[user.stream] + "-";
 
-  // submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setValidForm(isValid());
-    if (!validForm) return;
+
+    let valid = validate();
+    if (!valid) return;
+    setSubmitting(valid);
 
     let [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`,
+      `http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`
     );
     handleError(err);
 
     const gr = Number(res.gr_no);
+    // statelessInc because previous test was with stateful incrementor (used useState, nothing else)
     const statelessInc = gr + 1;
 
-    setUser({ ...user, gr_no: `${GR_PREFIX}${statelessInc}` });
+    user.gr_no = `${GR_PREFIX}${statelessInc}`;
 
-    // eslint-disable-next-line
     if (user.gr_no) {
       const submitData = new FormData();
       Object.entries(user).forEach(([key, value]) => {
@@ -163,7 +191,7 @@ function AdmissionForm() {
         {
           method: "POST",
           body: submitData,
-        },
+        }
       );
       handleError(err);
 
@@ -173,17 +201,19 @@ function AdmissionForm() {
       } else {
         alert("see console");
         console.log(res);
+        setSubmitting(true);
       }
     }
+    setSubmitting(false);
   };
 
   return (
     <>
       <Header />
-      <div className="bg-dark">
-        <h2 className="text-center mt-3 text-white">Admission Form</h2>
+      <div>
+        <h2 className="text-center mt-3">Admission Form</h2>
         <div className="col d-flex justify-content-center py-3">
-          <div className="card bg-light" style={{ width: "50rem" }}>
+          <div className="card" style={{ width: "50rem" }}>
             <form className="m-4" method="post" encType="multipart/form-data">
               <div className="row border-3 form-group mb-3 align-items-center">
                 <SelectBox
@@ -313,10 +343,6 @@ function AdmissionForm() {
                 />
               </div>
 
-              {error.aadhar_number && (
-                <p className="text-danger">{error.aadhar_number}</p>
-              )}
-
               <RadioGroup
                 name={"caste"}
                 label={"Caste:"}
@@ -340,6 +366,7 @@ function AdmissionForm() {
                   value={user.surname}
                   placeholder="SURNAME"
                   onChange={handleInputs}
+                  errorMessage={errors.surname}
                 />
                 <Input
                   type="text"
@@ -347,6 +374,7 @@ function AdmissionForm() {
                   placeholder="NAME"
                   value={user.name}
                   onChange={handleInputs}
+                  errorMessage={errors.name}
                 />
                 <Input
                   type="text"
@@ -354,9 +382,9 @@ function AdmissionForm() {
                   placeholder="FATHERNAME"
                   value={user.fathername}
                   onChange={handleInputs}
+                  errorMessage={errors.fatherName}
                 />
               </div>
-              {error.name && <p className="text-danger">{error.name}</p>}
 
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
@@ -396,6 +424,7 @@ function AdmissionForm() {
                   placeholder="Whatsapp No."
                   value={user.whatsapp_no}
                   onChange={(e) => handlenumber(e, 10)}
+                  errorMessage={errors.mobileNo}
                   required
                 />
 
@@ -407,9 +436,7 @@ function AdmissionForm() {
                   onChange={(e) => handlenumber(e, 10)}
                 />
               </div>
-              {error.whatsapp_no && (
-                <p className="text-danger">{error.whatsapp_no}</p>
-              )}
+
               <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
                   type="email"
@@ -418,11 +445,10 @@ function AdmissionForm() {
                   placeholder="Student Email Address"
                   value={user.email}
                   onChange={handleInputs}
+                  errorMessage={errors.email}
                   required
                 />
               </div>
-
-              {error.email && <p className="text-danger">{error.email}</p>}
 
               <RadioGroup
                 label={"Gender:"}
@@ -509,12 +535,10 @@ function AdmissionForm() {
                   name="studentimg"
                   onChange={handleFileUploads}
                   accept={"image/png, image/jpg, image/jpeg"}
+                  errorMessage={errors.studentImg}
                   required
                 />
               </div>
-              {error.studentimg && (
-                <p className="text-danger">{error.studentimg}</p>
-              )}
 
               {previewImage && (
                 <div className="my-2">
@@ -527,6 +551,7 @@ function AdmissionForm() {
                 type="submit"
                 className="btn btn-primary btn-lg w-100"
                 onClick={handleSubmit}
+                disabled={submitting}
               >
                 Submit
               </button>
