@@ -1,6 +1,6 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import App from "./App";
 import {
   AdmissionForm,
@@ -20,26 +20,26 @@ import {
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.bundle";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-
-let allRoutes = createBrowserRouter([
-  { path: "/login", element: <AuthLogin /> },
-  { path: "/", element: <App /> },
-  { path: "/admissionForm", element: <AdmissionForm /> },
-  { path: "/viewdata", element: <StudentsList /> },
-  { path: "/students/:id", element: <ViewStudentDetails /> },
-  { path: "*", element: <Error404 /> },
-  { path: "/tcdoc", element: <TCDoc /> },
-  { path: "/noObjdoc", element: <ViewNoObj /> },
-  { path: "/bonafidedoc", element: <ViewBonafide /> },
-  { path: "/firsttrialdoc", element: <ViewFirstTrial /> },
-  { path: "/view-firstTrial", element: <ViewFirstTrial /> },
-  { path: "/view-tc", element: <ViewTc /> },
-  { path: "/view-noobj", element: <ViewNoObj /> },
-  { path: "/view-bonafide", element: <ViewBonafide /> },
-  { path: "/updateStudent", element: <UpdateStudent /> },
-  { path: "/update-img/:id", element: <UpdateStudentImage /> },
-  { path: "/count-student", element: <StudentCount /> },
-]);
-
-root.render(<RouterProvider router={allRoutes} />);
+createRoot(document.getElementById("root")).render(
+  <BrowserRouter>
+    <Routes>
+      <Route path="/login" element={<AuthLogin />} />
+      <Route path="/" element={<App />} />
+      <Route path="/admissionForm" element={<AdmissionForm />} />
+      <Route path="/viewdata" element={<StudentsList />} />
+      <Route path="/students/:id" element={<ViewStudentDetails />} />
+      <Route path="*" element={<Error404 />} />
+      <Route path="/tcdoc" element={<TCDoc />} />
+      <Route path="/noObjdoc" element={<ViewNoObj />} />
+      <Route path="/bonafidedoc" element={<ViewBonafide />} />
+      <Route path="/firsttrialdoc" element={<ViewFirstTrial />} />
+      <Route path="/view-firstTrial" element={<ViewFirstTrial />} />
+      <Route path="/view-tc" element={<ViewTc />} />
+      <Route path="/view-noobj" element={<ViewNoObj />} />
+      <Route path="/view-bonafide" element={<ViewBonafide />} />
+      <Route path="/updateStudent" element={<UpdateStudent />} />
+      <Route path="/update-img/:id" element={<UpdateStudentImage />} />
+      <Route path="/count-student" element={<StudentCount />} />
+    </Routes>
+  </BrowserRouter>
+);

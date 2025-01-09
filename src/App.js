@@ -18,32 +18,35 @@ function App() {
     <>
       <Header />
       <div className="App">
-        <div className="conatiner">
-          <div className="row g-3 w-100">
-            <div className="w-100">
+        <div className="container">
+          <div className="d-flex align-item-center flex-column justify-content-center">
+            <div className=" my-2">
               <Link
                 to={"/admissionForm"}
                 role="button"
-                className="btn btn-primary w-25"
+                className="btn btn-primary  d-block mx-auto"
+                style={{ maxWidth: "400px" }}
               >
                 AdmissionForm
               </Link>
             </div>
 
-            <div className="w-100">
+            <div className="my-2">
               <Link
                 to={"/viewdata"}
                 role="button"
-                className="btn btn-primary w-25"
+                className="btn btn-primary d-block mx-auto"
+                style={{ maxWidth: "400px" }}
               >
                 View Data
               </Link>
             </div>
-            <div className="w-100">
+            <div className="my-2">
               <Link
                 to={"/count-student"}
-                className="btn btn-primary w-25"
+                className="btn btn-primary d-block mx-auto"
                 role="button"
+                style={{ maxWidth: "400px" }}
               >
                 Student Count
               </Link>

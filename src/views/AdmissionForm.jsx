@@ -118,7 +118,7 @@ function AdmissionForm() {
     let valid = true;
 
     VALIDATE_FIELDS.forEach((field) => {
-      if (!user[field] || !user[field].trim()) {
+      if (!user[field]) {
         errs[field] = `${field} is required.`;
         valid = false;
       }
