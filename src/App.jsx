@@ -51,6 +51,15 @@ function App() {
                 Student Count
               </Link>
             </div>
+            <div className="my-2">
+              <Link
+                className="btn btn-primary d-block mx-auto"
+                role="button"
+                style={{ maxWidth: "400px" }}
+              >
+                Import Excel
+              </Link>
+            </div>
           </div>
         </div>
       </div>
