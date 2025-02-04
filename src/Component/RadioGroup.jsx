@@ -1,13 +1,13 @@
 export function RadioGroup({ name, label, data, onChange, checked }) {
   return (
-    <div className="row broder-3 form-group mb-3">
-      <label className="col-auto text-center">{label}</label>
+    <div className="flex flex-wrap">
+      <label className=" text-center text-lg mx-2">{label}</label>
       {data.map((entry, idx) => {
         return (
-          <div key={entry.value} className="col-auto">
-            <div className="form-check form-check-inline m-0">
+          <div key={entry.value} className="px-4">
+            <div className="items-center m-0">
               <input
-                className="form-check-input"
+                className="h-4 w-4 rounded-full border border-slate-300 checked:border-slate-400 transition-all"
                 type="radio"
                 name={name}
                 id={entry.value}
@@ -15,7 +15,7 @@ export function RadioGroup({ name, label, data, onChange, checked }) {
                 onChange={onChange}
                 checked={checked === entry.value}
               />
-              <label className="form-check-label" htmlFor={entry.value}>
+              <label className="mx-1 text-lg" htmlFor={entry.value}>
                 {entry.label}
               </label>
             </div>

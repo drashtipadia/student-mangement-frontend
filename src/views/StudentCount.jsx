@@ -108,75 +108,86 @@ export function StudentCount() {
   return (
     <>
       <Header />
-      <div className="container mb-3 overflow-scroll">
-        <table className="table table-bordered" id="my-table">
-          <thead>
-            <tr className="text-center">
-              <td colSpan="7" className="fw-bold">
-                Stream
-              </td>
-            </tr>
-            <tr className="text-center">
-              {INSTITUTE_TYPE === "SFI" ? (
-                <>
-                  <td colSpan="1"></td>
-                  <td colSpan="2" className="fw-bold">
-                    BCA
-                  </td>
-                  <td colSpan="2" className="fw-bold">
-                    BBA
-                  </td>
-                  <td colSpan="2" className="fw-bold">
-                    MScIT
-                  </td>
-                </>
-              ) : (
-                <>
-                  <td colSpan="1"></td>
-                  <td colSpan="2" className="fw-bold">
-                    BCom
-                  </td>
-                  <td colSpan="2" className="fw-bold">
-                    BA
-                  </td>
-                </>
-              )}
-            </tr>
-            <tr className="fw-bold text-center">
-              <td>Category</td>
-              {INSTITUTE_TYPE === "SFI" ? (
-                <>
-                  <td>Male</td>
-                  <td>Female</td>
-                  <td>Male</td>
-                  <td>Female</td>
-                  <td>Male</td>
-                  <td>Female</td>
-                </>
-              ) : (
-                <>
-                  <td>Male</td>
-                  <td>Female</td>
-                  <td>Male</td>
-                  <td>Female</td>
-                </>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(INSTITUTE_TYPE === "GIA" ? GIACount : SFICount).map(
-              ([k, entry]) => {
+      <div class="flex justify-center items-center">
+        <div className="flex mt-7">
+          <table id="my-table">
+            <thead className=" text-center">
+              <tr>
+                <td
+                  colSpan="7"
+                  className="font-bold py-3 text-xl border border-black"
+                >
+                  Stream
+                </td>
+              </tr>
+              <tr className="text-center border border-black ">
+                {INSTITUTE_TYPE === "SFI" ? (
+                  <>
+                    <td colSpan="1"></td>
+                    <td
+                      colSpan="2"
+                      className="border border-black font-bold py-2 "
+                    >
+                      BCA
+                    </td>
+                    <td colSpan="2" className="boreder font-bold">
+                      BBA
+                    </td>
+                    <td colSpan="2" className="border border-black font-bold">
+                      MScIT
+                    </td>
+                  </>
+                ) : (
+                  <>
+                    <td colSpan="1"></td>
+                    <td
+                      colSpan="2"
+                      className="border border-black font-bold py-2"
+                    >
+                      BA
+                    </td>
+                    <td colSpan="2" className="border border-black font-bold">
+                      BCom
+                    </td>
+                  </>
+                )}
+              </tr>
+              <tr className="font-bold text-center">
+                <td className="border border-black px-14 py-2">Category</td>
+                {INSTITUTE_TYPE === "SFI" ? (
+                  <>
+                    <td className="border border-black px-9">Male</td>
+                    <td className="border border-black px-9">Female</td>
+                    <td className="border border-black px-9">Male</td>
+                    <td className="border border-black px-9">Female</td>
+                    <td className="border border-black px-9">Male</td>
+                    <td className="border border-black px-9">Female</td>
+                  </>
+                ) : (
+                  <>
+                    <td className="border border-black px-9">Male</td>
+                    <td className="border border-black px-9">Female</td>
+                    <td className="border border-black px-9">Male</td>
+                    <td className="border border-black px-9">Female</td>
+                  </>
+                )}
+              </tr>
+            </thead>
+            <tbody className="">
+              {Object.entries(
+                INSTITUTE_TYPE === "GIA" ? GIACount : SFICount
+              ).map(([k, entry]) => {
                 return (
                   <>
                     <TableRow data={entry} key={k} before defValue="0">
-                      <td className="fw-bold">{k}</td>
+                      <td className="border border-black font-bold p-2">{k}</td>
                     </TableRow>
                   </>
                 );
-              }
-            )}
-          </tbody>
-        </table>
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </>
   );

@@ -41,75 +41,66 @@ export function ViewStudentDetails() {
   return (
     <>
       <Header />
-      <div className="container p-3">
-        <div className="row g-3 justify-content-center d-flex align-items-center flex-column">
+      <div className="mx-auto sm:px-4">
+        <div className="flex align-item-center flex-col justify-center mt-12">
           {!docs.transfer_certificate && (
-            <div className="w-50">
-              <Link
-                to={`/tcdoc?id=${params.id}`}
-                role="button"
-                className="btn btn-primary w-100"
-              >
-                Transfer Certificate
-              </Link>
-            </div>
+            <Link
+              to={`/tcdoc?id=${params.id}`}
+              role="button"
+              className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+            >
+              Transfer Certificate
+            </Link>
           )}
 
           {!docs.no_objection && (
-            <div className="w-50">
-              <Link
-                to={`/noObjdoc?id=${params.id}`}
-                role="button"
-                className="btn btn-primary w-100"
-              >
-                No Objection Certificate
-              </Link>
-            </div>
+            <Link
+              to={`/noObjdoc?id=${params.id}`}
+              role="button"
+              className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+            >
+              No Objection Certificate
+            </Link>
           )}
 
           {!docs.bonafide && (
-            <div className="w-50">
-              <Link
-                to={`/bonafidedoc?id=${params.id}`}
-                role="button"
-                className="btn btn-primary w-100"
-              >
-                Bonafide Certificate
-              </Link>
-            </div>
+            <Link
+              to={`/bonafidedoc?id=${params.id}`}
+              role="button"
+              className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+            >
+              Bonafide Certificate
+            </Link>
           )}
 
           {!docs.first_trial && (
-            <div className="w-50">
-              <Link
-                to={`/firsttrialdoc?id=${params.id}`}
-                role="button"
-                className="btn btn-primary w-100"
-              >
-                First Trial Certificate
-              </Link>
-            </div>
+            <Link
+              to={`/firsttrialdoc?id=${params.id}`}
+              role="button"
+              className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+            >
+              First Trial Certificate
+            </Link>
           )}
-          <div className="w-50">
-            <Link
-              to={`/UpdateStudent?id=${params.id}`}
-              role="button"
-              className="btn btn-primary w-100"
-            >
-              Update Student
-            </Link>
-          </div>
-          <div className="w-50">
-            <Link
-              to={`/update-img/${params.id}`}
-              role="button"
-              className="btn btn-primary w-100"
-            >
-              Update Image
-            </Link>
-          </div>
-        </div>
 
+          <Link
+            to={`/UpdateStudent?id=${params.id}`}
+            role="button"
+            className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline "
+          >
+            Update Student
+          </Link>
+
+          <Link
+            to={`/update-img/${params.id}`}
+            role="button"
+            className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+          >
+            Update Image
+          </Link>
+        </div>
+      </div>
+      <div>
         {docs.transfer_certificate && (
           <div className="img-holder mx-auto w-50 mt-4">
             <img

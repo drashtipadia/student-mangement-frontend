@@ -14,3 +14,4 @@ export { ViewFirstTrial } from "./ViewFirstTrial";
 export { ViewNoObj } from "./ViewNoObj";
 export { ViewStudentDetails } from "./ViewStudentDetails";
 export { ViewTc } from "./ViewTc";
+export { ImportStudentData } from "./ImportStudentData";

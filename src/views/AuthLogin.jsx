@@ -50,68 +50,62 @@ export function AuthLogin() {
 
   return (
     <>
-      <div className="bg-gradient-to-r from-slate-50 to-slate-500 pt-0">
-        <div className="container py-5">
-          <div className="row d-flex justify-content-center align-items-center">
-            <div className="col-lg-6 col-md-6">
-              <div className="card bg-light text-black">
-                <div className="card-body p-5 text-center">
-                  <form
-                    id="adminloginform"
-                    encType="multipart/form-data"
-                    method="POST"
-                  >
-                    <h2 className="fw-bold mb-3 text-uppercase">Admin Login</h2>
-
-                    <div className="form-outline mb-4">
-                      <input
-                        type="text"
-                        id="adminname"
-                        name="adminname"
-                        className="form-control form-control-lg"
-                        placeholder="Enter your Admin name..."
-                        onChange={handleInput}
-                        required
-                      />
-                    </div>
-                    <div className="form-outline mb-4">
-                      <input
-                        type="password"
-                        id="adminpassword"
-                        name="adminpassword"
-                        className="form-control form-control-lg"
-                        placeholder="Enter your Password..."
-                        onChange={handleInput}
-                        required
-                      />
-                    </div>
-                    <div className="form-outline mb-5">
-                      <RadioGroup
-                        name={"institute_type"}
-                        label={"Institute Type:"}
-                        data={[
-                          { label: "GIA", value: "GIA" },
-                          { label: "SFI", value: "SFI" },
-                        ]}
-                        onChange={handleInput}
-                        checked={admin.institute_type}
-                      />
-                    </div>
-                    <div className="text-danger mb-4">{error}</div>
-                    <button
-                      className="btn btn-outline-dark btn-lg px-5"
-                      type="submit"
-                      onClick={handleSubmit}
-                    >
-                      Login
-                    </button>
-                  </form>
+      <section class=" bg-gradient-to-r from-slate-50 to-slate-500">
+        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+          <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 ">
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 class="text-lg font-bold leading-tight tracking-tight text-center text-gray-900 md:text-2xl ">
+                Admin Login
+              </h1>
+              <form class="space-y-4 md:space-y-6" action="#">
+                <div>
+                  <input
+                    type="text"
+                    id="adminname"
+                    name="adminname"
+                    className="w-full p-3 border border-gray-300 rounded-lg"
+                    placeholder="Enter your Admin name..."
+                    onChange={handleInput}
+                    required
+                  />
                 </div>
-              </div>
+                <div>
+                  <input
+                    type="password"
+                    id="adminpassword"
+                    name="adminpassword"
+                    className="w-full p-3 border border-gray-300 rounded-lg"
+                    placeholder="Enter your Password..."
+                    onChange={handleInput}
+                    required
+                  />
+                </div>
+                <div class="items-center">
+                  <RadioGroup
+                    name={"institute_type"}
+                    label={"Institute Type:"}
+                    data={[
+                      { label: "GIA", value: "GIA" },
+                      { label: "SFI", value: "SFI" },
+                    ]}
+                    onChange={handleInput}
+                    checked={admin.institute_type}
+                  />
+                </div>
+                <div className="text-red-500 mb-4">{error}</div>
+
+                <button
+                  className="w-full bg-gray-200 border border-2 border-black rounded-lg py-2 px-5 text-lg focus:outline-black-2   "
+                  type="submit"
+                  onClick={handleSubmit}
+                >
+                  Login
+                </button>
+              </form>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </>
   );
 }

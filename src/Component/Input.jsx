@@ -15,37 +15,42 @@ export function Input({
 }) {
   return (
     <>
-      <label className="col-auto text-center" htmlFor={name}>
-        {required && <Badge />}
-        {label}
-      </label>
-      <div className="col m-0 p-0">
-        {type !== "textarea" ? (
-          <input
-            type={type}
-            id={name}
-            name={name}
-            value={value}
-            className="form-control m-0"
-            onChange={onChange}
-            min={min}
-            max={max}
-            placeholder={placeholder}
-            accept={accept}
-            spellCheck="false"
-          />
-        ) : (
-          <textarea
-            id={name}
-            name={name}
-            value={value}
-            className="form-control"
-            onChange={onChange}
-            placeholder={placeholder}
-            spellCheck="false"
-          />
-        )}
-        {errorMessage && <span className="text-danger">{errorMessage}</span>}
+      <div className="flex ">
+        <div className="flex-wrap min-w-fit md:m-0">
+          <label className="uppercase px-2 text-center" htmlFor={name}>
+            {required && <Badge />}
+            {label}
+          </label>
+        </div>
+
+        <div className="w-full md:mb-3">
+          {type !== "textarea" ? (
+            <input
+              type={type}
+              id={name}
+              name={name}
+              value={value}
+              className=" w-full  bg-white border rounded p-2 focus:outline-none  focus:border-gray-500"
+              onChange={onChange}
+              min={min}
+              max={max}
+              placeholder={placeholder}
+              accept={accept}
+              spellCheck="false"
+            />
+          ) : (
+            <textarea
+              id={name}
+              name={name}
+              value={value}
+              className=" w-full  text-gray-700 border rounded p-2  focus:outline-none  focus:border-gray-500"
+              onChange={onChange}
+              placeholder={placeholder}
+              spellCheck="false"
+            />
+          )}
+          {errorMessage && <span className="text-red-700">{errorMessage}</span>}
+        </div>
       </div>
     </>
   );

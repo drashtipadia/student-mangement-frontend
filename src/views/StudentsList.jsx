@@ -166,47 +166,55 @@ export function StudentsList() {
             </div>
           </div>
         </div>
-        <div className="container mb-3 overflow-scroll overflow-y-hidden">
+        <div className="mb-3  overscroll-y-none p-3">
           <table
-            className="table table-bordered table-hover"
+            className="table border border-black"
             id="my-table"
             ref={tableRef}
           >
             <thead>
               <tr>
-                <th>Enrollment</th>
-                <th>ABC ID</th>
-                <th>Gr No</th>
-                <th>UDISK No</th>
-                <th>Aadhar Number</th>
-                <th>Stream</th>
-                <th>Semester</th>
+                <th className=" border border-black">Enrollment</th>
+                <th className="border border-black">ABC ID</th>
+                <th className="border border-black">Gr No</th>
+                <th className="border border-black">UDISK No</th>
+                <th className="border border-black">Aadhar Number</th>
+                <th className="border border-black">Stream</th>
+                <th className="border border-black">Semester</th>
                 {INSTITUTE_TYPE === "GIA" && (
                   <>
-                    <th>Main Course</th>
-                    <th>First Secondary Subject</th>
-                    <th>Tertiary Secondary Subject</th>
+                    <th className="border border-black">Main Course</th>
+                    <th className="border border-black">
+                      First Secondary Subject
+                    </th>
+                    <th className="border border-black">
+                      Tertiary Secondary Subject
+                    </th>
                   </>
                 )}
-                <th>Gender</th>
-                <th>Email</th>
-                <th>Whatsapp Number</th>
-                <th>Name</th>
-                <th>Father Name</th>
-                <th>Mother Name</th>
-                <th>Address</th>
-                <th>City</th>
-                <th>District</th>
-                <th>Pincode</th>
-                <th>Birth Date</th>
-                <th>Birth Place</th>
-                <th>Caste</th>
-                <th>Parent Contact Number</th>
-                <th>Last Organization Studied From</th>
-                <th>Last Studied Year</th>
-                {INSTITUTE_TYPE === "GIA" && <th>Elective Course</th>}
-                <th>Admission Date</th>
-                <th></th>
+                <th className="border border-black">Gender</th>
+                <th className="border border-black">Email</th>
+                <th className="border border-black">Whatsapp Number</th>
+                <th className="border border-black">Name</th>
+                <th className="border border-black">Father Name</th>
+                <th className="border border-black">Mother Name</th>
+                <th className="border border-black">Address</th>
+                <th className="border border-black">City</th>
+                <th className="border border-black">District</th>
+                <th className="border border-black">Pincode</th>
+                <th className="border border-black">Birth Date</th>
+                <th className="border border-black">Birth Place</th>
+                <th className="border border-black">Caste</th>
+                <th className="border border-black">Parent Contact Number</th>
+                <th className="border border-black">
+                  Last Organization Studied From
+                </th>
+                <th className="border border-black">Last Studied Year</th>
+                {INSTITUTE_TYPE === "GIA" && (
+                  <th className="border border-black">Elective Course</th>
+                )}
+                <th className="border border-black">Admission Date</th>
+                <th className="border border-black"></th>
               </tr>
             </thead>
             <tbody>
@@ -220,7 +228,7 @@ export function StudentsList() {
                       after
                       ignoreCols={["id", "institute_type"]}
                     >
-                      <td>
+                      <td className="border border-black">
                         <Link to={`/students/${e.id}`}>
                           View Details &rarr;
                         </Link>

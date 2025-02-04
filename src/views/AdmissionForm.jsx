@@ -187,12 +187,15 @@ function AdmissionForm() {
   return (
     <>
       <Header />
-      <div>
-        <h2 className="text-center mt-3">Admission Form</h2>
-        <div className="col d-flex justify-content-center py-3">
-          <div className="card" style={{ width: "50rem" }}>
-            <form className="m-4" method="post" encType="multipart/form-data">
-              <div className="row border-3 form-group mb-3 align-items-center">
+      <div className="flex items-center justify-center mt-6">
+        <div className="border border-black bg-slate-100">
+          <h2 className="text-center mb-6 mt-3 text-2xl font-semibold">
+            Admission Form
+          </h2>
+
+          <form className=" m-4" method="post" encType="multipart/form-data">
+            <div className="flex flex-wrap">
+              <div className="w-auto md:mb-0 ">
                 <SelectBox
                   name="stream"
                   onChange={handleInputs}
@@ -204,7 +207,8 @@ function AdmissionForm() {
                       : [...SFI_STREAMS]
                   }
                 />
-
+              </div>
+              <div className="w-auto md:mb-0 ">
                 <SelectBox
                   name="semester"
                   onChange={handleInputs}
@@ -213,327 +217,325 @@ function AdmissionForm() {
                   data={[...SEMESTER]}
                 />
               </div>
+            </div>
 
-              {user.stream === "Bachelor of Commerce" && (
-                <RadioGroup
-                  label={"Choose Subject:"}
-                  name={"elective_course"}
-                  onChange={handleInputs}
-                  data={[
-                    { label: "Accountancy", value: "accountancy" },
-                    { label: "Computer Science", value: "computer science" },
-                  ]}
-                  checked={user.elective_course}
-                />
-              )}
-
-              {user.stream === "Bachelor of Arts" && (
-                <RadioGroup
-                  label={"Compulsary Subject:"}
-                  name={"elective_course"}
-                  onChange={handleInputs}
-                  data={[
-                    { label: "English", value: "english" },
-                    { label: "Hindi", value: "hindi" },
-                  ]}
-                  checked={user.elective_course}
-                />
-              )}
-
-              <hr />
-
-              {user.stream === "Bachelor of Arts" && (
-                <RadioGroup
-                  label={"Main Subject:"}
-                  name={"main_subject"}
-                  onChange={handleInputs}
-                  data={[
-                    { label: "Economics", value: "economics" },
-                    { label: "Gujarati", value: "gujarati" },
-                    { label: "Psychology", value: "psychology" },
-                    { label: "Hindi", value: "hindi" },
-                  ]}
-                  checked={user.main_subject}
-                />
-              )}
-
-              {user.stream === "Bachelor of Arts" && (
-                <RadioGroup
-                  label={"First Secondary Subject:"}
-                  name={"first_secondary_subject"}
-                  onChange={handleInputs}
-                  data={[
-                    { label: "Gujarati", value: "gujarati" },
-                    { label: "Hindi", value: "hindi" },
-                    { label: "Psychology", value: "psychology" },
-                  ]}
-                  checked={user.first_secondary_subject}
-                />
-              )}
-
-              {user.stream === "Bachelor of Arts" && (
-                <>
-                  <RadioGroup
-                    label={"Tertiary Secondary Subject:"}
-                    name={"tertiary_secondary_subject"}
-                    onChange={handleInputs}
-                    data={[
-                      { label: "Gujarati", value: "gujarati" },
-                      { label: "Hindi", value: "hindi" },
-                      { label: "Psychology", value: "psychology" },
-                    ]}
-                    checked={user.tertiary_secondary_subject}
-                  />
-                  <hr />
-                </>
-              )}
-              <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
-                  type="text"
-                  name="abc_id"
-                  label="ABC ID:"
-                  value={user.abc_id}
-                  placeholder="Enter ABC ID No."
-                  onChange={(e) => handlenumber(e, 12)}
-                />
-
-                <Input
-                  type="text"
-                  name="udisk_no"
-                  label="UDISK No:"
-                  value={user.udisk_no}
-                  placeholder="Enter UDISK No."
-                  onChange={handleInputs}
-                />
-              </div>
-
-              <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
-                  type="text"
-                  name="aadhar_number"
-                  label="Aadhar No:"
-                  value={user.aadhar_number}
-                  placeholder="Enter Aadhar No."
-                  max="12"
-                  onChange={(e) => handlenumber(e, 12)}
-                  required
-                />
-              </div>
-
+            {user.stream === "Bachelor of Commerce" && (
               <RadioGroup
-                name={"caste"}
-                label={"Caste:"}
+                label={"Choose Subject:"}
+                name={"elective_course"}
                 onChange={handleInputs}
                 data={[
-                  { label: "GENERAL", value: "GENERAL" },
-                  { label: "EWS", value: "EWS" },
-                  { label: "SC", value: "SC" },
-                  { label: "ST", value: "ST" },
-                  { label: "SEBC(OBC)", value: "SEBC(OBC)" },
-                  { label: "PH", value: "PH" },
-                  { label: "EX-ARMY", value: "EX-ARMY" },
+                  { label: "Accountancy", value: "accountancy" },
+                  { label: "Computer Science", value: "computer science" },
                 ]}
-                checked={user.caste}
+                checked={user.elective_course}
               />
-              <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
-                  type="text"
-                  name="surname"
-                  label="Full Name:"
-                  value={user.surname}
-                  placeholder="SURNAME"
-                  onChange={handleInputs}
-                  errorMessage={errors.surname}
-                />
-                <Input
-                  type="text"
-                  name="name"
-                  placeholder="NAME"
-                  value={user.name}
-                  onChange={handleInputs}
-                  errorMessage={errors.name}
-                />
-                <Input
-                  type="text"
-                  name="fathername"
-                  placeholder="FATHERNAME"
-                  value={user.fathername}
-                  onChange={handleInputs}
-                  errorMessage={errors.fathername}
-                />
-              </div>
+            )}
 
-              <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
-                  type="text"
-                  name="father_name"
-                  label="Full father Name:"
-                  placeholder="Enter Father Name"
-                  value={user.father_name}
-                  onChange={handleInputs}
-                />
-              </div>
-              <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
-                  type="text"
-                  name="mother_name"
-                  label="Full mother Name:"
-                  placeholder="Enter Mother Name"
-                  value={user.mother_name}
-                  onChange={handleInputs}
-                />
-              </div>
-              <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
-                  type="textarea"
-                  name="address"
-                  label="Address:"
-                  value={user.address}
-                  onChange={handleInputs}
-                  placeholder="Enter the Address"
-                />
-              </div>
-              <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
-                  type="text"
-                  name="whatsapp_no"
-                  label="Mobile No:"
-                  placeholder="Whatsapp No."
-                  value={user.whatsapp_no}
-                  onChange={(e) => handlenumber(e, 10)}
-                  errorMessage={errors.whatsapp_no}
-                  required
-                />
-
-                <Input
-                  type="text"
-                  name="parent_contact_no"
-                  placeholder="Parent No."
-                  value={user.parent_contact_no}
-                  onChange={(e) => handlenumber(e, 10)}
-                />
-              </div>
-
-              <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
-                  type="email"
-                  name="email"
-                  label="Email:"
-                  placeholder="Student Email Address"
-                  value={user.email}
-                  onChange={handleInputs}
-                  errorMessage={errors.email}
-                  required
-                />
-              </div>
-
+            {user.stream === "Bachelor of Arts" && (
               <RadioGroup
-                label={"Gender:"}
-                name={"gender"}
+                label={"Compulsary Subject:"}
+                name={"elective_course"}
                 onChange={handleInputs}
                 data={[
-                  { label: "Male", value: "male" },
-                  { label: "Female", value: "female" },
+                  { label: "English", value: "english" },
+                  { label: "Hindi", value: "hindi" },
                 ]}
-                checked={user.gender}
+                checked={user.elective_course}
               />
-              <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
-                  type="date"
-                  name="birth_date"
-                  value={user.birth_date}
-                  label="Birth Date:"
-                  onChange={handleInputs}
-                />
+            )}
 
-                <Input
-                  type="text"
-                  name="birth_place"
-                  value={user.birth_place}
-                  label="Birth Place:"
-                  placeholder="birthplace.."
+            <hr />
+
+            {user.stream === "Bachelor of Arts" && (
+              <RadioGroup
+                label={"Main Subject:"}
+                name={"main_subject"}
+                onChange={handleInputs}
+                data={[
+                  { label: "Economics", value: "economics" },
+                  { label: "Gujarati", value: "gujarati" },
+                  { label: "Psychology", value: "psychology" },
+                  { label: "Hindi", value: "hindi" },
+                ]}
+                checked={user.main_subject}
+              />
+            )}
+
+            {user.stream === "Bachelor of Arts" && (
+              <RadioGroup
+                label={"First Secondary Subject:"}
+                name={"first_secondary_subject"}
+                onChange={handleInputs}
+                data={[
+                  { label: "Gujarati", value: "gujarati" },
+                  { label: "Hindi", value: "hindi" },
+                  { label: "Psychology", value: "psychology" },
+                ]}
+                checked={user.first_secondary_subject}
+              />
+            )}
+
+            {user.stream === "Bachelor of Arts" && (
+              <>
+                <RadioGroup
+                  label={"Tertiary Secondary Subject:"}
+                  name={"tertiary_secondary_subject"}
                   onChange={handleInputs}
+                  data={[
+                    { label: "Gujarati", value: "gujarati" },
+                    { label: "Hindi", value: "hindi" },
+                    { label: "Psychology", value: "psychology" },
+                  ]}
+                  checked={user.tertiary_secondary_subject}
                 />
+                <hr />
+              </>
+            )}
+            <div className="flex flex-wrap mt-3">
+              <Input
+                type="text"
+                name="abc_id"
+                label="ABC ID:"
+                value={user.abc_id}
+                placeholder="Enter ABC ID No."
+                onChange={(e) => handlenumber(e, 12)}
+              />
+
+              <Input
+                type="text"
+                name="udisk_no"
+                label="UDISK No:"
+                value={user.udisk_no}
+                placeholder="Enter UDISK No."
+                onChange={handleInputs}
+              />
+            </div>
+
+            <Input
+              type="text"
+              name="aadhar_number"
+              label="Aadhar No:"
+              value={user.aadhar_number}
+              placeholder="Enter Aadhar No."
+              max="12"
+              onChange={(e) => handlenumber(e, 12)}
+              required
+            />
+
+            <RadioGroup
+              name={"caste"}
+              label={"Caste:"}
+              onChange={handleInputs}
+              data={[
+                { label: "GENERAL", value: "GENERAL" },
+                { label: "EWS", value: "EWS" },
+                { label: "SC", value: "SC" },
+                { label: "ST", value: "ST" },
+                { label: "SEBC(OBC)", value: "SEBC(OBC)" },
+                { label: "PH", value: "PH" },
+                { label: "EX-ARMY", value: "EX-ARMY" },
+              ]}
+              checked={user.caste}
+            />
+            <div className="flex flex-wrap">
+              <Input
+                type="text"
+                name="surname"
+                label="Full Name:"
+                value={user.surname}
+                placeholder="SURNAME"
+                onChange={handleInputs}
+                errorMessage={errors.surname}
+              />
+              <Input
+                type="text"
+                name="name"
+                placeholder="NAME"
+                value={user.name}
+                onChange={handleInputs}
+                errorMessage={errors.name}
+              />
+              <Input
+                type="text"
+                name="fathername"
+                placeholder="FATHERNAME"
+                value={user.fathername}
+                onChange={handleInputs}
+                errorMessage={errors.fathername}
+              />
+            </div>
+
+            <div className="row border-3 form-group mb-3 align-items-center">
+              <Input
+                type="text"
+                name="father_name"
+                label="Full father Name:"
+                placeholder="Enter Father Name"
+                value={user.father_name}
+                onChange={handleInputs}
+              />
+            </div>
+            <div className="row border-3 form-group mb-3 align-items-center">
+              <Input
+                type="text"
+                name="mother_name"
+                label="Full mother Name:"
+                placeholder="Enter Mother Name"
+                value={user.mother_name}
+                onChange={handleInputs}
+              />
+            </div>
+            <div className="row border-3 form-group mb-3 align-items-center">
+              <Input
+                type="textarea"
+                name="address"
+                label="Address:"
+                value={user.address}
+                onChange={handleInputs}
+                placeholder="Enter the Address"
+              />
+            </div>
+            <div className="flex flex-wrap">
+              <Input
+                type="text"
+                name="whatsapp_no"
+                label="Mobile No:"
+                placeholder="Whatsapp No."
+                value={user.whatsapp_no}
+                onChange={(e) => handlenumber(e, 10)}
+                errorMessage={errors.whatsapp_no}
+                required
+              />
+
+              <Input
+                type="text"
+                name="parent_contact_no"
+                placeholder="Parent No."
+                value={user.parent_contact_no}
+                onChange={(e) => handlenumber(e, 10)}
+              />
+            </div>
+
+            <div className="flex flex-wrap">
+              <Input
+                type="email"
+                name="email"
+                label="Email:"
+                placeholder="Student Email Address"
+                value={user.email}
+                onChange={handleInputs}
+                errorMessage={errors.email}
+                required
+              />
+            </div>
+
+            <RadioGroup
+              label={"Gender:"}
+              name={"gender"}
+              onChange={handleInputs}
+              data={[
+                { label: "Male", value: "male" },
+                { label: "Female", value: "female" },
+              ]}
+              checked={user.gender}
+            />
+            <div className="flex flex-wrap">
+              <Input
+                type="date"
+                name="birth_date"
+                value={user.birth_date}
+                label="Birth Date:"
+                onChange={handleInputs}
+              />
+
+              <Input
+                type="text"
+                name="birth_place"
+                value={user.birth_place}
+                label="Birth Place:"
+                placeholder="birthplace.."
+                onChange={handleInputs}
+              />
+            </div>
+
+            <div className="flex flex-wrap">
+              <Input
+                type="text"
+                name="city"
+                label="City:"
+                placeholder="city"
+                value={user.city}
+                onChange={handleInputs}
+              />
+
+              <Input
+                type="text"
+                name="district"
+                label="District:"
+                placeholder="district"
+                value={user.district}
+                onChange={handleInputs}
+              />
+
+              <Input
+                type="text"
+                name="pincode"
+                label="Pincode:"
+                placeholder="pincode"
+                value={user.pincode}
+                onChange={(e) => handlenumber(e, 6)}
+              />
+            </div>
+
+            <div className="row border-3 form-group mb-3 align-items-center">
+              <Input
+                type="text"
+                name="last_organization_studied_from"
+                label="Last Organization Studied From:"
+                placeholder="Institute/School Name.."
+                value={user.last_organization_studied_from}
+                onChange={handleInputs}
+              />
+
+              <Input
+                type="number"
+                name="last_studied_year"
+                label="Last Studied Year:"
+                value={user.last_studied_year}
+                onChange={handleInputs}
+                min="2000"
+                max={new Date().getFullYear()}
+              />
+            </div>
+            <div className="row border-3 form-group mb-3 align-items-center ">
+              <Input
+                label="Student Image:"
+                type="file"
+                name="studentimg"
+                onChange={handleFileUploads}
+                accept={"image/png, image/jpg, image/jpeg"}
+                errorMessage={errors.studentimg}
+                required
+              />
+            </div>
+
+            {previewImage && (
+              <div className="my-2">
+                {/* eslint-disable-next-line */}
+                <img src={previewImage} alt="image preview" height={200} />
               </div>
+            )}
 
-              <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
-                  type="text"
-                  name="city"
-                  label="City:"
-                  placeholder="city"
-                  value={user.city}
-                  onChange={handleInputs}
-                />
-
-                <Input
-                  type="text"
-                  name="district"
-                  label="District:"
-                  placeholder="district"
-                  value={user.district}
-                  onChange={handleInputs}
-                />
-
-                <Input
-                  type="text"
-                  name="pincode"
-                  label="Pincode:"
-                  placeholder="pincode"
-                  value={user.pincode}
-                  onChange={(e) => handlenumber(e, 6)}
-                />
-              </div>
-
-              <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
-                  type="text"
-                  name="last_organization_studied_from"
-                  label="Last Organization Studied From:"
-                  placeholder="Institute/School Name.."
-                  value={user.last_organization_studied_from}
-                  onChange={handleInputs}
-                />
-
-                <Input
-                  type="number"
-                  name="last_studied_year"
-                  label="Last Studied Year:"
-                  value={user.last_studied_year}
-                  onChange={handleInputs}
-                  min="2000"
-                  max={new Date().getFullYear()}
-                />
-              </div>
-              <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
-                  label="Student Image:"
-                  type="file"
-                  name="studentimg"
-                  onChange={handleFileUploads}
-                  accept={"image/png, image/jpg, image/jpeg"}
-                  errorMessage={errors.studentimg}
-                  required
-                />
-              </div>
-
-              {previewImage && (
-                <div className="my-2">
-                  {/* eslint-disable-next-line */}
-                  <img src={previewImage} alt="image preview" height={200} />
-                </div>
-              )}
-
-              <button
-                type="submit"
-                className="btn btn-primary btn-lg w-100"
-                onClick={handleSubmit}
-                disabled={submitting}
-              >
-                Submit
-              </button>
-            </form>
-          </div>
+            <button
+              type="submit"
+              className="bg-blue-700 p-2 rounded-sm w-100"
+              onClick={handleSubmit}
+              disabled={submitting}
+            >
+              Submit
+            </button>
+          </form>
         </div>
       </div>
     </>

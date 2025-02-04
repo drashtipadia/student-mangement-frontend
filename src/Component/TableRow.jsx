@@ -23,10 +23,18 @@ export function TableRow({
 
     if (v instanceof Array) {
       v.forEach((elem) => {
-        fields.push(<td key={k}>{elem || defValue}</td>);
+        fields.push(
+          <td className="border border-black" key={k}>
+            {elem || defValue}
+          </td>
+        );
       });
     } else {
-      fields.push(<td key={k}>{v || defValue}</td>);
+      fields.push(
+        <td className="border border-black" key={k}>
+          {v || defValue}
+        </td>
+      );
     }
   });
 

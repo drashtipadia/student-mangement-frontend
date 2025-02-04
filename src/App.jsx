@@ -18,16 +18,16 @@ function App() {
     <>
       <Header />
       <div className="App">
-        <div className="container">
-          <div className="d-flex align-item-center flex-column justify-content-center">
+        <div className="mx-auto sm:px-4">
+          <div className="flex align-item-center flex-col justify-center mt-12">
             <div className=" my-2">
               <Link
                 to={"/admissionForm"}
                 role="button"
-                className="btn btn-primary  d-block mx-auto"
+                className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
                 style={{ maxWidth: "400px" }}
               >
-                AdmissionForm
+                Admission Form
               </Link>
             </div>
 
@@ -35,7 +35,7 @@ function App() {
               <Link
                 to={"/viewdata"}
                 role="button"
-                className="btn btn-primary d-block mx-auto"
+                className=" text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
                 style={{ maxWidth: "400px" }}
               >
                 View Data
@@ -44,7 +44,7 @@ function App() {
             <div className="my-2">
               <Link
                 to={"/count-student"}
-                className="btn btn-primary d-block mx-auto"
+                className=" text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
                 role="button"
                 style={{ maxWidth: "400px" }}
               >
@@ -53,7 +53,8 @@ function App() {
             </div>
             <div className="my-2">
               <Link
-                className="btn btn-primary d-block mx-auto"
+                to={"/add-excel"}
+                className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
                 role="button"
                 style={{ maxWidth: "400px" }}
               >
@@ -62,7 +63,7 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
+      </div>{" "}
     </>
   );
 }

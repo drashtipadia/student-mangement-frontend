@@ -18,60 +18,62 @@ function Header() {
   }, [theme]);
 
   return (
-    <nav className="navbar fixed-top p-2 bg-body-tertiary">
-      <div className="container-fluid">
-        <div>
-          {location.pathname !== "/" && (
-            <button
-              className="bg-transparent btn shadow-none"
-              onClick={() => navigate(-1)}
-            >
-              {/* <div className="h5 bi bi-arrow-left"></div> */}
-              <svg
-                class="h-6 w-6 text-slate-900 "
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+    <header>
+      <nav className="bg-gray-200 border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+        <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
+          <div>
+            {location.pathname !== "/" && (
+              <button
+                className="bg-transparent shadow-none"
+                onClick={() => navigate(-1)}
               >
-                {" "}
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                />
-              </svg>
-            </button>
-          )}
-          <Link to={"/"} className="navbar-brand">
-            Student Mangement Admin
-          </Link>
-        </div>
+                <svg
+                  class="h-5 w-5 text-slate-900 "
+                  fill="none"
+                  viewBox="0 0 26 26"
+                  stroke="currentColor"
+                >
+                  {" "}
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                  />
+                </svg>
+              </button>
+            )}
 
-        <div>
-          <button
-            className="btn btn-primary me-3"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          >
-            <img
-              className="mb-1"
-              src={theme === "dark" ? darkThemeIcon : lightThemeIcon}
-              alt="Theme Toggler Icons"
-            />
-          </button>
-          <button
-            className="btn btn-danger"
-            onClick={() => {
-              localStorage.removeItem("token");
-              localStorage.removeItem("update-details");
-              window.location.href = "/login";
-            }}
-          >
-            Logout
-          </button>
+            <Link to={"/"} className="text-3xl font-sans ml-2 text-black no-underline ">
+              Student Mangement Admin
+            </Link>
+          </div>
+
+          <div>
+            <button
+              className="bg-black mr-4"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            >
+              <img
+                className="mb-1"
+                src={theme === "dark" ? darkThemeIcon : lightThemeIcon}
+                alt="Theme Toggler Icons"
+              />
+            </button>
+            <button
+              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => {
+                localStorage.removeItem("token");
+                localStorage.removeItem("update-details");
+                window.location.href = "/login";
+              }}
+            >
+              Logout
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 }
 export { Header };
