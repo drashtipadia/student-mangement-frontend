@@ -75,150 +75,150 @@ export function TCDoc() {
   return (
     <>
       <Header />
-      <div className="container">
-        <h2 className="text-center mt-3 text-light">Transfer Certificate</h2>
-        <div className="col d-flex justify-content-center py-3">
-          <div className="card" style={{ width: "50rem" }}>
-            <form className="m-4" method="post">
-              <div className="row border-3 form-group m-2 align-items-center">
-                <Input
-                  type="text"
-                  name="studentName"
-                  label="Student Name:"
-                  value={student.studentName}
-                  placeholder="SURNAME NAME FATHERNAME"
-                  onChange={handleInputs}
-                />
-              </div>
-              <div className="row border-3 form-group m-3 align-items-center">
-                <SelectBox
-                  name="stream"
-                  label={"1.Last Exam"}
-                  onChange={handleInputs}
-                  placeholder={"Select stream"}
-                  data={
-                    INSTITUTE_TYPE === "GIA"
-                      ? [...GIA_STREAMS]
-                      : [...SFI_STREAMS]
-                  }
-                />
-                <SelectBox
-                  name="semester"
-                  label={""}
-                  onChange={handleInputs}
-                  placeholder={"Select Semester"}
-                  data={[...SEMESTER]}
-                />
-                <Input
-                  type="number"
-                  name="examyear"
-                  placeholder={"year"}
-                  min="2000"
-                  max={new Date().getFullYear()}
-                  value={student.examyear}
-                  onChange={handleInputs}
-                />
-              </div>
-              <div className="row border-3 form-group m-3 align-items-center">
-                <Input
-                  type="date"
-                  name="start_date"
-                  label="Starting date"
-                  value={student.start_date}
-                  onChange={handleInputs}
-                />
-                <Input
-                  type="date"
-                  name="end_date"
-                  label="Ending date"
-                  value={student.end_date}
-                  onChange={handleInputs}
-                />
-              </div>
+      <h2 className="text-center mb-6 mt-3 text-2xl font-semibold">
+        Transfer Certificate
+      </h2>
+      <div className="flex items-center justify-center mt-6">
+        <div className=" bg-slate-100 p-2">
+          <form className="" method="post">
+            <div className="m-2 pt-3">
+              <Input
+                type="text"
+                name="studentName"
+                label="Student Name:"
+                value={student.studentName}
+                placeholder="SURNAME NAME FATHERNAME"
+                onChange={handleInputs}
+              />
+            </div>
+            <div className="flex flex-wrap m-2">
+              <SelectBox
+                name="stream"
+                label={"1.Last Exam"}
+                onChange={handleInputs}
+                placeholder={"Select stream"}
+                data={
+                  INSTITUTE_TYPE === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
+                }
+              />
 
-              <div className="row border-3 form-group m-3 align-items-center">
-                <Input
-                  type="text"
-                  name="seatno"
-                  label="2.Exam"
-                  value={student.seatno}
-                  placeholder="SEAT NO"
-                  onChange={handleInputs}
-                />
-                <SelectBox
-                  name="result"
-                  placeholder={"Result"}
-                  data={[
-                    { label: "Passed", value: "Passed" },
-                    { label: "Failed", value: "Failed" },
-                  ]}
-                  onChange={handleInputs}
-                />
-                <SelectBox
-                  name="exam_month"
-                  placeholder={"Exam Month"}
-                  data={[...MONTHS]}
-                  onChange={handleInputs}
-                />
-                <Input
-                  type="text"
-                  name="no_pass_subject"
-                  label="Subject Pass"
-                  value={student.no_pass_subject}
-                  placeholder="No Subject"
-                  onChange={handleInputs}
-                />
-              </div>
+              <SelectBox
+                name="semester"
+                label={""}
+                onChange={handleInputs}
+                placeholder={"Select Semester"}
+                data={[...SEMESTER]}
+              />
 
-              <div className="row border-3 form-group m-2 align-items-center">
-                <SelectBox
-                  name="next_study_stream"
-                  label={"3.Next Study Year"}
-                  onChange={handleInputs}
-                  placeholder={"Select stream"}
-                  data={
-                    INSTITUTE_TYPE === "GIA"
-                      ? [...GIA_STREAMS]
-                      : [...SFI_STREAMS]
-                  }
-                />
-                <SelectBox
-                  name="next_study_sem"
-                  label={""}
-                  onChange={handleInputs}
-                  placeholder={"Select Semester"}
-                  data={[...SEMESTER]}
-                />
-              </div>
-              <div className="row border-3 form-group m-2 align-items-center">
-                <Input
-                  type="text"
-                  label="NO: G.K.C.K./TC/Migration"
-                  name="tc_mg_no"
-                  value={student.tc_mg_no}
-                  onChange={handleInputs}
-                  placeholder={"G.K.C.K./TC/Migration "}
-                />
-                <Input
-                  type="text"
-                  label="Principal/General Secretary"
-                  name="nameofhead"
-                  value={student.nameofhead}
-                  onChange={handleInputs}
-                  placeholder={"Name "}
-                />
-              </div>
+              <Input
+                type="number"
+                name="examyear"
+                placeholder={"year"}
+                min="2000"
+                max={new Date().getFullYear()}
+                value={student.examyear}
+                onChange={handleInputs}
+              />
+            </div>
+            <div className="flex flex-wrap m-2">
+              <Input
+                type="date"
+                name="start_date"
+                label="Starting date"
+                value={student.start_date}
+                onChange={handleInputs}
+              />
+              <Input
+                type="date"
+                name="end_date"
+                label="Ending date"
+                value={student.end_date}
+                onChange={handleInputs}
+              />
+            </div>
 
-              <hr />
+            <div className="flex flex-wrap m-2">
+              <Input
+                type="text"
+                name="seatno"
+                label="2.Exam"
+                value={student.seatno}
+                placeholder="SEAT NO"
+                onChange={handleInputs}
+              />
+              <SelectBox
+                name="result"
+                placeholder={"Result"}
+                data={[
+                  { label: "Passed", value: "Passed" },
+                  { label: "Failed", value: "Failed" },
+                ]}
+                onChange={handleInputs}
+              />
+              <SelectBox
+                name="exam_month"
+                placeholder={"Exam Month"}
+                data={[...MONTHS]}
+                onChange={handleInputs}
+              />
+              <Input
+                type="text"
+                name="no_pass_subject"
+                label="Subject Pass"
+                value={student.no_pass_subject}
+                placeholder="No Subject"
+                onChange={handleInputs}
+              />
+            </div>
+
+            <div className="flex flex-wrap m-2">
+              <SelectBox
+                name="next_study_stream"
+                label={"3.Next Study Year"}
+                onChange={handleInputs}
+                placeholder={"Select stream"}
+                data={
+                  INSTITUTE_TYPE === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
+                }
+              />
+              <SelectBox
+                name="next_study_sem"
+                label={""}
+                onChange={handleInputs}
+                placeholder={"Select Semester"}
+                data={[...SEMESTER]}
+              />
+            </div>
+            <div className="flex flex-wrap m-2">
+              <Input
+                type="text"
+                label="NO: G.K.C.K./TC/Migration"
+                name="tc_mg_no"
+                value={student.tc_mg_no}
+                onChange={handleInputs}
+                placeholder={"G.K.C.K./TC/Migration "}
+              />
+              <Input
+                type="text"
+                label="Principal/General Secretary"
+                name="nameofhead"
+                value={student.nameofhead}
+                onChange={handleInputs}
+                placeholder={"Name "}
+              />
+            </div>
+
+            <hr />
+            <div className="m-2">
               <button
                 type="submit"
-                className="btn btn-primary btn-lg w-100"
+                className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
                 onClick={handleSubmit}
               >
                 Generate TC
               </button>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </>

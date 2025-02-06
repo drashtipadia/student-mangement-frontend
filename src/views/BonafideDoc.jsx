@@ -54,8 +54,8 @@ export function BonafideDoc() {
   return (
     <>
       <Header />
-      <div className="container">
-        <h2 className="text-center mt-3 text-light">Bonofide Certificate</h2>
+      <div className="flex flex-wrap">
+        <h2 className="text-center">Bonofide Certificate</h2>
         <div className="col d-flex justify-content-center py-3">
           <div className="card bg-light" style={{ width: "50rem" }}>
             <form className="m-4" method="post">
@@ -73,7 +73,7 @@ export function BonafideDoc() {
               <hr />
               <button
                 type="submit"
-                className="btn btn-primary btn-lg w-100"
+                className="text-center w-4/6  border text-xl rounded py-1 bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
                 onClick={handleSubmit}
               >
                 {" "}

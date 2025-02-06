@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Loading } from "../Component";
+import { Header, Loading } from "../Component";
 import { safeFetch, handleError } from "../utils";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 
@@ -36,13 +36,20 @@ export function UpdateStudentImage() {
 
   return (
     <>
-      <img
-        src={`http://${SERVER_HOST}:${SERVER_PORT}/${img}`}
-        alt="student-img"
-      />
-      <button onClick={goBack} className="btn btn-primary">
-        Go Back
-      </button>
+      <Header />
+      <div className="m-auto">
+        <img
+          src={`http://${SERVER_HOST}:${SERVER_PORT}/${img}`}
+          alt="student-img"
+          style={{ height: "250px", width: "250px" }}
+        />
+        <button
+          onClick={goBack}
+          className="text-center border text-xl rounded py-1 px-2 bg-blue-600 text-white hover:bg-blue-700   mx-auto"
+        >
+          Go Back
+        </button>
+      </div>
     </>
   );
 }

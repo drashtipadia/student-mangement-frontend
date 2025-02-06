@@ -90,23 +90,26 @@ export function ViewBonafide() {
 
   return (
     <>
-      <>
-        <Header />
-        <div className="justify-content-between d-flex p-4">
-          <div>
-            <label className="px-2">With Image PlaceHolder</label>
-            <input
-              type="checkbox"
-              checked={haveImgPlaceholder}
-              onChange={() => setHaveImgPlaceholder(!haveImgPlaceholder)}
-            />
-          </div>
-          <button className="btn btn-primary" onClick={handleDownload}>
-            Download
-          </button>
+      <Header />
+      <div className="justify-between p-4">
+        <div>
+          <label className="px-2">With Image PlaceHolder</label>
+          <input
+            type="checkbox"
+            checked={haveImgPlaceholder}
+            onChange={() => setHaveImgPlaceholder(!haveImgPlaceholder)}
+          />
         </div>
+        <button
+          className="text-center border text-xl rounded py-1 bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
+          onClick={handleDownload}
+        >
+          Download
+        </button>
+      </div>
+      <div className="flex justify-center">
         <div
-          className="container p-5 bg-light text-black"
+          className=" border border-black p-5 "
           style={{ height: "297mm", width: "210mm" }}
           ref={documentRef}
         >
@@ -133,8 +136,8 @@ export function ViewBonafide() {
           </div>
           <DocFooter />
         </div>
-        <hr />
-      </>
+      </div>
+      <hr />
     </>
   );
 }

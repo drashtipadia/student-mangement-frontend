@@ -30,7 +30,7 @@ export function Input({
               id={name}
               name={name}
               value={value}
-              className=" w-full  bg-white border rounded p-2 focus:outline-none  focus:border-gray-500"
+              className=" w-full  bg-white border rounded p-2 focus:outline-none  focus:border-black"
               onChange={onChange}
               min={min}
               max={max}

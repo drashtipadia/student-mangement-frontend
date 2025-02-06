@@ -83,35 +83,40 @@ export function ViewNoObj() {
   return (
     <>
       <Header />
-      <div className="justify-content-end d-flex p-4">
-        <button className="btn btn-primary " onClick={handleDownload}>
+      <div className="justify-between p-4">
+        <button
+          className="text-center border text-xl rounded py-1 bg-blue-600 text-white hover:bg-blue-700  block mx-auto "
+          onClick={handleDownload}
+        >
           Download
         </button>
       </div>
-      <div
-        className="container p-5 bg-light text-black"
-        style={{ height: "297mm", width: "210mm" }}
-        ref={documentRef}
-      >
-        <DocHeader
-          title={"NO OBJECTION CERTIFICATE"}
-          serialNo={`NoObj No: ${serial}`}
-        />
-        <div className="p-5">
-          <p className="text-center">
-            This is to certify that, Mr./Ms.&nbsp;
-            <abbr title="attribute" className="fw-bold">
-              {`${student.surname} ${student.name} ${student.fathername}`}
-            </abbr>
-            &nbsp;was studying&nbsp;
-            <span className="h6 fw-bold">{student.stream}</span> in the
-            year&nbsp;
-            <span className="h-6 fw-bold">{currentYear}</span>&nbsp;in this
-            college. This institution does not have any objection, if he/she
-            gets admission to another college in the current year.
-          </p>
+      <div className="flex justify-center">
+        <div
+          className=" p-5  border border-black "
+          style={{ height: "297mm", width: "210mm" }}
+          ref={documentRef}
+        >
+          <DocHeader
+            title={"NO OBJECTION CERTIFICATE"}
+            serialNo={`NoObj No: ${serial}`}
+          />
+          <div className="p-5">
+            <p className="text-center">
+              This is to certify that, Mr./Ms.&nbsp;
+              <abbr title="attribute" className="fw-bold">
+                {`${student.surname} ${student.name} ${student.fathername}`}
+              </abbr>
+              &nbsp;was studying&nbsp;
+              <span className="h6 fw-bold">{student.stream}</span> in the
+              year&nbsp;
+              <span className="h-6 fw-bold">{currentYear}</span>&nbsp;in this
+              college. This institution does not have any objection, if he/she
+              gets admission to another college in the current year.
+            </p>
+          </div>
+          <DocFooter />
         </div>
-        <DocFooter />
       </div>
     </>
   );

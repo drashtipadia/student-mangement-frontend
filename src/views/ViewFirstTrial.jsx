@@ -88,50 +88,54 @@ export function ViewFirstTrial() {
   return (
     <>
       <Header />
-      <div className="justify-content-end d-flex p-4">
+      <div className="justify-between  p-4">
         <button
-          className="btn btn-primary"
+          className="text-center border text-xl rounded py-1 bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
           disabled={downloading}
           onClick={handleDownload}
         >
           Download
         </button>
       </div>
+      <div className="flex justify-center">
+        <div
+          className=" p-5 border border-black"
+          style={{ height: "297mm", width: "210mm" }}
+          ref={documentRef}
+        >
+          <DocHeader
+            title={"FIRST TRIAL CERTIFICATE"}
+            serialNo={`Serial No: ${serial}`}
+          />
 
-      <div
-        className="container p-5 bg-light text-black"
-        style={{ height: "297mm", width: "210mm" }}
-        ref={documentRef}
-      >
-        <DocHeader
-          title={"FIRST TRIAL CERTIFICATE"}
-          serialNo={`Serial No: ${serial}`}
-        />
-
-        <div className="p-5">
-          <p className="text-center">This is to certify that,</p>
-          <p className="h6">
-            Mr./Ms.&nbsp;
-            <abbr title="attribute ">
-              {`${student.surname} ${student.name} ${student.fathername}`}&nbsp;
-            </abbr>
-            &nbsp;
-          </p>
-          <p>
-            &emsp; &emsp; &emsp; &emsp; &emsp; In Year&nbsp;
-            <span className="h6 fw-bold">
-              {currentYear}-{(currentYear + 1) % 100}
-            </span>
-            , was studying <span className="h6 fw-bold">{"MSCIT"}</span> in this
-            college. Examination of <span className="h6 fw-bold"> {"BCA"}</span>
-            &nbsp;held in&nbsp;
-            <span className="h6 fw-bold">
-              {"March"}-{"2024"}&nbsp;
-            </span>
-            was completed by them in first attempt.
-          </p>
+          <div className="p-5">
+            <p className="text-center">This is to certify that,</p>
+            <p className="h6">
+              Mr./Ms.&nbsp;
+              <abbr title="attribute ">
+                {`${student.surname} ${student.name} ${student.fathername}`}
+                &nbsp;
+              </abbr>
+              &nbsp;
+            </p>
+            <br />
+            <p>
+              &emsp; &emsp; &emsp; &emsp; &emsp; In Year&nbsp;
+              <span className="h6 fw-bold">
+                {currentYear}-{(currentYear + 1) % 100}
+              </span>
+              , was studying <span className="h6 fw-bold">{"MSCIT"}</span> in
+              this college. Examination of{" "}
+              <span className="h6 fw-bold"> {"BCA"}</span>
+              &nbsp;held in&nbsp;
+              <span className="h6 fw-bold">
+                {"March"}-{"2024"}&nbsp;
+              </span>
+              was completed by them in first attempt.
+            </p>
+          </div>
+          <DocFooter />
         </div>
-        <DocFooter />
       </div>
     </>
   );

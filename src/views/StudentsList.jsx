@@ -35,7 +35,7 @@ export function StudentsList() {
   useEffect(() => {
     (async () => {
       const [res, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}`
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}` //=== change path
       );
       if (err != null) console.log(err);
       else {
@@ -101,74 +101,76 @@ export function StudentsList() {
     <>
       <Header />
       <>
-        <h2 className="text-center m-4">Student Info</h2>
-        <div className="container mb-3  align-items-center p-2">
-          <div className=" justify-content-between ">
-            <div className="row  align-items-center form-group m-2">
-              <SelectBox
-                name="stream"
-                label={"Stream:"}
-                placeholder={"Select Stream"}
-                onChange={handleChange}
-                data={[
-                  ...STREAMS,
-                  {
-                    label: "View All",
-                    value: "",
-                  },
-                ]}
-              />
-              {stream !== "" && (
-                <SelectBox
-                  name="semester"
-                  label={"Sem :"}
-                  placeholder={"Semester"}
-                  onChange={handleSemester}
-                  data={[...SEMESTER]}
-                />
-              )}
-              <Input
-                type="number"
-                name="year"
-                label=""
-                value={year === 0 ? "" : year}
-                min="2000"
-                max={new Date().getFullYear()}
-                placeholder={"Year"}
-                onChange={handleYearChange}
-              />
+        <p className="text-3xl text-center p-3">Student Info</p>
+        <div className="flex mb-3 mx-3  align-items-center p-2">
+          <SelectBox
+            name="stream"
+            label={"Stream:"}
+            placeholder={"Select Stream"}
+            onChange={handleChange}
+            data={[
+              ...STREAMS,
+              {
+                label: "View All",
+                value: "",
+              },
+            ]}
+          />
+          {stream !== "" && (
+            <SelectBox
+              name="semester"
+              label={"Sem:"}
+              placeholder={"Semester"}
+              onChange={handleSemester}
+              data={[...SEMESTER]}
+            />
+          )}
+          <Input
+            type="number"
+            name="year"
+            label=""
+            value={year === 0 ? "" : year}
+            min="2000"
+            max={new Date().getFullYear()}
+            placeholder={"Year"}
+            onChange={handleYearChange}
+          />
 
-              <div className="col">
-                <button onClick={sortStudents} className="btn btn-primary">
-                  Filter
-                </button>
-              </div>
+          {/* <div className=""> */}
+          <button
+            onClick={sortStudents}
+            className="text-center border rounded px-4 h-11  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+          >
+            Filter
+          </button>
+          {/* </div> */}
 
-              <Input
-                type="text"
-                name="studentname"
-                label=""
-                placeholder={"Student Name"}
-                onChange={(e) => setSearchName(e.target.value)}
-              />
+          <Input
+            type="text"
+            name="studentname"
+            label=""
+            placeholder={"Student Name"}
+            onChange={(e) => setSearchName(e.target.value)}
+          />
 
-              <div className="col">
-                <button onClick={handleSearch} className="btn btn-primary">
-                  Search
-                </button>
-              </div>
+          <button
+            onClick={handleSearch}
+            className="text-center  border rounded h-11 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+          >
+            Search
+          </button>
 
-              <div className="col">
-                <button className="btn btn-primary" onClick={handleClick}>
-                  Export to Excel (CSV)
-                </button>
-              </div>
-            </div>
-          </div>
+          <button
+            className="text-center  border rounded h-11 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+            onClick={handleClick}
+          >
+            Export to Excel (CSV)
+          </button>
         </div>
-        <div className="mb-3  overscroll-y-none p-3">
+        {/* ====================================== */}
+        <div className="mb-3  overflow-x-scroll p-3">
           <table
-            className="table border border-black"
+            className="table table-auto border border-black"
             id="my-table"
             ref={tableRef}
           >

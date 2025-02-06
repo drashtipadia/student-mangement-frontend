@@ -102,11 +102,13 @@ export function UpdateStudent() {
     <>
       <Header />
       <div>
-        <h2 className="text-center mt-3 text-white">Update Student Details</h2>
-        <div className="col d-flex justify-content-center py-3">
-          <div className="card" style={{ width: "50rem" }}>
+        <h2 className="text-center mb-6 mt-3 text-2xl font-semibold">
+          Update Student Details
+        </h2>
+        <div className="flex items-center justify-center mt-6">
+          <div className=" bg-slate-100">
             <form className="m-4" method="post" encType="multipart/form-data">
-              <div className="row border-3 form-group mb-3 align-items-center">
+              <div className="flex flex-wrap">
                 <SelectBox
                   name="stream"
                   onChange={handleInputs}
@@ -188,7 +190,7 @@ export function UpdateStudent() {
                   <hr />
                 </>
               )}
-              <div className="row border-3 form-group mb-3 align-items-center">
+              <div className="flex flex-wrap">
                 <Input
                   type="text"
                   name="gr_no"
@@ -206,7 +208,7 @@ export function UpdateStudent() {
                   onChange={handleInputs}
                 />
               </div>
-              <div className="row border-3 form-group mb-3 align-items-center">
+              <div className="flex flex-wrap">
                 <Input
                   type="text"
                   name="abc_id"
@@ -224,9 +226,6 @@ export function UpdateStudent() {
                   placeholder="Enter UDISK No."
                   onChange={handleInputs}
                 />
-              </div>
-
-              <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
                   type="text"
                   name="aadhar_number"
@@ -254,7 +253,7 @@ export function UpdateStudent() {
                 ]}
                 checked={user.caste}
               />
-              <div className="row border-3 form-group mb-3 align-items-center">
+              <div className="flex flex-wrap">
                 <Input
                   type="text"
                   name="surname"
@@ -279,7 +278,7 @@ export function UpdateStudent() {
                 />
               </div>
 
-              <div className="row border-3 form-group mb-3 align-items-center">
+              <div className="">
                 <Input
                   type="text"
                   name="father_name"
@@ -299,7 +298,7 @@ export function UpdateStudent() {
                   onChange={handleInputs}
                 />
               </div>
-              <div className="row border-3 form-group mb-3 align-items-center">
+              <div className="">
                 <Input
                   type="textarea"
                   name="address"
@@ -309,7 +308,7 @@ export function UpdateStudent() {
                   placeholder="Enter the Address"
                 />
               </div>
-              <div className="row border-3 form-group mb-3 align-items-center">
+              <div className="flex flex-wrap">
                 <Input
                   type="text"
                   name="whatsapp_no"
@@ -327,9 +326,6 @@ export function UpdateStudent() {
                   value={user.parent_contact_no}
                   onChange={(e) => handlenumber(e, 10)}
                 />
-              </div>
-
-              <div className="row border-3 form-group mb-3 align-items-center">
                 <Input
                   type="email"
                   name="email"
@@ -351,7 +347,7 @@ export function UpdateStudent() {
                 ]}
                 checked={user.gender}
               />
-              <div className="row border-3 form-group mb-3 align-items-center">
+              <div className="flex flex-wrap">
                 <Input
                   type="date"
                   name="birth_date"
@@ -370,7 +366,7 @@ export function UpdateStudent() {
                 />
               </div>
 
-              <div className="row border-3 form-group mb-3 align-items-center">
+              <div className="flex flex-wrap">
                 <Input
                   type="text"
                   name="city"
@@ -399,7 +395,7 @@ export function UpdateStudent() {
                 />
               </div>
 
-              <div className="row border-3 form-group mb-3 align-items-center">
+              <div className="flex flex-wrap">
                 <Input
                   type="text"
                   name="last_organization_studied_from"
@@ -419,9 +415,11 @@ export function UpdateStudent() {
                   max={new Date().getFullYear()}
                 />
               </div>
+              <hr className="pb-2" />
+
               <button
                 type="submit"
-                className="btn btn-primary btn-lg w-100"
+                className="text-center w-4/6  border text-xl rounded py-1 bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
                 onClick={handleSubmit}
               >
                 Submit

@@ -14,7 +14,7 @@ export function SelectBox({
             {label}
           </label>
         </div>
-        <div className="md:mb-0">
+        <div className="md:mb-0 px-1">
           <select
             className="border border-gray-500 p-1  rounded-md focus:bg-white"
             name={name}

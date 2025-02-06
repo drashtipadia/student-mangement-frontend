@@ -42,12 +42,12 @@ export function ViewStudentDetails() {
     <>
       <Header />
       <div className="mx-auto sm:px-4">
-        <div className="flex align-item-center flex-col justify-center mt-12">
+        <div className="flex gap-2 flex-col justify-center mt-12">
           {!docs.transfer_certificate && (
             <Link
               to={`/tcdoc?id=${params.id}`}
               role="button"
-              className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+              className="text-center  border text-xl rounded py-2  w-72  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
             >
               Transfer Certificate
             </Link>
@@ -57,7 +57,7 @@ export function ViewStudentDetails() {
             <Link
               to={`/noObjdoc?id=${params.id}`}
               role="button"
-              className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+              className="text-center  border text-xl rounded py-2  w-72  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
             >
               No Objection Certificate
             </Link>
@@ -67,7 +67,7 @@ export function ViewStudentDetails() {
             <Link
               to={`/bonafidedoc?id=${params.id}`}
               role="button"
-              className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+              className="text-center  border text-xl rounded py-2  w-72 bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
             >
               Bonafide Certificate
             </Link>
@@ -77,7 +77,7 @@ export function ViewStudentDetails() {
             <Link
               to={`/firsttrialdoc?id=${params.id}`}
               role="button"
-              className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+              className="text-center  border text-xl rounded py-2 w-72 bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
             >
               First Trial Certificate
             </Link>
@@ -86,7 +86,7 @@ export function ViewStudentDetails() {
           <Link
             to={`/UpdateStudent?id=${params.id}`}
             role="button"
-            className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline "
+            className="text-center  border text-xl rounded py-2  w-72  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline "
           >
             Update Student
           </Link>
@@ -94,15 +94,15 @@ export function ViewStudentDetails() {
           <Link
             to={`/update-img/${params.id}`}
             role="button"
-            className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+            className="text-center  border text-xl rounded py-2 w-72 bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
           >
             Update Image
           </Link>
         </div>
       </div>
-      <div>
+      <div className="flex">
         {docs.transfer_certificate && (
-          <div className="img-holder mx-auto w-50 mt-4">
+          <div className="img-holder mx-auto w-64 mt-4">
             <img
               src={`${BASE_URL}/uploads/${studentID}/${docs.transfer_certificate}`}
               alt="transfer certificate"
@@ -111,29 +111,29 @@ export function ViewStudentDetails() {
           </div>
         )}
         {docs.bonafide && (
-          <div className="img-holder mx-auto w-50 mt-4">
+          <div className="img-holder mx-auto w-64  mt-4">
             <img
               src={`${BASE_URL}/uploads/${studentID}/${docs.bonafide}`}
               alt="bonafide"
-              className="w-100"
+              className=""
             />
           </div>
         )}
         {docs.first_trial && (
-          <div className="img-holder mx-auto w-50 mt-4">
+          <div className="img-holder mx-auto w-64 mt-4">
             <img
               src={`${BASE_URL}/uploads/${studentID}/${docs.first_trial}`}
               alt="first trial"
-              className="w-100"
+              className=""
             />
           </div>
         )}
         {docs.no_objection && (
-          <div className="img-holder mx-auto w-50 mt-4">
+          <div className="img-holder mx-auto w-64 mt-4">
             <img
               src={`${BASE_URL}/uploads/${studentID}/${docs.no_objection}`}
               alt="no objection"
-              className="w-100"
+              className=""
             />
           </div>
         )}
