@@ -1,9 +1,12 @@
 import React, { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Header } from "../Component/Header";
 import { useDropzone } from "react-dropzone";
+import { BASE_URL } from "../utils/config";
 
 export function ImportStudentData() {
   const [file, setFile] = useState(null);
+  const navigate = useNavigate();
 
   const onDrop = useCallback((acceptedFiles) => {
     // console.log(acceptedFiles[0]);
@@ -22,6 +25,23 @@ export function ImportStudentData() {
         //],
       },
     });
+
+  const onUpload = async () => {
+    const formData = new FormData();
+    formData.append(file.name, file);
+
+    const call = await fetch(`${BASE_URL}/upload-csv`, {
+      method: "post",
+      body: formData,
+    });
+
+    const res = await call.json();
+
+    if (res.status === "done") {
+      alert("Data uploaded successfully...");
+      navigate("/viewdata");
+    }
+  };
 
   return (
     <>
@@ -46,9 +66,9 @@ export function ImportStudentData() {
                   <p className="text-red-500">Please Excel File select </p>
                 ) : (
                   <div>
-                    <p className="text-center"> Drag & Drop File Here</p>
+                    <p className="text-center"> Drag &amp; Drop File Here</p>
                     <p className="text-center mt-2 text-base ">
-                      Only excel File upload{" "}
+                      Only CSV File upload{" "}
                     </p>
                   </div>
                 )}
@@ -56,7 +76,13 @@ export function ImportStudentData() {
             </div>
           </div>
           <div className="text-white">{file?.name}</div>
-          <p></p>
+          <button
+            className="primary-button"
+            onClick={() => onUpload()}
+            disabled={file === null}
+          >
+            Upload Data
+          </button>
         </div>
       </div>
     </>

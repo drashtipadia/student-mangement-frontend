@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.primary-button {
+  @apply bg-primary-container text-on-primary-container px-4 py-2 rounded-full disabled:bg-primary-container/70 disabled:cursor-not-allowed;
+}
