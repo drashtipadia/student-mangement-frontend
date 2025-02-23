@@ -10,7 +10,7 @@ export function SelectBox({
     <>
       <div className="flex p-1">
         <div className="md:mb-0">
-          <label className=" uppercase   mb-2" htmlFor={name}>
+          <label className="uppercase mb-2" htmlFor={name}>
             {label}
           </label>
         </div>

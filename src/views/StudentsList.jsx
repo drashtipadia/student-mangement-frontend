@@ -9,7 +9,7 @@ import { safeFetch } from "../utils";
 export function StudentsList() {
   useEffect(() => {
     document.title = "Student List";
-  });
+  }, []);
 
   const INSTITUTE_TYPE = localStorage.getItem("token");
   const [searchName, setSearchName] = useState([]);
@@ -35,7 +35,7 @@ export function StudentsList() {
   useEffect(() => {
     (async () => {
       const [res, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}` //=== change path
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}`, //=== change path
       );
       if (err != null) console.log(err);
       else {
@@ -52,7 +52,7 @@ export function StudentsList() {
 
   const handleSearch = () => {
     let filteredRecords = records.filter((val) =>
-      val.full_name.toLowerCase().includes(searchName.toLowerCase())
+      val.Name.toLowerCase().includes(searchName.toLowerCase()),
     );
     setRecordsCopy(filteredRecords);
   };
@@ -168,22 +168,22 @@ export function StudentsList() {
           </button>
         </div>
         {/* ====================================== */}
-        <div className="mb-3  overflow-x-scroll p-3">
+        <div className="mb-3 overflow-scroll p-3">
           <table
-            className="table table-auto border border-black"
+            className="table table-auto border border-collapse border-black"
             id="my-table"
             ref={tableRef}
           >
             <thead>
               <tr>
-                <th className=" border border-black">Enrollment</th>
-                <th className="border border-black">ABC ID</th>
-                <th className="border border-black">Gr No</th>
-                <th className="border border-black">UDISK No</th>
-                <th className="border border-black">Aadhar Number</th>
-                <th className="border border-black">Stream</th>
-                <th className="border border-black">Semester</th>
-                {INSTITUTE_TYPE === "GIA" && (
+                <th>Name</th>
+                <th>Mobile No</th>
+                <th>Enrollment No</th>
+                <th>Email</th>
+                <th>DOB</th>
+                <th>Gender</th>
+                <th>Address</th>
+                {/* {INSTITUTE_TYPE === "GIA" && (
                   <>
                     <th className="border border-black">Main Course</th>
                     <th className="border border-black">
@@ -193,20 +193,20 @@ export function StudentsList() {
                       Tertiary Secondary Subject
                     </th>
                   </>
-                )}
-                <th className="border border-black">Gender</th>
-                <th className="border border-black">Email</th>
-                <th className="border border-black">Whatsapp Number</th>
-                <th className="border border-black">Name</th>
-                <th className="border border-black">Father Name</th>
-                <th className="border border-black">Mother Name</th>
-                <th className="border border-black">Address</th>
-                <th className="border border-black">City</th>
-                <th className="border border-black">District</th>
-                <th className="border border-black">Pincode</th>
-                <th className="border border-black">Birth Date</th>
-                <th className="border border-black">Birth Place</th>
-                <th className="border border-black">Caste</th>
+                )} */}
+                <th>Pin</th>
+                <th>City</th>
+                <th>Category</th>
+                <th>Taluka</th>
+                <th>District</th>
+                <th>ABC ID</th>
+                <th>Aadhar Card No.</th>
+                <th>Exam Name</th>
+                <th>Passing Year</th>
+                <th>Seat No</th>
+                <th>School/College Name</th>
+                <th>Entry Date</th>
+                {/* <th className="border border-black">Caste</th>
                 <th className="border border-black">Parent Contact Number</th>
                 <th className="border border-black">
                   Last Organization Studied From
@@ -216,7 +216,7 @@ export function StudentsList() {
                   <th className="border border-black">Elective Course</th>
                 )}
                 <th className="border border-black">Admission Date</th>
-                <th className="border border-black"></th>
+                <th className="border border-black"></th> */}
               </tr>
             </thead>
             <tbody>
@@ -226,12 +226,12 @@ export function StudentsList() {
                   return (
                     <TableRow
                       data={e}
-                      key={e.id}
+                      key={e.Sr_No}
                       after
-                      ignoreCols={["id", "institute_type"]}
+                      ignoreCols={["Sr_No", "institute_type"]}
                     >
                       <td className="border border-black">
-                        <Link to={`/students/${e.id}`}>
+                        <Link to={`/students/${e.Sr_No}`}>
                           View Details &rarr;
                         </Link>
                       </td>
