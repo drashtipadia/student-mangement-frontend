@@ -86,7 +86,7 @@ export function ViewTc() {
               </span>{" "}
               was the student of this college.
             </p>
-            <ol className="m-0">
+            <ol className="m-0 list-disc">
               <li>
                 He/She gave exam of{" "}
                 <span className="h6 fw-bold">
@@ -155,10 +155,6 @@ export function ViewTc() {
               </li>
               <li>Note:(Inform about EBC-CB & other scholarship).</li>
             </ol>
-            <p className="m-0">
-              No:G.K.C.K/TC/Migration{" "}
-              <span className="h6 fw-bold">{student.tc_mg_no}</span>
-            </p>
             <p className="m-0">
               The Principal/The General Secretary{" "}
               <span className="h6 fw-bold">{student.nameofhead}</span>{" "}

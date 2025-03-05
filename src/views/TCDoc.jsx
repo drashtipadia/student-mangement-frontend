@@ -9,7 +9,7 @@ import {
   MONTHS,
 } from "../utils/constants";
 
-import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { BASE_URL, SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
 export function TCDoc() {
@@ -42,6 +42,19 @@ export function TCDoc() {
     nameofhead: "",
     uuid: searchParams.get("id"),
   });
+
+  useEffect(() => {
+    (async function () {
+      let [resp, err] = await safeFetch(`${BASE_URL}/students/id/${searchParams.get("id")}`);
+      if (err != null) throw new Error(err);
+
+      setStudent({
+        ...student,
+        studentName: resp.student.Name
+      });
+
+    })();
+  }, [searchParams, setStudent]);
 
   const handleInputs = (e) => {
     setStudent({ ...student, [e.target.name]: e.target.value });
@@ -88,6 +101,7 @@ export function TCDoc() {
                 label="Student Name:"
                 value={student.studentName}
                 placeholder="SURNAME NAME FATHERNAME"
+                disabled
                 onChange={handleInputs}
               />
             </div>
@@ -190,14 +204,6 @@ export function TCDoc() {
               />
             </div>
             <div className="flex flex-wrap m-2">
-              <Input
-                type="text"
-                label="NO: G.K.C.K./TC/Migration"
-                name="tc_mg_no"
-                value={student.tc_mg_no}
-                onChange={handleInputs}
-                placeholder={"G.K.C.K./TC/Migration "}
-              />
               <Input
                 type="text"
                 label="Principal/General Secretary"
