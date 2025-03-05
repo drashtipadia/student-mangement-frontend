@@ -124,7 +124,7 @@ export function ViewBonafide() {
             <p className="text-center">
               It is to certify to that, Mr./Ms.&nbsp;
               <abbr title="attribute" className="fw-bold">
-                {`${student.surname} ${student.name} ${student.fathername}`}
+                {`${student.Name}`}
               </abbr>
               &nbsp;is/was enrolled student of this college. He/She is studying
               ________________________________________________________ in

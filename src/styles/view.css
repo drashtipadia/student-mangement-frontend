@@ -2,3 +2,13 @@
   size: a4;
 
 }
+
+th {
+  border-width: 1px;
+  border-color: black;
+}
+
+td {
+  border-width: 1px;
+  border-color: black;
+}

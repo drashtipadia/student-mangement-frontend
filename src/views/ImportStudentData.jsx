@@ -3,10 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "../Component/Header";
 import { useDropzone } from "react-dropzone";
 import { BASE_URL } from "../utils/config";
+import { SelectBox } from "../Component";
+import { GIA_STREAMS, SFI_STREAMS } from "../utils/constants";
 
 export function ImportStudentData() {
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
+  const [stream, setStream] = useState();
+
+  const INSTITUTE_TYPE = localStorage.token;
 
   const onDrop = useCallback((acceptedFiles) => {
     // console.log(acceptedFiles[0]);
@@ -19,16 +24,22 @@ export function ImportStudentData() {
       multiple: false,
       accept: {
         "text/csv": [".csv"],
+
         // "application/vnd.ms-excel": [".xls"],
         // "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
         //   ".xlsx",
         //],
       },
     });
+  const handleSelect = (e) => {
+    setStream(e.target.value);
+  };
 
   const onUpload = async () => {
     const formData = new FormData();
     formData.append(file.name, file);
+    formData.append("Stream", stream);
+    //console.log(stream);
 
     const call = await fetch(`${BASE_URL}/upload-csv`, {
       method: "post",
@@ -48,7 +59,19 @@ export function ImportStudentData() {
       <Header />
       <div className="flex flex-col items-center justify-center">
         <h1 className="my-4 text-3xl font-medium"> Upload Excel Data</h1>
-        <div className="flex flex-col items-center justify-center bg-gray-800 shadow-xl w-96 rounded-xl">
+        <div>
+          <SelectBox
+            name="stream"
+            label={"Stream:"}
+            onChange={handleSelect}
+            placeholder={"Select Stream"}
+            selected={stream}
+            data={
+              INSTITUTE_TYPE === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
+            }
+          />
+        </div>
+        <div className="flex flex-col items-center justify-center bg-surface-container-low shadow-xl w-96 rounded-xl mt-5">
           <div className="p-4 w-full">
             <div
               {...getRootProps()}
@@ -76,13 +99,24 @@ export function ImportStudentData() {
             </div>
           </div>
           <div className="text-white">{file?.name}</div>
-          <button
+          {file === null ? (
+            ""
+          ) : (
+            <button
+              className="primary-button"
+              onClick={() => onUpload()}
+              disabled={stream == undefined}
+            >
+              Upload Data
+            </button>
+          )}
+          {/* <button
             className="primary-button"
             onClick={() => onUpload()}
             disabled={file === null}
           >
             Upload Data
-          </button>
+          </button> */}
         </div>
       </div>
     </>

@@ -21,7 +21,7 @@ export function ViewNoObj() {
       if (err) throw new Error(err);
       setStudent({ ...resp.student });
 
-      [resp, err] = await safeFetch(`${BASE_URL}/last-serial/bonafide`);
+      [resp, err] = await safeFetch(`${BASE_URL}/last-serial/no-objection`);
       if (err) throw new Error(err);
       setSerial((Number(resp.serial) || 0) + 1);
     } catch (e) {
@@ -105,7 +105,7 @@ export function ViewNoObj() {
             <p className="text-center">
               This is to certify that, Mr./Ms.&nbsp;
               <abbr title="attribute" className="fw-bold">
-                {`${student.surname} ${student.name} ${student.fathername}`}
+                {`${student.Name}`}
               </abbr>
               &nbsp;was studying&nbsp;
               <span className="h6 fw-bold">{student.stream}</span> in the

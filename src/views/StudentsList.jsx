@@ -101,6 +101,7 @@ export function StudentsList() {
     <>
       <Header />
       <>
+      
         <p className="text-3xl text-center p-3">Student Info</p>
         <div className="flex mb-3 mx-3  align-items-center p-2">
           <SelectBox
@@ -230,7 +231,7 @@ export function StudentsList() {
                       after
                       ignoreCols={["Sr_No", "institute_type"]}
                     >
-                      <td className="border border-black">
+                      <td>
                         <Link to={`/students/${e.Sr_No}`}>
                           View Details &rarr;
                         </Link>

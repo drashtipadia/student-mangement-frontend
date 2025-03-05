@@ -7,7 +7,7 @@ import "../styles/view.css";
 
 export function ViewTc() {
   useEffect(() => {
-    document.title = "Leaving Document";
+    document.title = "Transfer Certificate";
   });
 
   const currentDate = new Date();

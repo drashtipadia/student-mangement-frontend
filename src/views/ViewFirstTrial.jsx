@@ -22,9 +22,10 @@ export function ViewFirstTrial() {
       if (err) throw new Error(err);
       setStudent({ ...resp.student });
 
-      [resp, err] = await safeFetch(`${BASE_URL}/last-serial/bonafide`);
+      [resp, err] = await safeFetch(`${BASE_URL}/last-serial/first-trial`);
       if (err) throw new Error(err);
       setSerial((Number(resp.serial) || 0) + 1);
+      console.log(serial);
     } catch (e) {
       alert("Some error occured");
       throw new Error(e);
@@ -113,7 +114,7 @@ export function ViewFirstTrial() {
             <p className="h6">
               Mr./Ms.&nbsp;
               <abbr title="attribute ">
-                {`${student.surname} ${student.name} ${student.fathername}`}
+                {`${student.Name} `}
                 &nbsp;
               </abbr>
               &nbsp;
