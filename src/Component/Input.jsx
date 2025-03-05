@@ -12,6 +12,7 @@ export function Input({
   accept = null,
   required = false,
   errorMessage = "",
+  disabled = false
 }) {
   return (
     <>
@@ -37,6 +38,7 @@ export function Input({
               placeholder={placeholder}
               accept={accept}
               spellCheck="false"
+              disabled={disabled}
             />
           ) : (
             <textarea
@@ -47,6 +49,7 @@ export function Input({
               onChange={onChange}
               placeholder={placeholder}
               spellCheck="false"
+              disabled={disabled}
             />
           )}
           {errorMessage && <span className="text-red-700">{errorMessage}</span>}

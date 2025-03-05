@@ -56,7 +56,7 @@ export function ViewFirstTrial() {
         method: "POST",
         headers: {
           doc_type: "first-trial",
-          uuid: student.id,
+          uuid: studentID,
           docname: docName,
         },
       });
@@ -68,9 +68,9 @@ export function ViewFirstTrial() {
         body: data,
         method: "POST",
         headers: {
-          uuid: student.id,
+          uuid: studentID,
         },
-        uuid: student.id,
+        uuid: studentID,
       })
         .then((res) => res.json())
         .then(console.log);
