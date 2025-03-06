@@ -1,9 +1,6 @@
 export { AdmissionForm } from "./AdmissionForm";
 export { AuthLogin } from "./AuthLogin";
-export { BonafideDoc } from "./BonafideDoc";
 export { Error404 } from "./Error404";
-export { FirstTrialDoc } from "./FirstTrialDoc";
-export { NoObjDoc } from "./NoObjDoc";
 export { StudentCount } from "./StudentCount";
 export { StudentsList } from "./StudentsList";
 export { TCDoc } from "./TCDoc";

@@ -35,13 +35,12 @@ export function StudentsList() {
   useEffect(() => {
     (async () => {
       const [res, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}`, //=== change path
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}` //=== change path
       );
       if (err != null) console.log(err);
       else {
         setRecords([...res.students]);
         setRecordsCopy([...res.students]);
-
         setLoading(false);
       }
     })();
@@ -52,14 +51,13 @@ export function StudentsList() {
 
   const handleSearch = () => {
     let filteredRecords = records.filter((val) =>
-      val.Name.toLowerCase().includes(searchName.toLowerCase()),
+      val.Name.toLowerCase().includes(searchName.toLowerCase())
     );
     setRecordsCopy(filteredRecords);
   };
 
   const handleChange = (e) => {
     let result = e.target.value;
-
     setStream(result);
     setFilters({ ...filters, stream: result });
   };
@@ -101,7 +99,6 @@ export function StudentsList() {
     <>
       <Header />
       <>
-      
         <p className="text-3xl text-center p-3">Student Info</p>
         <div className="flex mb-3 mx-3  align-items-center p-2">
           <SelectBox
@@ -206,6 +203,7 @@ export function StudentsList() {
                 <th>Passing Year</th>
                 <th>Seat No</th>
                 <th>School/College Name</th>
+                <th>Stream</th>
                 <th>Entry Date</th>
                 {/* <th className="border border-black">Caste</th>
                 <th className="border border-black">Parent Contact Number</th>

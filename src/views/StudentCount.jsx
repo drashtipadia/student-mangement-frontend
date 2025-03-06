@@ -37,10 +37,10 @@ export function StudentCount() {
      B Com            B A
    */
   let GIACount = {
-    GENERAL: [0, 0, 0, 0],
+    Open: [0, 0, 0, 0],
     SC: [0, 0, 0, 0],
     ST: [0, 0, 0, 0],
-    "SEBC(OBC)": [0, 0, 0, 0],
+    SEBC: [0, 0, 0, 0],
     PH: [0, 0, 0, 0],
     "EX-ARMY": [0, 0, 0, 0],
     EWS: [0, 0, 0, 0],
@@ -57,6 +57,7 @@ export function StudentCount() {
       );
       if (err != null) console.log(err);
       else {
+        //  console.log(res);
         setRecords([...res.students]);
         setLoading(false);
       }
@@ -68,7 +69,7 @@ export function StudentCount() {
     records.forEach((val) => {
       let streamIdx = 0;
       let genderIdx = 0;
-
+      // console.log(val.stream);
       switch (val.stream) {
         case "Bachelor of Computer Application":
           streamIdx = 0;
@@ -88,18 +89,19 @@ export function StudentCount() {
         default:
           throw new Error(`undefined Stream: ${val.stream}`);
       }
+      console.log(val);
 
-      if (val.student_gender === "male") {
+      if (val.Gender === "Male") {
         genderIdx = 0;
       } else {
         genderIdx = 1;
       }
 
-      if (val.institute_type === "GIA") {
-        GIACount[val.caste][streamIdx + genderIdx] += 1;
+      if (INSTITUTE_TYPE === "GIA") {
+        GIACount[val.Category][streamIdx + genderIdx] += 1;
         GIACount["total"][streamIdx + genderIdx] += 1;
       } else {
-        SFICount[val.caste][streamIdx + genderIdx] += 1;
+        SFICount[val.Category][streamIdx + genderIdx] += 1;
         SFICount["total"][streamIdx + genderIdx] += 1;
       }
     });
@@ -108,7 +110,7 @@ export function StudentCount() {
   return (
     <>
       <Header />
-      <div class="flex justify-center items-center">
+      <div className="flex justify-center items-center">
         <div className="flex mt-7">
           <table id="my-table">
             <thead className=" text-center">
