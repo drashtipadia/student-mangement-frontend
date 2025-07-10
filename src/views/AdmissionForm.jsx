@@ -49,6 +49,7 @@ function AdmissionForm() {
     last_organization_studied_from: "",
     last_studied_year: "",
     institute_type: INSTITUTE_TYPE,
+    is_disability: "",
   });
 
   const [errors, setErrors] = useState({
@@ -162,7 +163,7 @@ function AdmissionForm() {
           submitData.append(key, value);
         }
       });
-
+      console.log(submitData);
       [res, err] = await safeFetch(
         `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
         {
@@ -333,10 +334,19 @@ function AdmissionForm() {
                 { label: "SC", value: "SC" },
                 { label: "ST", value: "ST" },
                 { label: "SEBC(OBC)", value: "SEBC(OBC)" },
-                { label: "PH", value: "PH" },
                 { label: "EX-ARMY", value: "EX-ARMY" },
               ]}
               checked={user.caste}
+            />
+            <RadioGroup
+              label={"Disability:"}
+              name={"is_disability"}
+              onChange={handleInputs}
+              data={[
+                { label: "Yes", value: "true" },
+                { label: "No", value: "false" },
+              ]}
+              checked={user.is_disability}
             />
             <div className="flex flex-wrap">
               <Input

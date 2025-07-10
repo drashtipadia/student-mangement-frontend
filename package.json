@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "start:backend": "cd ../backend/ && npm run start",
     "both": "concurrently \"npm run dev\" \"npm run start:backend\"",
     "build": "vite build",

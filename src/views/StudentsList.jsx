@@ -70,7 +70,6 @@ export function StudentsList() {
   const handleYearChange = (e) => {
     let result = e.target.value;
     setYear(result);
-
     setFilters({ ...filters, inserted_at: result });
   };
 
@@ -81,6 +80,12 @@ export function StudentsList() {
 
       let allowed = true;
       entries.forEach(([key, val]) => {
+        if (key === "inserted_at") {
+          if (new Date(record["inserted_at"]).getFullYear() == val) {
+            allowed = true;
+            return;
+          }
+        }
         if (String(record[key]) !== val) {
           allowed = false;
           return;
@@ -203,6 +208,7 @@ export function StudentsList() {
                 <th>Passing Year</th>
                 <th>Seat No</th>
                 <th>School/College Name</th>
+                <th>Disability</th>
                 <th>Stream</th>
                 <th>Entry Date</th>
                 {/* <th className="border border-black">Caste</th>
