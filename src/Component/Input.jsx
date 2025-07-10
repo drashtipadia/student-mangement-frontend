@@ -1,25 +1,31 @@
 import { Badge } from "./Badge";
 
+/**
+ *
+ * @typedef {{
+ * label: string;
+ * errorMessage: string;
+ * disabled: boolean;
+ * } & React.AllHTMLAttributes<HTMLInputElement>} InputProps
+ */
+
+/**
+ * @param {InputProps} _props
+ * @returns {React.ReactNode}
+ */
 export function Input({
   label = "",
-  type,
-  name,
-  value,
-  onChange,
-  min = null,
-  max = null,
-  placeholder,
-  accept = null,
-  required = false,
   errorMessage = "",
-  disabled = false
-}) {
+  disabled = false,
+  type,
+  ...otherProps
+} = _props) {
   return (
     <>
       <div className="flex ">
         <div className="flex-wrap min-w-fit md:m-0">
           <label className="uppercase px-2 text-center" htmlFor={name}>
-            {required && <Badge />}
+            {otherProps.required && <Badge />}
             {label}
           </label>
         </div>
@@ -27,28 +33,15 @@ export function Input({
         <div className="w-full md:mb-3">
           {type !== "textarea" ? (
             <input
-              type={type}
-              id={name}
-              name={name}
-              value={value}
               className=" w-full  bg-white border rounded p-2 focus:outline-none  focus:border-black"
-              onChange={onChange}
-              min={min}
-              max={max}
-              placeholder={placeholder}
-              accept={accept}
               spellCheck="false"
+              {...otherProps}
               disabled={disabled}
             />
           ) : (
             <textarea
-              id={name}
-              name={name}
-              value={value}
               className=" w-full  text-gray-700 border rounded p-2  focus:outline-none  focus:border-gray-500"
-              onChange={onChange}
-              placeholder={placeholder}
-              spellCheck="false"
+              {...otherProps}
               disabled={disabled}
             />
           )}
