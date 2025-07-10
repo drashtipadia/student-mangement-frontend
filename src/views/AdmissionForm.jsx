@@ -24,7 +24,6 @@ function AdmissionForm() {
     main_subject: "",
     first_secondary_subject: "",
     tertiary_secondary_subject: "",
-    gr_no: "",
     enrollment_no: "",
     abc_id: "",
     udisk_no: "",
@@ -137,7 +136,7 @@ function AdmissionForm() {
 
   const STREAM = STREAM_ACRONYMS;
 
-  const GR_PREFIX = "GR-" + INSTITUTE_TYPE + "-" + STREAM[user.stream] + "-";
+  // const GR_PREFIX = "GR-" + INSTITUTE_TYPE + "-" + STREAM[user.stream] + "-";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -146,42 +145,42 @@ function AdmissionForm() {
     if (!valid) return;
     setSubmitting(valid);
 
-    let [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`
+    // let [res, err] = await safeFetch(
+    //   `http://${SERVER_HOST}:${SERVER_PORT}/last-gr/`
+    // );
+    // handleError(err);
+
+    // const gr = Number(res.gr_no);
+    // const appendGR = gr + 1;
+
+    // user.gr_no = `${GR_PREFIX}${appendGR}`;
+
+    // if (user.gr_no) {
+    const submitData = new FormData();
+    Object.entries(user).forEach(([key, value]) => {
+      if (user[key] !== null) {
+        submitData.append(key, value);
+      }
+    });
+    console.log(submitData);
+    [res, err] = await safeFetch(
+      `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
+      {
+        method: "POST",
+        body: submitData,
+      }
     );
     handleError(err);
 
-    const gr = Number(res.gr_no);
-    const appendGR = gr + 1;
-
-    user.gr_no = `${GR_PREFIX}${appendGR}`;
-
-    if (user.gr_no) {
-      const submitData = new FormData();
-      Object.entries(user).forEach(([key, value]) => {
-        if (user[key] !== null) {
-          submitData.append(key, value);
-        }
-      });
-      console.log(submitData);
-      [res, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
-        {
-          method: "POST",
-          body: submitData,
-        }
-      );
-      handleError(err);
-
-      if (res.status === "success") {
-        alert("record inserted");
-        window.location.reload();
-      } else {
-        alert("see console");
-        console.log(res);
-        setSubmitting(true);
-      }
+    if (res.status === "success") {
+      alert("record inserted");
+      window.location.reload();
+    } else {
+      alert("see console");
+      console.log(res);
+      setSubmitting(true);
     }
+    // }
     setSubmitting(false);
   };
 
