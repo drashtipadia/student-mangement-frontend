@@ -15,36 +15,29 @@ function AdmissionForm() {
   });
 
   const INSTITUTE_TYPE = localStorage.getItem("token");
-  const [previewImage, setPreviewImage] = useState(null);
+  // const [previewImage, setPreviewImage] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [user, setUser] = useState({
     stream: "",
     semester: "",
-    elective_course: "",
     main_subject: "",
-    first_secondary_subject: "",
-    tertiary_secondary_subject: "",
     enrollment_no: "",
     abc_id: "",
-    udisk_no: "",
     aadhar_number: "",
-    surname: "",
     name: "",
-    fathername: "",
-    father_name: "",
-    mother_name: "",
     address: "",
     whatsapp_no: "",
     parent_contact_no: "",
     email: "",
     gender: "",
     birth_date: "",
-    birth_place: "",
     caste: "",
     city: "",
+    taluka: "",
     district: "",
     pincode: "",
-    studentimg: null,
+    seat_number: "",
+    exam_name: "",
     last_organization_studied_from: "",
     last_studied_year: "",
     institute_type: INSTITUTE_TYPE,
@@ -52,13 +45,13 @@ function AdmissionForm() {
   });
 
   const [errors, setErrors] = useState({
-    aadharNumber: "",
+    // aadharNumber: "",
     whatsapp_no: "",
     email: "",
-    surname: "",
+    // surname: "",
     name: "",
-    fathername: "",
-    studentimg: "",
+    // fathername: "",
+    // studentimg: "",
   });
 
   useEffect(() => {
@@ -69,9 +62,9 @@ function AdmissionForm() {
       setUser({
         ...user,
         main_subject: "",
-        first_secondary_subject: "",
-        tertiary_secondary_subject: "",
-        elective_course: "",
+        // first_secondary_subject: "",
+        // tertiary_secondary_subject: "",
+        // elective_course: "",
       });
     }
     // eslint-disable-next-line
@@ -81,13 +74,13 @@ function AdmissionForm() {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleFileUploads = (e) => {
-    const name = e.target.name;
-    const file = e.target.files[0];
+  // const handleFileUploads = (e) => {
+  //   const name = e.target.name;
+  //   const file = e.target.files[0];
 
-    setPreviewImage(URL.createObjectURL(file));
-    setUser({ ...user, [name]: file });
-  };
+  //   setPreviewImage(URL.createObjectURL(file));
+  //   setUser({ ...user, [name]: file });
+  // };
 
   const isNumber = (value) => !Number(value) === false;
 
@@ -108,13 +101,7 @@ function AdmissionForm() {
    */
   function validate() {
     let errs = {};
-    const VALIDATE_FIELDS = [
-      "surname",
-      "name",
-      "fathername",
-      "whatsapp_no",
-      "studentimg",
-    ];
+    const VALIDATE_FIELDS = ["name", "whatsapp_no", "email"];
     let valid = true;
 
     VALIDATE_FIELDS.forEach((field) => {
@@ -156,18 +143,23 @@ function AdmissionForm() {
     // user.gr_no = `${GR_PREFIX}${appendGR}`;
 
     // if (user.gr_no) {
-    const submitData = new FormData();
-    Object.entries(user).forEach(([key, value]) => {
-      if (user[key] !== null) {
-        submitData.append(key, value);
-      }
-    });
-    console.log(submitData);
-    [res, err] = await safeFetch(
+
+    // const submitData = new FormData();
+    // Object.entries(user).forEach(([key, value]) => {
+    //   if (user[key] !== null) {
+    //     submitData.append(key, value);
+    //   }
+    // });
+    // console.log(submitData);
+    let [res, err] = await safeFetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
       {
         method: "POST",
-        body: submitData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+        // body: submitData,
       }
     );
     handleError(err);
@@ -193,7 +185,7 @@ function AdmissionForm() {
             Admission Form
           </h2>
 
-          <form className=" m-4" method="post" encType="multipart/form-data">
+          <form className=" m-4" method="post">
             <div className="flex flex-wrap">
               <div className="w-auto md:mb-0 ">
                 <SelectBox
@@ -221,33 +213,33 @@ function AdmissionForm() {
 
             {user.stream === "Bachelor of Commerce" && (
               <RadioGroup
-                label={"Choose Subject:"}
-                name={"elective_course"}
+                label={"Main Subject:"}
+                name={"main_subject"}
                 onChange={handleInputs}
                 data={[
                   { label: "Accountancy", value: "accountancy" },
                   { label: "Computer Science", value: "computer science" },
                 ]}
-                checked={user.elective_course}
+                checked={user.main_subject}
               />
             )}
 
             {user.stream === "Bachelor of Arts" && (
               <RadioGroup
-                label={"Compulsary Subject:"}
-                name={"elective_course"}
+                label={"Main Subject:"}
+                name={"main_subject"}
                 onChange={handleInputs}
                 data={[
                   { label: "English", value: "english" },
                   { label: "Hindi", value: "hindi" },
                 ]}
-                checked={user.elective_course}
+                checked={user.main_subject}
               />
             )}
 
-            <hr />
+            {/* <hr /> */}
 
-            {user.stream === "Bachelor of Arts" && (
+            {/* {user.stream === "Bachelor of Arts" && (
               <RadioGroup
                 label={"Main Subject:"}
                 name={"main_subject"}
@@ -260,9 +252,9 @@ function AdmissionForm() {
                 ]}
                 checked={user.main_subject}
               />
-            )}
+            )} */}
 
-            {user.stream === "Bachelor of Arts" && (
+            {/* {user.stream === "Bachelor of Arts" && (
               <RadioGroup
                 label={"First Secondary Subject:"}
                 name={"first_secondary_subject"}
@@ -274,9 +266,9 @@ function AdmissionForm() {
                 ]}
                 checked={user.first_secondary_subject}
               />
-            )}
+            )} */}
 
-            {user.stream === "Bachelor of Arts" && (
+            {/* {user.stream === "Bachelor of Arts" && (
               <>
                 <RadioGroup
                   label={"Tertiary Secondary Subject:"}
@@ -291,7 +283,7 @@ function AdmissionForm() {
                 />
                 <hr />
               </>
-            )}
+            )} */}
             <div className="flex flex-wrap mt-3">
               <Input
                 type="text"
@@ -302,14 +294,14 @@ function AdmissionForm() {
                 onChange={(e) => handlenumber(e, 12)}
               />
 
-              <Input
+              {/* <Input
                 type="text"
                 name="udisk_no"
                 label="UDISK No:"
                 value={user.udisk_no}
                 placeholder="Enter UDISK No."
                 onChange={handleInputs}
-              />
+              /> */}
             </div>
 
             <Input
@@ -320,7 +312,6 @@ function AdmissionForm() {
               placeholder="Enter Aadhar No."
               max="12"
               onChange={(e) => handlenumber(e, 12)}
-              required
             />
 
             <RadioGroup
@@ -348,7 +339,7 @@ function AdmissionForm() {
               checked={user.is_disability}
             />
             <div className="flex flex-wrap">
-              <Input
+              {/* <Input
                 type="text"
                 name="surname"
                 label="Full Name:"
@@ -356,26 +347,27 @@ function AdmissionForm() {
                 placeholder="SURNAME"
                 onChange={handleInputs}
                 errorMessage={errors.surname}
-              />
+              /> */}
               <Input
                 type="text"
                 name="name"
+                label="FullName"
                 placeholder="NAME"
                 value={user.name}
                 onChange={handleInputs}
                 errorMessage={errors.name}
               />
-              <Input
+              {/* <Input
                 type="text"
                 name="fathername"
                 placeholder="FATHERNAME"
                 value={user.fathername}
                 onChange={handleInputs}
                 errorMessage={errors.fathername}
-              />
+              /> */}
             </div>
 
-            <div className="row border-3 form-group mb-3 align-items-center">
+            {/* <div className="row border-3 form-group mb-3 align-items-center">
               <Input
                 type="text"
                 name="father_name"
@@ -394,7 +386,7 @@ function AdmissionForm() {
                 value={user.mother_name}
                 onChange={handleInputs}
               />
-            </div>
+            </div> */}
             <div className="row border-3 form-group mb-3 align-items-center">
               <Input
                 type="textarea"
@@ -458,14 +450,14 @@ function AdmissionForm() {
                 onChange={handleInputs}
               />
 
-              <Input
+              {/* <Input
                 type="text"
                 name="birth_place"
                 value={user.birth_place}
                 label="Birth Place:"
                 placeholder="birthplace.."
                 onChange={handleInputs}
-              />
+              /> */}
             </div>
 
             <div className="flex flex-wrap">
@@ -475,6 +467,15 @@ function AdmissionForm() {
                 label="City:"
                 placeholder="city"
                 value={user.city}
+                onChange={handleInputs}
+              />
+
+              <Input
+                type="text"
+                name="taluka"
+                label="Taluka:"
+                placeholder="taluka"
+                value={user.taluka}
                 onChange={handleInputs}
               />
 
@@ -494,6 +495,25 @@ function AdmissionForm() {
                 placeholder="pincode"
                 value={user.pincode}
                 onChange={(e) => handlenumber(e, 6)}
+              />
+            </div>
+
+            <div>
+              <Input
+                type="text"
+                name="seat_number"
+                label="seat_number:"
+                placeholder="seat_number"
+                value={user.seat_number}
+                onChange={handleInputs}
+              />
+              <Input
+                type="text"
+                name="exam_name"
+                label="exam_name:"
+                placeholder="exam_name"
+                value={user.exam_name}
+                onChange={handleInputs}
               />
             </div>
 
@@ -517,7 +537,7 @@ function AdmissionForm() {
                 max={new Date().getFullYear()}
               />
             </div>
-            <div className="row border-3 form-group mb-3 align-items-center ">
+            {/* <div className="row border-3 form-group mb-3 align-items-center ">
               <Input
                 label="Student Image:"
                 type="file"
@@ -527,14 +547,13 @@ function AdmissionForm() {
                 errorMessage={errors.studentimg}
                 required
               />
-            </div>
+            </div> */}
 
-            {previewImage && (
+            {/*previewImage && (
               <div className="my-2">
-                {/* eslint-disable-next-line */}
                 <img src={previewImage} alt="image preview" height={200} />
               </div>
-            )}
+            ) */}
 
             <button
               type="submit"

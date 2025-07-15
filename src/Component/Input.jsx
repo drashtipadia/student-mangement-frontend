@@ -36,6 +36,7 @@ export function Input({
               className=" w-full  bg-white border rounded p-2 focus:outline-none  focus:border-black"
               spellCheck="false"
               {...otherProps}
+              type={type}
               disabled={disabled}
             />
           ) : (
