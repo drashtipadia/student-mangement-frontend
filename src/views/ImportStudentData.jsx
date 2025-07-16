@@ -86,7 +86,7 @@ export function ImportStudentData() {
                 }
               >
                 {isDragReject ? (
-                  <p className="text-red-500">Please Excel File select </p>
+                  <p className="text-red-500">Please CSV File select </p>
                 ) : (
                   <div>
                     <p className="text-center"> Drag &amp; Drop File Here</p>

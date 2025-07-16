@@ -293,6 +293,15 @@ function AdmissionForm() {
                 placeholder="Enter ABC ID No."
                 onChange={(e) => handlenumber(e, 12)}
               />
+                <Input
+              type="text"
+              name="aadhar_number"
+              label="Aadhar No:"
+              value={user.aadhar_number}
+              placeholder="Enter Aadhar No."
+              max="12"
+              onChange={(e) => handlenumber(e, 12)}
+            />
 
               {/* <Input
                 type="text"
@@ -304,15 +313,7 @@ function AdmissionForm() {
               /> */}
             </div>
 
-            <Input
-              type="text"
-              name="aadhar_number"
-              label="Aadhar No:"
-              value={user.aadhar_number}
-              placeholder="Enter Aadhar No."
-              max="12"
-              onChange={(e) => handlenumber(e, 12)}
-            />
+          
 
             <RadioGroup
               name={"caste"}

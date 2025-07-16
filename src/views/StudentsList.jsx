@@ -20,6 +20,7 @@ export function StudentsList() {
   const tableRef = useRef();
   const [stream, setStream] = useState("");
   const [filters, setFilters] = useState({});
+  const [selectStudent, setSelectStudent] = useState([]);
 
   const handleClick = () => {
     const file = convertToCSV(tableRef.current);
@@ -98,6 +99,40 @@ export function StudentsList() {
     setRecordsCopy(filteredRecords);
   };
 
+  const handleDelete = async (e) => {
+    confirm("sure want to delete record");
+    console.log(selectStudent);
+    const [res, err] = await safeFetch(
+      `http://${SERVER_HOST}:${SERVER_PORT}/students/bulk-delete`,
+      {
+        method: "DELETE",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({ ids: selectStudent }),
+      }
+    );
+    console.log(res);
+    if (res.status === "success") {
+      alert("Record Deleted");
+      selectStudent.forEach((id) => {
+        setRecordsCopy((prev) => prev.filter((rec) => rec.Sr_No !== id));
+      });
+    }
+  };
+  const handleSelectAll = (e) => {
+    const ids = recordsCopy.map((rec) => rec.Sr_No);
+    setSelectStudent([...ids]);
+    console.log(ids);
+  };
+  const handleIndividualCheck = (e) => {
+    // console.log(e);
+    if (selectStudent.includes(e)) {
+      setSelectStudent((prev) => prev.filter((ids) => ids !== e));
+    } else {
+      setSelectStudent([...selectStudent, e]);
+    }
+    //  console.log(selectStudent);
+  };
+
   if (loading) return <Loading />;
 
   return (
@@ -169,6 +204,13 @@ export function StudentsList() {
           >
             Export to Excel (CSV)
           </button>
+          <button
+            className="text-center  border rounded h-11 px-4 disabled:bg-red-400 bg-red-600 text-white hover:bg-red-700  block mx-auto no-underline"
+            onClick={handleDelete}
+            disabled={selectStudent.length == 0}
+          >
+            Delete
+          </button>
         </div>
         {/* ====================================== */}
         <div className="mb-3 overflow-scroll p-3">
@@ -210,7 +252,19 @@ export function StudentsList() {
                 <th>School/College Name</th>
                 <th>Disability</th>
                 <th>Stream</th>
+                <th>Semster</th>
+                <th>Main Subject</th>
+                <th>Parent Number</th>
                 <th>Entry Date</th>
+                <th></th>
+                <th className="p-6">
+                  <button
+                    className="text-center  border rounded  px-4  bg-blue-600 text-white hover:bg--700  block mx-auto no-underline"
+                    onClick={handleSelectAll}
+                  >
+                    Select All
+                  </button>
+                </th>
                 {/* <th className="border border-black">Caste</th>
                 <th className="border border-black">Parent Contact Number</th>
                 <th className="border border-black">
@@ -239,6 +293,13 @@ export function StudentsList() {
                         <Link to={`/students/${e.Sr_No}`}>
                           View Details &rarr;
                         </Link>
+                      </td>
+                      <td className="p-2">
+                        <input
+                          type="checkbox"
+                          checked={selectStudent.includes(e.Sr_No)}
+                          onChange={() => handleIndividualCheck(e.Sr_No)}
+                        />
                       </td>
                     </TableRow>
                   );

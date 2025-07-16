@@ -27,9 +27,10 @@ export function UpdateStudent() {
       const stu = JSON.parse(JSON.stringify(resp.student));
       console.log(stu);
       let birthdate = new Date(stu.birth_date);
-      let date = birthdate.toISOString().split("T")[0];
+      // let date = birthdate.toISOString().split("T")[0];
 
       setUser({ ...stu, birth_date: date, gender: stu.student_gender });
+      console.log(user);
     }
 
     callAPI();
@@ -43,10 +44,7 @@ export function UpdateStudent() {
     ) {
       setUser({
         ...user,
-        main_course: "",
-        first_secondary_subject: "",
-        tertiary_secondary_subject: "",
-        elective_course: "",
+        main_subject: "",
       });
     }
     // eslint-disable-next-line
@@ -135,32 +133,30 @@ export function UpdateStudent() {
               {user.stream === "Bachelor of Commerce" && (
                 <RadioGroup
                   label={"Choose Subject:"}
-                  name={"elective_course"}
+                  name={"main_subject"}
                   onChange={handleInputs}
                   data={[
                     { label: "Accountancy", value: "accountancy" },
                     { label: "Computer Science", value: "computer science" },
                   ]}
-                  checked={user.elective_course}
+                  checked={user.main_subject}
                 />
               )}
 
               {user.stream === "Bachelor of Arts" && (
                 <RadioGroup
                   label={"Main Subject:"}
-                  name={"main_course"}
+                  name={"main_subject"}
                   onChange={handleInputs}
                   data={[
-                    { label: "Economics", value: "economics" },
-                    { label: "Gujarati", value: "gujarati" },
-                    { label: "Psychology", value: "psychology" },
+                    { label: "English", value: "english" },
                     { label: "Hindi", value: "hindi" },
                   ]}
-                  checked={user.main_course}
+                  checked={user.main_subject}
                 />
               )}
 
-              {user.stream === "Bachelor of Arts" && (
+              {/* {user.stream === "Bachelor of Arts" && (
                 <RadioGroup
                   label={"First Secondary Subject:"}
                   name={"first_secondary_subject"}
@@ -189,15 +185,15 @@ export function UpdateStudent() {
                   />
                   <hr />
                 </>
-              )}
+              )} */}
               <div className="flex flex-wrap">
-                <Input
+                {/* <Input
                   type="text"
                   name="gr_no"
                   label="GR NO:"
                   value={user.gr_no}
                   onChange={handleInputs}
-                />
+                /> */}
 
                 <Input
                   type="text"
@@ -218,14 +214,14 @@ export function UpdateStudent() {
                   onChange={(e) => handlenumber(e, 12)}
                 />
 
-                <Input
+                {/* <Input
                   type="text"
                   name="udisk_no"
                   label="UDISK No:"
                   value={user.udisk_no}
                   placeholder="Enter UDISK No."
                   onChange={handleInputs}
-                />
+                /> */}
                 <Input
                   type="text"
                   name="aadhar_number"
@@ -248,56 +244,30 @@ export function UpdateStudent() {
                   { label: "SC", value: "SC" },
                   { label: "ST", value: "ST" },
                   { label: "SEBC(OBC)", value: "SEBC(OBC)" },
-                  { label: "PH", value: "PH" },
                   { label: "EX-ARMY", value: "EX-ARMY" },
                 ]}
                 checked={user.caste}
               />
+              <RadioGroup
+                label={"Disability:"}
+                name={"is_disability"}
+                onChange={handleInputs}
+                data={[
+                  { label: "Yes", value: "true" },
+                  { label: "No", value: "false" },
+                ]}
+                checked={user.is_disability}
+              />
               <div className="flex flex-wrap">
                 <Input
                   type="text"
-                  name="surname"
-                  label="Full Name:"
-                  value={user.surname}
-                  placeholder="SURNAME"
-                  onChange={handleInputs}
-                />
-                <Input
-                  type="text"
                   name="name"
-                  placeholder="NAME"
+                  placeholder="Full NAME"
                   value={user.name}
-                  onChange={handleInputs}
-                />
-                <Input
-                  type="text"
-                  name="fathername"
-                  placeholder="FATHERNAME"
-                  value={user.fathername}
                   onChange={handleInputs}
                 />
               </div>
 
-              <div className="">
-                <Input
-                  type="text"
-                  name="father_name"
-                  label="Full father Name:"
-                  placeholder="Enter Father Name"
-                  value={user.father_name}
-                  onChange={handleInputs}
-                />
-              </div>
-              <div className="row border-3 form-group mb-3 align-items-center">
-                <Input
-                  type="text"
-                  name="mother_name"
-                  label="Full mother Name:"
-                  placeholder="Enter Mother Name"
-                  value={user.mother_name}
-                  onChange={handleInputs}
-                />
-              </div>
               <div className="">
                 <Input
                   type="textarea"
@@ -356,14 +326,14 @@ export function UpdateStudent() {
                   onChange={handleInputs}
                 />
 
-                <Input
+                {/* <Input
                   type="text"
                   name="birth_place"
                   value={user.birth_place}
                   label="Birth Place:"
                   placeholder="birthplace.."
                   onChange={handleInputs}
-                />
+                /> */}
               </div>
 
               <div className="flex flex-wrap">
@@ -373,6 +343,14 @@ export function UpdateStudent() {
                   label="City:"
                   placeholder="city"
                   value={user.city}
+                  onChange={handleInputs}
+                />
+                <Input
+                  type="text"
+                  name="taluka"
+                  label="Taluka:"
+                  placeholder="taluka"
+                  value={user.taluka}
                   onChange={handleInputs}
                 />
 
@@ -395,6 +373,24 @@ export function UpdateStudent() {
                 />
               </div>
 
+              <div>
+                <Input
+                  type="text"
+                  name="seat_number"
+                  label="seat_number:"
+                  placeholder="seat_number"
+                  value={user.seat_number}
+                  onChange={handleInputs}
+                />
+                <Input
+                  type="text"
+                  name="exam_name"
+                  label="exam_name:"
+                  placeholder="exam_name"
+                  value={user.exam_name}
+                  onChange={handleInputs}
+                />
+              </div>
               <div className="flex flex-wrap">
                 <Input
                   type="text"
