@@ -11,7 +11,7 @@ export function UpdateStudent() {
   });
 
   const INSTITUTE_TYPE = localStorage.getItem("token");
-  const [user, setUser] = useState({ udisk_no: "" });
+  const [user, setUser] = useState({});
 
   let [params] = useSearchParams();
   const id = params.get("id");
@@ -25,12 +25,14 @@ export function UpdateStudent() {
       handleError(err);
       // console.log(resp);
       const stu = JSON.parse(JSON.stringify(resp.student));
-      console.log(stu);
-      let birthdate = new Date(stu.birth_date);
-      // let date = birthdate.toISOString().split("T")[0];
+      // console.log(stu);
+      let birthdate = Date(stu.DOB);
+      let date = birthdate.toISOString().split("T")[0];
 
-      setUser({ ...stu, birth_date: date, gender: stu.student_gender });
-      console.log(user);
+      setUser({ ...stu, birth_date: date });
+      // console.log(user);
+
+      // console.log(user);
     }
 
     callAPI();
@@ -92,7 +94,7 @@ export function UpdateStudent() {
       alert("see console");
       console.log(res);
     }
-
+    console.log(user);
     nav(-1);
   };
 
@@ -199,7 +201,7 @@ export function UpdateStudent() {
                   type="text"
                   name="enrollment_no"
                   label="Enrollment no:"
-                  value={user.enrollment_no}
+                  value={user.Enrollment_No}
                   placeholder="Enter Enrollment No."
                   onChange={handleInputs}
                 />
@@ -209,7 +211,7 @@ export function UpdateStudent() {
                   type="text"
                   name="abc_id"
                   label="ABC ID:"
-                  value={user.abc_id}
+                  value={user.ABCID}
                   placeholder="Enter ABC ID No."
                   onChange={(e) => handlenumber(e, 12)}
                 />
@@ -226,7 +228,7 @@ export function UpdateStudent() {
                   type="text"
                   name="aadhar_number"
                   label="Aadhar No:"
-                  value={user.aadhar_number}
+                  value={user.AadharCard_No}
                   placeholder="Enter Aadhar No."
                   max="12"
                   onChange={(e) => handlenumber(e, 12)}
@@ -235,18 +237,18 @@ export function UpdateStudent() {
               </div>
 
               <RadioGroup
-                name={"caste"}
+                name={"category"}
                 label={"Caste:"}
                 onChange={handleInputs}
                 data={[
-                  { label: "GENERAL", value: "GENERAL" },
+                  { label: "GENERAL", value: "OPEN" },
                   { label: "EWS", value: "EWS" },
                   { label: "SC", value: "SC" },
                   { label: "ST", value: "ST" },
                   { label: "SEBC(OBC)", value: "SEBC(OBC)" },
                   { label: "EX-ARMY", value: "EX-ARMY" },
                 ]}
-                checked={user.caste}
+                checked={user.Category}
               />
               <RadioGroup
                 label={"Disability:"}
@@ -256,14 +258,15 @@ export function UpdateStudent() {
                   { label: "Yes", value: "true" },
                   { label: "No", value: "false" },
                 ]}
-                checked={user.is_disability}
+                checked={user.is_disabled}
               />
               <div className="flex flex-wrap">
                 <Input
                   type="text"
                   name="name"
+                  label="Full name"
                   placeholder="Full NAME"
-                  value={user.name}
+                  value={user.Name}
                   onChange={handleInputs}
                 />
               </div>
@@ -273,7 +276,7 @@ export function UpdateStudent() {
                   type="textarea"
                   name="address"
                   label="Address:"
-                  value={user.address}
+                  value={user.Address}
                   onChange={handleInputs}
                   placeholder="Enter the Address"
                 />
@@ -284,7 +287,7 @@ export function UpdateStudent() {
                   name="whatsapp_no"
                   label="Mobile No:"
                   placeholder="Whatsapp No."
-                  value={user.whatsapp_no}
+                  value={user.Mobile_No}
                   onChange={(e) => handlenumber(e, 10)}
                   required
                 />
@@ -301,7 +304,7 @@ export function UpdateStudent() {
                   name="email"
                   label="Email:"
                   placeholder="Student Email Address"
-                  value={user.email}
+                  value={user.Email}
                   onChange={handleInputs}
                   required
                 />
@@ -312,16 +315,16 @@ export function UpdateStudent() {
                 name={"gender"}
                 onChange={handleInputs}
                 data={[
-                  { label: "Male", value: "male" },
-                  { label: "Female", value: "female" },
+                  { label: "Male", value: "Male" },
+                  { label: "Female", value: "Female" },
                 ]}
-                checked={user.gender}
+                checked={user.Gender}
               />
               <div className="flex flex-wrap">
                 <Input
                   type="date"
                   name="birth_date"
-                  value={user.birth_date}
+                  value={user.DOB}
                   label="Birth Date:"
                   onChange={handleInputs}
                 />
@@ -342,7 +345,7 @@ export function UpdateStudent() {
                   name="city"
                   label="City:"
                   placeholder="city"
-                  value={user.city}
+                  value={user.City}
                   onChange={handleInputs}
                 />
                 <Input
@@ -350,7 +353,7 @@ export function UpdateStudent() {
                   name="taluka"
                   label="Taluka:"
                   placeholder="taluka"
-                  value={user.taluka}
+                  value={user.Taluka}
                   onChange={handleInputs}
                 />
 
@@ -359,7 +362,7 @@ export function UpdateStudent() {
                   name="district"
                   label="District:"
                   placeholder="district"
-                  value={user.district}
+                  value={user.District}
                   onChange={handleInputs}
                 />
 
@@ -368,7 +371,7 @@ export function UpdateStudent() {
                   name="pincode"
                   label="Pincode:"
                   placeholder="pincode"
-                  value={user.pincode}
+                  value={user.Pin_No}
                   onChange={(e) => handlenumber(e, 6)}
                 />
               </div>
@@ -379,7 +382,7 @@ export function UpdateStudent() {
                   name="seat_number"
                   label="seat_number:"
                   placeholder="seat_number"
-                  value={user.seat_number}
+                  value={user.Seat_Number}
                   onChange={handleInputs}
                 />
                 <Input
@@ -387,7 +390,7 @@ export function UpdateStudent() {
                   name="exam_name"
                   label="exam_name:"
                   placeholder="exam_name"
-                  value={user.exam_name}
+                  value={user.Exam_Name}
                   onChange={handleInputs}
                 />
               </div>
@@ -397,7 +400,7 @@ export function UpdateStudent() {
                   name="last_organization_studied_from"
                   label="Last Organization Studied From:"
                   placeholder="Institute/School Name.."
-                  value={user.last_organization_studied_from}
+                  value={user.School_College}
                   onChange={handleInputs}
                 />
 
@@ -405,7 +408,7 @@ export function UpdateStudent() {
                   type="number"
                   name="last_studied_year"
                   label="Last Studied Year:"
-                  value={user.last_studied_year}
+                  value={user.Passing_Year}
                   onChange={handleInputs}
                   min="2000"
                   max={new Date().getFullYear()}

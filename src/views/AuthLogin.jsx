@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { RadioGroup } from "../Component";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch, handleError } from "../utils";
-
+import { Loading } from "../Component";
 export function AuthLogin() {
   useEffect(() => {
     document.title = "Login";
@@ -17,6 +17,7 @@ export function AuthLogin() {
     institute_type: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleInput = ({ target }) => {
     setAdmin({ ...admin, [target.name]: target.value });
@@ -24,7 +25,7 @@ export function AuthLogin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     let formData = new FormData();
     formData.append("username", admin.adminname);
     formData.append("password", admin.adminpassword);
@@ -34,14 +35,14 @@ export function AuthLogin() {
       {
         method: "POST",
         body: formData,
-      },
+      }
     );
     handleError(err);
 
     if (res.status === "failed") {
       setError(res.err);
     }
-    console.log(res);
+    // console.log(res);
 
     if (res.status === "success" && res.exists === true) {
       localStorage.setItem("token", admin.institute_type);
@@ -49,11 +50,13 @@ export function AuthLogin() {
     }
   };
 
+  if (loading) return <Loading />;
   return (
     <>
       <section className=" bg-gradient-to-r from-slate-50 to-slate-500">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 ">
+            
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-lg font-bold leading-tight tracking-tight text-center text-gray-900 md:text-2xl ">
                 Admin Login
@@ -103,6 +106,7 @@ export function AuthLogin() {
                   Login
                 </button>
               </form>
+
             </div>
           </div>
         </div>

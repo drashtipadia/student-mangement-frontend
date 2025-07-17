@@ -100,28 +100,34 @@ export function StudentsList() {
   };
 
   const handleDelete = async (e) => {
-    confirm("sure want to delete record");
-    console.log(selectStudent);
-    const [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/students/bulk-delete`,
-      {
-        method: "DELETE",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({ ids: selectStudent }),
+    if (confirm("sure want to delete record")) {
+      setLoading(true);
+      const [res, err] = await safeFetch(
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/bulk-delete`,
+        {
+          method: "DELETE",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({ ids: selectStudent }),
+        }
+      );
+      // console.log(res);
+
+      if (res.status === "success") {
+        alert("Record Deleted");
+        selectStudent.forEach((id) => {
+          setRecordsCopy((prev) => prev.filter((rec) => rec.Sr_No !== id));
+        });
+        setSelectStudent([]);
+        setLoading(false);
       }
-    );
-    console.log(res);
-    if (res.status === "success") {
-      alert("Record Deleted");
-      selectStudent.forEach((id) => {
-        setRecordsCopy((prev) => prev.filter((rec) => rec.Sr_No !== id));
-      });
+    } else {
+      setSelectStudent([]);
     }
   };
   const handleSelectAll = (e) => {
     const ids = recordsCopy.map((rec) => rec.Sr_No);
     setSelectStudent([...ids]);
-    console.log(ids);
+    // console.log(ids);
   };
   const handleIndividualCheck = (e) => {
     // console.log(e);

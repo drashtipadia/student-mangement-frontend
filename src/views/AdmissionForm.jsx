@@ -181,13 +181,13 @@ function AdmissionForm() {
       <Header />
       <div className="flex items-center justify-center mt-6">
         <div className="border border-black bg-slate-100">
-          <h2 className="text-center mb-6 mt-3 text-2xl font-semibold">
+          <h2 className="text-center mb-6 mt-3 text-3xl font-semibold">
             Admission Form
           </h2>
 
-          <form className=" m-4" method="post">
-            <div className="flex flex-wrap">
-              <div className="w-auto md:mb-0 ">
+          <form className="m-4 items-center justify-center" method="post">
+            <div className="flex flex-wrap w-full">
+              <div className="w-auto">
                 <SelectBox
                   name="stream"
                   onChange={handleInputs}
@@ -200,7 +200,7 @@ function AdmissionForm() {
                   }
                 />
               </div>
-              <div className="w-auto md:mb-0 ">
+              <div className="w-auto ">
                 <SelectBox
                   name="semester"
                   onChange={handleInputs}
@@ -293,15 +293,15 @@ function AdmissionForm() {
                 placeholder="Enter ABC ID No."
                 onChange={(e) => handlenumber(e, 12)}
               />
-                <Input
-              type="text"
-              name="aadhar_number"
-              label="Aadhar No:"
-              value={user.aadhar_number}
-              placeholder="Enter Aadhar No."
-              max="12"
-              onChange={(e) => handlenumber(e, 12)}
-            />
+              <Input
+                type="text"
+                name="aadhar_number"
+                label="Aadhar No:"
+                value={user.aadhar_number}
+                placeholder="Enter Aadhar No."
+                max="12"
+                onChange={(e) => handlenumber(e, 12)}
+              />
 
               {/* <Input
                 type="text"
@@ -312,8 +312,6 @@ function AdmissionForm() {
                 onChange={handleInputs}
               /> */}
             </div>
-
-          
 
             <RadioGroup
               name={"caste"}
@@ -339,7 +337,7 @@ function AdmissionForm() {
               ]}
               checked={user.is_disability}
             />
-            <div className="flex flex-wrap">
+            <div className="">
               {/* <Input
                 type="text"
                 name="surname"
@@ -479,7 +477,8 @@ function AdmissionForm() {
                 value={user.taluka}
                 onChange={handleInputs}
               />
-
+            </div>
+            <div className="flex flex-wrap">
               <Input
                 type="text"
                 name="district"
@@ -498,45 +497,52 @@ function AdmissionForm() {
                 onChange={(e) => handlenumber(e, 6)}
               />
             </div>
-
-            <div>
-              <Input
-                type="text"
-                name="seat_number"
-                label="seat_number:"
-                placeholder="seat_number"
-                value={user.seat_number}
-                onChange={handleInputs}
-              />
-              <Input
-                type="text"
-                name="exam_name"
-                label="exam_name:"
-                placeholder="exam_name"
-                value={user.exam_name}
-                onChange={handleInputs}
-              />
+            <div className="flex flex-wrap">
+              <div>
+                <Input
+                  type="text"
+                  name="seat_number"
+                  label="Seat Number:"
+                  placeholder="seat_number"
+                  value={user.seat_number}
+                  onChange={handleInputs}
+                />
+              </div>
+              <div>
+                <Input
+                  type="text"
+                  name="exam_name"
+                  label="exam name:"
+                  placeholder="exam_name"
+                  value={user.exam_name}
+                  onChange={handleInputs}
+                />
+              </div>
             </div>
 
-            <div className="row border-3 form-group mb-3 align-items-center">
-              <Input
-                type="text"
-                name="last_organization_studied_from"
-                label="Last Organization Studied From:"
-                placeholder="Institute/School Name.."
-                value={user.last_organization_studied_from}
-                onChange={handleInputs}
-              />
-
-              <Input
-                type="number"
-                name="last_studied_year"
-                label="Last Studied Year:"
-                value={user.last_studied_year}
-                onChange={handleInputs}
-                min="2000"
-                max={new Date().getFullYear()}
-              />
+            <div className=" flex flex-wrap ">
+              <div className="">
+                {" "}
+                <Input
+                  type="text"
+                  name="last_organization_studied_from"
+                  label="Last Organization Studied From:"
+                  placeholder="Institute/School Name.."
+                  value={user.last_organization_studied_from}
+                  onChange={handleInputs}
+                />
+              </div>
+              <div>
+                <Input
+                  type="number"
+                  name="last_studied_year"
+                  label="Last Studied Year:"
+                  value={user.last_studied_year}
+                  onChange={handleInputs}
+                  min="2000"
+                  max={new Date().getFullYear()}
+                />
+              </div>
             </div>
             {/* <div className="row border-3 form-group mb-3 align-items-center ">
               <Input
