@@ -1,21 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import darkThemeIcon from "../images/dark-theme.svg";
-import lightThemeIcon from "../images/light-theme.svg";
 import { useLocation } from "react-router-dom";
 
 function Header() {
-  // const THEME = localStorage.getItem("theme");
-  // const [theme, setTheme] = useState(THEME);
-
   const location = useLocation();
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   document.querySelector("html").setAttribute("data-bs-theme", theme);
-
-  //   localStorage.setItem("theme", theme);
-  // }, [theme]);
 
   return (
     <header>
@@ -53,16 +42,6 @@ function Header() {
           </div>
 
           <div>
-            {/* <button
-              className="bg-black mr-4"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            >
-              <img
-                className="mb-1"
-                src={theme === "dark" ? darkThemeIcon : lightThemeIcon}
-                alt="Theme Toggler Icons"
-              />
-            </button> */}
             <button
               className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
               onClick={() => {

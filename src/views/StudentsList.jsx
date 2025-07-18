@@ -234,17 +234,7 @@ export function StudentsList() {
                 <th>DOB</th>
                 <th>Gender</th>
                 <th>Address</th>
-                {/* {INSTITUTE_TYPE === "GIA" && (
-                  <>
-                    <th className="border border-black">Main Course</th>
-                    <th className="border border-black">
-                      First Secondary Subject
-                    </th>
-                    <th className="border border-black">
-                      Tertiary Secondary Subject
-                    </th>
-                  </>
-                )} */}
+
                 <th>Pin</th>
                 <th>City</th>
                 <th>Category</th>
@@ -271,17 +261,7 @@ export function StudentsList() {
                     Select All
                   </button>
                 </th>
-                {/* <th className="border border-black">Caste</th>
-                <th className="border border-black">Parent Contact Number</th>
-                <th className="border border-black">
-                  Last Organization Studied From
-                </th>
-                <th className="border border-black">Last Studied Year</th>
-                {INSTITUTE_TYPE === "GIA" && (
-                  <th className="border border-black">Elective Course</th>
-                )}
-                <th className="border border-black">Admission Date</th>
-                <th className="border border-black"></th> */}
+
               </tr>
             </thead>
             <tbody>

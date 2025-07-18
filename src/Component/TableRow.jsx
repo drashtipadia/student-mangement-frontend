@@ -9,18 +9,11 @@ export function TableRow({
   ignoreCols = [],
 }) {
   const INSTITUTE_TYPE = localStorage.getItem("token");
-  // const GIA_COls = [
-  //   "main_course",
-  //   "first_secondary_subject",
-  //   "tertiary_secondary_subject",
-  //   "elective_course",
-  // ];
+
 
   const fields = [];
   Object.entries(data).forEach(([k, v]) => {
-    //   if (INSTITUTE_TYPE !== "GIA" && GIA_COls.includes(k)) return;
     if (ignoreCols.includes(k)) return;
-
     if (v instanceof Array) {
       v.forEach((elem) => {
         fields.push(

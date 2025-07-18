@@ -90,14 +90,6 @@ export function ViewStudentDetails() {
           >
             Update Student
           </Link>
-
-          <Link
-            to={`/update-img/${params.id}`}
-            role="button"
-            className="text-center  border text-xl rounded py-2 w-72 bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
-          >
-            Update Image
-          </Link>
         </div>
       </div>
       <div className="flex">

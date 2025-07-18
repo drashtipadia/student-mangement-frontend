@@ -4,13 +4,13 @@ import { Header } from "../Component/Header";
 import { useDropzone } from "react-dropzone";
 import { BASE_URL } from "../utils/config";
 import { SelectBox } from "../Component";
-import { GIA_STREAMS, SFI_STREAMS } from "../utils/constants";
+import { GIA_STREAMS, SFI_STREAMS, SEMESTER } from "../utils/constants";
 
 export function ImportStudentData() {
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
   const [stream, setStream] = useState();
-  
+  const [semester, setSemester] = useState();
 
   const INSTITUTE_TYPE = localStorage.token;
 
@@ -26,20 +26,18 @@ export function ImportStudentData() {
       accept: {
         "text/csv": [".csv"],
 
-        // "application/vnd.ms-excel": [".xls"],
-        // "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
-        //   ".xlsx",
-        //],
       },
     });
   const handleSelect = (e) => {
     setStream(e.target.value);
+    setSemester(e.target.value);
   };
 
   const onUpload = async () => {
     const formData = new FormData();
     formData.append(file.name, file);
     formData.append("Stream", stream);
+    formData.append("Semester", semester);
     //console.log(stream);
 
     const call = await fetch(`${BASE_URL}/upload-csv`, {
@@ -70,6 +68,14 @@ export function ImportStudentData() {
             data={
               INSTITUTE_TYPE === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
             }
+          />
+          <SelectBox
+            name="semester"
+            label={"Semester:"}
+            onChange={handleSelect}
+            placeholder={"Select Semester"}
+            selected={semester}
+            data={[...SEMESTER]}
           />
         </div>
         <div className="flex flex-col items-center justify-center bg-surface-container-low shadow-xl w-96 rounded-xl mt-5">
@@ -111,13 +117,7 @@ export function ImportStudentData() {
               Upload Data
             </button>
           )}
-          {/* <button
-            className="primary-button"
-            onClick={() => onUpload()}
-            disabled={file === null}
-          >
-            Upload Data
-          </button> */}
+
         </div>
       </div>
     </>

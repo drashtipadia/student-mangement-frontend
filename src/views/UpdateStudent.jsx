@@ -24,12 +24,17 @@ export function UpdateStudent() {
       );
       handleError(err);
       // console.log(resp);
-      const stu = JSON.parse(JSON.stringify(resp.student));
+      // const stu = JSON.parse(JSON.stringify(resp.student));
       // console.log(stu);
-      let birthdate = Date(stu.DOB);
-      let date = birthdate.toISOString().split("T")[0];
+      const stu = resp.student;
+      let birthdate = stu.DOB.split("-");
+      let birthYear = birthdate[2];
+      let birthMonth =
+        birthdate[1] - 1 < 10 ? `0${birthdate[1]}` : birthdate[1];
+      let birthDay = birthdate[0];
+      let date = `${birthYear}-${birthMonth}-${birthDay}`;
 
-      setUser({ ...stu, birth_date: date });
+      setUser({ ...stu, DOB: date });
       // console.log(user);
 
       // console.log(user);
@@ -158,44 +163,7 @@ export function UpdateStudent() {
                 />
               )}
 
-              {/* {user.stream === "Bachelor of Arts" && (
-                <RadioGroup
-                  label={"First Secondary Subject:"}
-                  name={"first_secondary_subject"}
-                  onChange={handleInputs}
-                  data={[
-                    { label: "Gujarati", value: "gujarati" },
-                    { label: "Hindi", value: "hindi" },
-                    { label: "Psychology", value: "psychology" },
-                  ]}
-                  checked={user.first_secondary_subject}
-                />
-              )}
-
-              {user.stream === "Bachelor of Arts" && (
-                <>
-                  <RadioGroup
-                    label={"Tertiary Secondary Subject:"}
-                    name={"tertiary_secondary_subject"}
-                    onChange={handleInputs}
-                    data={[
-                      { label: "Gujarati", value: "gujarati" },
-                      { label: "Hindi", value: "hindi" },
-                      { label: "Psychology", value: "psychology" },
-                    ]}
-                    checked={user.tertiary_secondary_subject}
-                  />
-                  <hr />
-                </>
-              )} */}
               <div className="flex flex-wrap">
-                {/* <Input
-                  type="text"
-                  name="gr_no"
-                  label="GR NO:"
-                  value={user.gr_no}
-                  onChange={handleInputs}
-                /> */}
 
                 <Input
                   type="text"
@@ -323,7 +291,7 @@ export function UpdateStudent() {
               <div className="flex flex-wrap">
                 <Input
                   type="date"
-                  name="birth_date"
+                  name="DOB"
                   value={user.DOB}
                   label="Birth Date:"
                   onChange={handleInputs}
