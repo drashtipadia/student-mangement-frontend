@@ -5,7 +5,6 @@ export { StudentCount } from "./StudentCount";
 export { StudentsList } from "./StudentsList";
 export { TCDoc } from "./TCDoc";
 export { UpdateStudent } from "./UpdateStudent";
-export { UpdateStudentImage } from "./UpdateStudentImage";
 export { ViewBonafide } from "./ViewBonafide";
 export { ViewFirstTrial } from "./ViewFirstTrial";
 export { ViewNoObj } from "./ViewNoObj";

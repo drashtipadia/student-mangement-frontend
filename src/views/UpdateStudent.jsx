@@ -23,25 +23,18 @@ export function UpdateStudent() {
         `http://${SERVER_HOST}:${SERVER_PORT}/students/id/${id}`
       );
       handleError(err);
-      // console.log(resp);
-      // const stu = JSON.parse(JSON.stringify(resp.student));
-      // console.log(stu);
+
       const stu = resp.student;
       let birthdate = stu.DOB.split("-");
       let birthYear = birthdate[2];
-      let birthMonth =
-        birthdate[1] - 1 < 10 ? `0${birthdate[1]}` : birthdate[1];
+      let birthMonth = birthdate[1] - 1 < 10 ? `${birthdate[1]}` : birthdate[1];
       let birthDay = birthdate[0];
       let date = `${birthYear}-${birthMonth}-${birthDay}`;
-
       setUser({ ...stu, DOB: date });
-      // console.log(user);
-
-      // console.log(user);
+      console.log(stu);
     }
 
     callAPI();
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -54,7 +47,6 @@ export function UpdateStudent() {
         main_subject: "",
       });
     }
-    // eslint-disable-next-line
   }, [user.stream]);
 
   const handleInputs = (e) => {
@@ -164,7 +156,6 @@ export function UpdateStudent() {
               )}
 
               <div className="flex flex-wrap">
-
                 <Input
                   type="text"
                   name="enrollment_no"
@@ -184,14 +175,6 @@ export function UpdateStudent() {
                   onChange={(e) => handlenumber(e, 12)}
                 />
 
-                {/* <Input
-                  type="text"
-                  name="udisk_no"
-                  label="UDISK No:"
-                  value={user.udisk_no}
-                  placeholder="Enter UDISK No."
-                  onChange={handleInputs}
-                /> */}
                 <Input
                   type="text"
                   name="aadhar_number"
@@ -209,7 +192,7 @@ export function UpdateStudent() {
                 label={"Caste:"}
                 onChange={handleInputs}
                 data={[
-                  { label: "GENERAL", value: "OPEN" },
+                  { label: "GENERAL", value: "GENERAL" },
                   { label: "EWS", value: "EWS" },
                   { label: "SC", value: "SC" },
                   { label: "ST", value: "ST" },
@@ -220,11 +203,11 @@ export function UpdateStudent() {
               />
               <RadioGroup
                 label={"Disability:"}
-                name={"is_disability"}
+                name={"is_disabled"}
                 onChange={handleInputs}
                 data={[
-                  { label: "Yes", value: "true" },
-                  { label: "No", value: "false" },
+                  { label: "Yes", value: "Yes" },
+                  { label: "No", value: "No" },
                 ]}
                 checked={user.is_disabled}
               />

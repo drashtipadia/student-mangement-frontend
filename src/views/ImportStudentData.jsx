@@ -25,19 +25,17 @@ export function ImportStudentData() {
       multiple: false,
       accept: {
         "text/csv": [".csv"],
-
       },
     });
   const handleSelect = (e) => {
     setStream(e.target.value);
-    setSemester(e.target.value);
   };
 
   const onUpload = async () => {
     const formData = new FormData();
     formData.append(file.name, file);
     formData.append("Stream", stream);
-    formData.append("Semester", semester);
+    formData.append("semester", semester);
     //console.log(stream);
 
     const call = await fetch(`${BASE_URL}/upload-csv`, {
@@ -72,7 +70,9 @@ export function ImportStudentData() {
           <SelectBox
             name="semester"
             label={"Semester:"}
-            onChange={handleSelect}
+            onChange={(e) => {
+              setSemester(e.target.value);
+            }}
             placeholder={"Select Semester"}
             selected={semester}
             data={[...SEMESTER]}
@@ -117,7 +117,6 @@ export function ImportStudentData() {
               Upload Data
             </button>
           )}
-
         </div>
       </div>
     </>

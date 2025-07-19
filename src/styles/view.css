@@ -1,14 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @page {
   size: a4;
 
 }
 
 th {
-  border-width: 1px;
-  border-color: black;
+  @apply border border-black px-2;
+  /* border-width: 1px;
+  border-color: black; */
+  /* padding-left: 8px;
+  padding-right: 8px; */
 }
 
 td {
-  border-width: 1px;
+  @apply border border-black p-1;
+  /* border-width: 1px;
   border-color: black;
+  padding: 3px; */
 }

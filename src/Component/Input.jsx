@@ -23,8 +23,8 @@ export function Input({
   return (
     <>
       <div className="flex ">
-        <div className="flex-wrap min-w-fit md:m-0">
-          <label className="uppercase px-2 text-center" htmlFor={name}>
+        <div className="flex-wrap min-w-fit md:m-0 ">
+          <label className="uppercase p-2 text-center font-bold" htmlFor={name}>
             {otherProps.required && <Badge />}
             {label}
           </label>

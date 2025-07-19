@@ -231,7 +231,7 @@ export function StudentsList() {
                 <th>Mobile No</th>
                 <th>Enrollment No</th>
                 <th>Email</th>
-                <th>DOB</th>
+                <th className="px-12">DOB</th>
                 <th>Gender</th>
                 <th>Address</th>
 
@@ -240,18 +240,18 @@ export function StudentsList() {
                 <th>Category</th>
                 <th>Taluka</th>
                 <th>District</th>
-                <th>ABC ID</th>
+                <th className="px-12">ABC ID</th>
                 <th>Aadhar Card No.</th>
                 <th>Exam Name</th>
                 <th>Passing Year</th>
                 <th>Seat No</th>
                 <th>School/College Name</th>
                 <th>Disability</th>
-                <th>Stream</th>
+                <th className="px-20">Stream</th>
                 <th>Semster</th>
                 <th>Main Subject</th>
-                <th>Parent Number</th>
-                <th>Entry Date</th>
+                <th>Parent No.</th>
+                <th className="px-12">Entry Date</th>
                 <th></th>
                 <th className="p-6">
                   <button
@@ -261,7 +261,6 @@ export function StudentsList() {
                     Select All
                   </button>
                 </th>
-
               </tr>
             </thead>
             <tbody>

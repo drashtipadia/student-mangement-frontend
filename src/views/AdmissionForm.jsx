@@ -40,7 +40,7 @@ function AdmissionForm() {
     last_organization_studied_from: "",
     last_studied_year: "",
     institute_type: INSTITUTE_TYPE,
-    is_disability: "",
+    is_disabled: "",
   });
 
   const [errors, setErrors] = useState({
@@ -114,6 +114,7 @@ function AdmissionForm() {
     let valid = validate();
     if (!valid) return;
     setSubmitting(valid);
+    console.log(user);
 
     let [res, err] = await safeFetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
@@ -237,13 +238,13 @@ function AdmissionForm() {
             />
             <RadioGroup
               label={"Disability:"}
-              name={"is_disability"}
+              name={"is_disabled"}
               onChange={handleInputs}
               data={[
-                { label: "Yes", value: "true" },
-                { label: "No", value: "false" },
+                { label: "Yes", value: "Yes" },
+                { label: "No", value: "No" },
               ]}
-              checked={user.is_disability}
+              checked={user.is_disabled}
             />
             <div className="">
               <Input
