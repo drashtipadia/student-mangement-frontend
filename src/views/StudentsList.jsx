@@ -251,7 +251,7 @@ export function StudentsList() {
                 <th>Semster</th>
                 <th>Main Subject</th>
                 <th>Parent No.</th>
-                <th className="px-12">Entry Date</th>
+                <th className="px-12">Batch Year</th>
                 <th></th>
                 <th className="p-6">
                   <button
@@ -272,7 +272,7 @@ export function StudentsList() {
                       data={e}
                       key={e.Sr_No}
                       after
-                      ignoreCols={["Sr_No", "institute_type"]}
+                      ignoreCols={["Sr_No", "institute_type", "inserted_at"]}
                     >
                       <td>
                         <Link to={`/students/${e.Sr_No}`}>

@@ -13,7 +13,7 @@ export function RadioGroup({ name, label, data, onChange, checked }) {
                 id={entry.value}
                 value={entry.value}
                 onChange={onChange}
-                checked={checked === entry.value}
+                checked={checked == entry.value}
               />
               <label className="mx-1 text-lg" htmlFor={entry.value}>
                 {entry.label}

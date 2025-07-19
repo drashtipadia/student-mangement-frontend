@@ -8,7 +8,7 @@ import { handleError, safeFetch } from "../utils";
 export function UpdateStudent() {
   useEffect(() => {
     document.title = "Update Student Form";
-  });
+  }, []);
 
   const INSTITUTE_TYPE = localStorage.getItem("token");
   const [user, setUser] = useState({});
@@ -85,10 +85,10 @@ export function UpdateStudent() {
     );
 
     handleError(err);
-    if (res.result === "success") {
+    if (res.status === "success") {
       alert("record update");
     } else {
-      alert("see console");
+      alert("see console Some Error Occur");
       console.log(res);
     }
     console.log(user);
@@ -127,18 +127,27 @@ export function UpdateStudent() {
                   selected={String(user.semester)}
                   data={[...SEMESTER]}
                 />
+
+                <Input
+                  type="number"
+                  name="batch_year"
+                  label="Batch Year:"
+                  value={user.batch_year}
+                  onChange={handleInputs}
+                  max={new Date().getFullYear()}
+                />
               </div>
 
               {user.stream === "Bachelor of Commerce" && (
                 <RadioGroup
-                  label={"Choose Subject:"}
+                  label={"Main Subject:"}
                   name={"main_subject"}
                   onChange={handleInputs}
                   data={[
                     { label: "Accountancy", value: "accountancy" },
                     { label: "Computer Science", value: "computer science" },
                   ]}
-                  checked={user.main_subject}
+                  checked={console.log(user.main_subject) && user.main_subject}
                 />
               )}
 
@@ -151,14 +160,14 @@ export function UpdateStudent() {
                     { label: "English", value: "english" },
                     { label: "Hindi", value: "hindi" },
                   ]}
-                  checked={user.main_subject}
+                  checked={console.log(user.main_subject) && user.main_subject}
                 />
               )}
 
               <div className="flex flex-wrap">
                 <Input
                   type="text"
-                  name="enrollment_no"
+                  name="Enrollment_No"
                   label="Enrollment no:"
                   value={user.Enrollment_No}
                   placeholder="Enter Enrollment No."
@@ -168,7 +177,7 @@ export function UpdateStudent() {
               <div className="flex flex-wrap">
                 <Input
                   type="text"
-                  name="abc_id"
+                  name="ABCID"
                   label="ABC ID:"
                   value={user.ABCID}
                   placeholder="Enter ABC ID No."
@@ -177,7 +186,7 @@ export function UpdateStudent() {
 
                 <Input
                   type="text"
-                  name="aadhar_number"
+                  name="AadharCard_No"
                   label="Aadhar No:"
                   value={user.AadharCard_No}
                   placeholder="Enter Aadhar No."
@@ -188,7 +197,7 @@ export function UpdateStudent() {
               </div>
 
               <RadioGroup
-                name={"category"}
+                name={"Category"}
                 label={"Caste:"}
                 onChange={handleInputs}
                 data={[
@@ -196,7 +205,7 @@ export function UpdateStudent() {
                   { label: "EWS", value: "EWS" },
                   { label: "SC", value: "SC" },
                   { label: "ST", value: "ST" },
-                  { label: "SEBC(OBC)", value: "SEBC(OBC)" },
+                  { label: "SEBC", value: "SEBC" },
                   { label: "EX-ARMY", value: "EX-ARMY" },
                 ]}
                 checked={user.Category}
@@ -211,21 +220,20 @@ export function UpdateStudent() {
                 ]}
                 checked={user.is_disabled}
               />
-              <div className="flex flex-wrap">
-                <Input
-                  type="text"
-                  name="name"
-                  label="Full name"
-                  placeholder="Full NAME"
-                  value={user.Name}
-                  onChange={handleInputs}
-                />
-              </div>
+
+              <Input
+                type="text"
+                name="Name"
+                label="Full name"
+                placeholder="Full NAME"
+                value={user.Name}
+                onChange={handleInputs}
+              />
 
               <div className="">
                 <Input
                   type="textarea"
-                  name="address"
+                  name="Address"
                   label="Address:"
                   value={user.Address}
                   onChange={handleInputs}
@@ -235,7 +243,7 @@ export function UpdateStudent() {
               <div className="flex flex-wrap">
                 <Input
                   type="text"
-                  name="whatsapp_no"
+                  name="Mobile_No"
                   label="Mobile No:"
                   placeholder="Whatsapp No."
                   value={user.Mobile_No}
@@ -252,7 +260,7 @@ export function UpdateStudent() {
                 />
                 <Input
                   type="email"
-                  name="email"
+                  name="Email"
                   label="Email:"
                   placeholder="Student Email Address"
                   value={user.Email}
@@ -263,7 +271,7 @@ export function UpdateStudent() {
 
               <RadioGroup
                 label={"Gender:"}
-                name={"gender"}
+                name={"Gender"}
                 onChange={handleInputs}
                 data={[
                   { label: "Male", value: "Male" },
@@ -279,21 +287,12 @@ export function UpdateStudent() {
                   label="Birth Date:"
                   onChange={handleInputs}
                 />
-
-                {/* <Input
-                  type="text"
-                  name="birth_place"
-                  value={user.birth_place}
-                  label="Birth Place:"
-                  placeholder="birthplace.."
-                  onChange={handleInputs}
-                /> */}
               </div>
 
               <div className="flex flex-wrap">
                 <Input
                   type="text"
-                  name="city"
+                  name="City"
                   label="City:"
                   placeholder="city"
                   value={user.City}
@@ -301,16 +300,16 @@ export function UpdateStudent() {
                 />
                 <Input
                   type="text"
-                  name="taluka"
+                  name="Taluka"
                   label="Taluka:"
-                  placeholder="taluka"
+                  placeholder="Taluka"
                   value={user.Taluka}
                   onChange={handleInputs}
                 />
 
                 <Input
                   type="text"
-                  name="district"
+                  name="District"
                   label="District:"
                   placeholder="district"
                   value={user.District}
@@ -319,7 +318,7 @@ export function UpdateStudent() {
 
                 <Input
                   type="text"
-                  name="pincode"
+                  name="Pin_No"
                   label="Pincode:"
                   placeholder="pincode"
                   value={user.Pin_No}
@@ -327,10 +326,10 @@ export function UpdateStudent() {
                 />
               </div>
 
-              <div>
+              <div className="flex flex-wrap">
                 <Input
                   type="text"
-                  name="seat_number"
+                  name="Seat_Number"
                   label="seat_number:"
                   placeholder="seat_number"
                   value={user.Seat_Number}
@@ -338,7 +337,7 @@ export function UpdateStudent() {
                 />
                 <Input
                   type="text"
-                  name="exam_name"
+                  name="Exam_Name"
                   label="exam_name:"
                   placeholder="exam_name"
                   value={user.Exam_Name}
@@ -348,7 +347,7 @@ export function UpdateStudent() {
               <div className="flex flex-wrap">
                 <Input
                   type="text"
-                  name="last_organization_studied_from"
+                  name="School_College"
                   label="Last Organization Studied From:"
                   placeholder="Institute/School Name.."
                   value={user.School_College}
@@ -357,7 +356,7 @@ export function UpdateStudent() {
 
                 <Input
                   type="number"
-                  name="last_studied_year"
+                  name="Passing_Year"
                   label="Last Studied Year:"
                   value={user.Passing_Year}
                   onChange={handleInputs}

@@ -125,9 +125,9 @@ export function ViewFirstTrial() {
               <span className="h6 fw-bold">
                 {currentYear}-{(currentYear + 1) % 100}
               </span>
-              , was studying <span className="h6 fw-bold">{"MSCIT"}</span> in
+              , was studying <span className="h6 fw-bold">{`${student.stream} `}</span> in
               this college. Examination of{" "}
-              <span className="h6 fw-bold"> {"BCA"}</span>
+              <span className="h6 fw-bold"> {}</span>
               &nbsp;held in&nbsp;
               <span className="h6 fw-bold">
                 {"March"}-{"2024"}&nbsp;

@@ -19,6 +19,7 @@ function AdmissionForm() {
   const [user, setUser] = useState({
     stream: "",
     semester: "",
+    batch_year: new Date().getFullYear(),
     main_subject: "",
     enrollment_no: "",
     abc_id: "",
@@ -46,7 +47,6 @@ function AdmissionForm() {
   const [errors, setErrors] = useState({
     whatsapp_no: "",
     email: "",
-
     name: "",
   });
 
@@ -151,8 +151,8 @@ function AdmissionForm() {
           </h2>
 
           <form className="m-4 items-center justify-center" method="post">
-            <div className="flex flex-wrap w-full">
-              <div className="w-auto">
+            <div className="flex flex-wrap">
+              <div className="">
                 <SelectBox
                   name="stream"
                   onChange={handleInputs}
@@ -165,13 +165,23 @@ function AdmissionForm() {
                   }
                 />
               </div>
-              <div className="w-auto ">
+              <div className=" ">
                 <SelectBox
                   name="semester"
                   onChange={handleInputs}
                   label={"Semester :"}
                   placeholder={"Select Semester"}
                   data={[...SEMESTER]}
+                />
+              </div>
+              <div className="">
+                <Input
+                  type="number"
+                  name="batch_year"
+                  label="Batch Year:"
+                  value={user.batch_year}
+                  onChange={handleInputs}
+                  max={new Date().getFullYear()}
                 />
               </div>
             </div>

@@ -22,7 +22,7 @@ export function StudentCount() {
     GENERAL: [0, 0, 0, 0, 0, 0],
     SC: [0, 0, 0, 0, 0, 0],
     ST: [0, 0, 0, 0, 0, 0],
-    "SEBC(OBC)": [0, 0, 0, 0, 0, 0],
+    SEBC: [0, 0, 0, 0, 0, 0],
     "EX-ARMY": [0, 0, 0, 0, 0, 0],
     EWS: [0, 0, 0, 0, 0, 0],
     total: [0, 0, 0, 0, 0, 0],
@@ -36,7 +36,7 @@ export function StudentCount() {
      B Com            B A
    */
   let GIACount = {
-    Open: [0, 0, 0, 0],
+    GENERAL: [0, 0, 0, 0],
     SC: [0, 0, 0, 0],
     ST: [0, 0, 0, 0],
     SEBC: [0, 0, 0, 0],
@@ -68,26 +68,33 @@ export function StudentCount() {
       let streamIdx = 0;
       let genderIdx = 0;
       // console.log(val.stream);
-      switch (val.stream) {
-        case "Bachelor of Computer Application":
-          streamIdx = 0;
-          break;
-        case "Bachelor of Business Administration":
-          streamIdx = 2;
-          break;
-        case "Master of Science (Information Technology & Computer Application)":
-          streamIdx = 4;
-          break;
-        case "Bachelor of Arts":
-          streamIdx = 0;
-          break;
-        case "Bachelor of Commerce":
-          streamIdx = 2;
-          break;
-        default:
-          throw new Error(`undefined Stream: ${val.stream}`);
+      if (INSTITUTE_TYPE === "SFI") {
+        switch (val.stream) {
+          case "Bachelor of Computer Application":
+            streamIdx = 0;
+            break;
+          case "Bachelor of Business Administration":
+            streamIdx = 2;
+            break;
+          case "Master of Science (Information Technology & Computer Application)":
+            streamIdx = 4;
+            break;
+          default:
+            throw new Error(`undefined Stream: ${val.stream}`);
+        }
+      } else {
+        switch (val.stream) {
+          case "Bachelor of Arts":
+            streamIdx = 0;
+            break;
+          case "Bachelor of Commerce":
+            streamIdx = 2;
+            break;
+          default:
+            throw new Error(`undefined Stream: ${val.stream}`);
+        }
       }
-      console.log(val);
+      // console.log(val);
 
       if (val.Gender === "Male") {
         genderIdx = 0;
@@ -178,11 +185,9 @@ export function StudentCount() {
                 INSTITUTE_TYPE === "GIA" ? GIACount : SFICount
               ).map(([k, entry]) => {
                 return (
-                  <>
-                    <TableRow data={entry} key={k} before defValue="0">
-                      <td className="border border-black font-bold p-2">{k}</td>
-                    </TableRow>
-                  </>
+                  <TableRow data={entry} key={k} before defValue="0">
+                    <td className="border border-black font-bold p-2">{k}</td>
+                  </TableRow>
                 );
               })}
             </tbody>
