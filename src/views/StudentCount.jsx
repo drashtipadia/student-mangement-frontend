@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import React from "react";
+
 import { Header, TableRow } from "../Component";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch } from "../utils";
@@ -53,15 +53,13 @@ export function StudentCount() {
       const [res, err] = await safeFetch(
         `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}`
       );
-      if (err != null) console.log(err);
+      if (err != null) alert(err);
       else {
-        //  console.log(res);
+   
         setRecords([...res.students]);
         setLoading(false);
       }
     })();
-
-    // eslint-disable-next-line
   }, []);
   if (!loading) {
     records.forEach((val) => {

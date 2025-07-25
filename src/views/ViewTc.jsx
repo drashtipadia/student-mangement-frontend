@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
 import { DocHeader, Header, DocFooter } from "../Component";
@@ -50,7 +50,7 @@ export function ViewTc() {
 
         a.click();
 
-        navigate("/viewdata");
+        navigate(-2);
         localStorage.removeItem("tc-info");
       });
     });
@@ -86,7 +86,8 @@ export function ViewTc() {
               </span>{" "}
               was the student of this college.
             </p>
-            <ol className="m-0 list-disc">
+            <br />
+            <ol className="m-0 list-disc space-y-4">
               <li>
                 He/She gave exam of{" "}
                 <span className="h6 fw-bold">
@@ -160,7 +161,10 @@ export function ViewTc() {
               <span className="h6 fw-bold">{student.nameofhead}</span>{" "}
               college/university.
             </p>
-
+            <br />
+            <br />
+            <br />
+            <br />
             <DocFooter />
           </div>
         </div>

@@ -1,5 +1,4 @@
-// import { Link } from "react-router-dom";
-
+/* eslint-disable react/prop-types */
 export function TableRow({
   data,
   children,
@@ -8,8 +7,6 @@ export function TableRow({
   defValue = "None",
   ignoreCols = [],
 }) {
-  const INSTITUTE_TYPE = localStorage.getItem("token");
-
   const fields = [];
   Object.entries(data).forEach(([k, v]) => {
     if (ignoreCols.includes(k)) return;

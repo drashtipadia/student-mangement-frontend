@@ -27,8 +27,8 @@ export function ViewStudentDetails() {
         `${BASE_URL}/students/${studentID}/docs`
       );
       handleError(err);
-      setDocs({ ...resp.documents });
-      console.log(resp.documents);
+      setDocs({ ...resp.docData });
+      // console.log(resp.documents);
       setIsLoading(false);
     }
 
@@ -96,7 +96,7 @@ export function ViewStudentDetails() {
         {docs.transfer_certificate && (
           <div className="img-holder mx-auto w-64 mt-4">
             <img
-              src={`${BASE_URL}/uploads/${studentID}/${docs.transfer_certificate}`}
+              src={`${BASE_URL}/uploads/student-${studentID}/${docs.transfer_certificate}`}
               alt="transfer certificate"
               className="w-100"
             />
@@ -105,7 +105,7 @@ export function ViewStudentDetails() {
         {docs.bonafide && (
           <div className="img-holder mx-auto w-64  mt-4">
             <img
-              src={`${BASE_URL}/uploads/${studentID}/${docs.bonafide}`}
+              src={`${BASE_URL}/uploads/student-${studentID}/${docs.bonafide}`}
               alt="bonafide"
               className=""
             />
@@ -114,7 +114,7 @@ export function ViewStudentDetails() {
         {docs.first_trial && (
           <div className="img-holder mx-auto w-64 mt-4">
             <img
-              src={`${BASE_URL}/uploads/${studentID}/${docs.first_trial}`}
+              src={`${BASE_URL}/uploads/student-${studentID}/${docs.first_trial}`}
               alt="first trial"
               className=""
             />
@@ -123,7 +123,7 @@ export function ViewStudentDetails() {
         {docs.no_objection && (
           <div className="img-holder mx-auto w-64 mt-4">
             <img
-              src={`${BASE_URL}/uploads/${studentID}/${docs.no_objection}`}
+              src={`${BASE_URL}/uploads/student-${studentID}/${docs.no_objection}`}
               alt="no objection"
               className=""
             />

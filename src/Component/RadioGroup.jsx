@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 export function RadioGroup({ name, label, data, onChange, checked }) {
   return (
     <div className="flex flex-wrap pb-3">

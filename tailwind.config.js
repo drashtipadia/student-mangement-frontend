@@ -31,6 +31,11 @@ export default {
         "surface-container": "#1b211f",
         "surface-container-low": "#171d1b",
         "on-surface-variant": "#bfc9c4",
+
+        // FontFace: {
+        //   fontFamily: "ArialRoundedMTBold",
+        //   src: "./src/assets/fonts/arialroundedmtbold.ttf",
+        // },
       },
     },
   },

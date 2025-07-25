@@ -6,6 +6,7 @@ import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch } from "../utils";
 
+/* eslint-disable react/prop-types */
 export function StudentsList() {
   useEffect(() => {
     document.title = "Student List";
@@ -21,15 +22,13 @@ export function StudentsList() {
   const [stream, setStream] = useState("");
   const [filters, setFilters] = useState({});
   const [selectStudent, setSelectStudent] = useState([]);
+  const [updatesem, setUpdatesem] = useState([]);
 
   const handleClick = () => {
     const file = convertToCSV(tableRef.current);
-
     const a = document.createElement("a");
-
     a.href = file;
     a.download = "records.csv";
-
     a.click();
   };
 
@@ -38,7 +37,7 @@ export function StudentsList() {
       const [res, err] = await safeFetch(
         `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}` //=== change path
       );
-      if (err != null) console.log(err);
+      if (err != null) alert(err);
       else {
         setRecords([...res.students]);
         setRecordsCopy([...res.students]);
@@ -78,7 +77,6 @@ export function StudentsList() {
     const filteredRecords = records.filter((record) => {
       let entries = Object.entries(filters);
       if (entries.length === 0) return true;
-
       let allowed = true;
       entries.forEach(([key, val]) => {
         if (key === "inserted_at") {
@@ -92,7 +90,6 @@ export function StudentsList() {
           return;
         }
       });
-
       return allowed;
     });
 
@@ -110,12 +107,12 @@ export function StudentsList() {
           body: JSON.stringify({ ids: selectStudent }),
         }
       );
-      // console.log(res);
 
       if (res.status === "success") {
         alert("Record Deleted");
         selectStudent.forEach((id) => {
           setRecordsCopy((prev) => prev.filter((rec) => rec.Sr_No !== id));
+          setRecords((prev) => prev.filter((rec) => rec.Sr_No !== id));
         });
         setSelectStudent([]);
         setLoading(false);
@@ -125,18 +122,36 @@ export function StudentsList() {
     }
   };
   const handleSelectAll = (e) => {
+    if (selectStudent.length === recordsCopy.length) {
+      setSelectStudent([]);
+      return;
+    }
     const ids = recordsCopy.map((rec) => rec.Sr_No);
     setSelectStudent([...ids]);
-    // console.log(ids);
   };
   const handleIndividualCheck = (e) => {
-    // console.log(e);
     if (selectStudent.includes(e)) {
       setSelectStudent((prev) => prev.filter((ids) => ids !== e));
     } else {
       setSelectStudent([...selectStudent, e]);
     }
-    //  console.log(selectStudent);
+  };
+  const handleUpdateSem = async (e) => {
+    if (confirm("Are you sure want to update semester")) {
+      setLoading(true);
+      const [res, err] = await safeFetch(
+        `http://${SERVER_HOST}:${SERVER_PORT}/students/bulk-update-semester`,
+        {
+          method: "PATCH",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({ ids: selectStudent, semester: updatesem }),
+        }
+      );
+      if (res.status === "success") {
+        alert("Record Updated");
+        location.reload();
+      }
+    }
   };
 
   if (loading) return <Loading />;
@@ -146,80 +161,99 @@ export function StudentsList() {
       <Header />
       <>
         <p className="text-3xl text-center p-3">Student Info</p>
-        <div className="flex mb-3 mx-3  align-items-center p-2">
-          <SelectBox
-            name="stream"
-            label={"Stream:"}
-            placeholder={"Select Stream"}
-            onChange={handleChange}
-            data={[
-              ...STREAMS,
-              {
-                label: "View All",
-                value: "",
-              },
-            ]}
-          />
-          {stream !== "" && (
+        <div className=" mb-3 mx-3 items-center p-2 space-y-4">
+          <div className="flex items-center ">
             <SelectBox
-              name="semester"
-              label={"Sem:"}
-              placeholder={"Semester"}
-              onChange={handleSemester}
-              data={[...SEMESTER]}
+              name="stream"
+              label={"Stream:"}
+              placeholder={"Select Stream"}
+              onChange={handleChange}
+              data={[
+                ...STREAMS,
+                {
+                  label: "View All",
+                  value: "",
+                },
+              ]}
             />
-          )}
-          <Input
-            type="number"
-            name="year"
-            label=""
-            value={year === 0 ? "" : year}
-            min="2000"
-            max={new Date().getFullYear()}
-            placeholder={"Year"}
-            onChange={handleYearChange}
-          />
+            {stream !== "" && (
+              <SelectBox
+                name="semester"
+                label={"Sem:"}
+                placeholder={"Semester"}
+                onChange={handleSemester}
+                data={[...SEMESTER]}
+              />
+            )}
+            <Input
+              type="number"
+              name="year"
+              label=""
+              value={year === 0 ? "" : year}
+              min="2000"
+              max={new Date().getFullYear()}
+              placeholder={"Year"}
+              onChange={handleYearChange}
+            />
+            <button
+              onClick={sortStudents}
+              className="text-center border rounded px-4 h-11  bg-blue-600 text-white hover:bg-blue-700  block ml-4 no-underline"
+            >
+              Filter
+            </button>
+          </div>
+          <div className="flex items-center">
+            <Input
+              type="text"
+              name="studentname"
+              label=""
+              placeholder={"Student Name"}
+              onChange={(e) => setSearchName(e.target.value)}
+            />
 
-          {/* <div className=""> */}
-          <button
-            onClick={sortStudents}
-            className="text-center border rounded px-4 h-11  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
-          >
-            Filter
-          </button>
-          {/* </div> */}
-
-          <Input
-            type="text"
-            name="studentname"
-            label=""
-            placeholder={"Student Name"}
-            onChange={(e) => setSearchName(e.target.value)}
-          />
-
-          <button
-            onClick={handleSearch}
-            className="text-center  border rounded h-11 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
-          >
-            Search
-          </button>
-
-          <button
-            className="text-center  border rounded h-11 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
-            onClick={handleClick}
-          >
-            Export to Excel (CSV)
-          </button>
-          <button
-            className="text-center  border rounded h-11 px-4 disabled:bg-red-400 bg-red-600 text-white hover:bg-red-700  block mx-auto no-underline"
-            onClick={handleDelete}
-            disabled={selectStudent.length == 0}
-          >
-            Delete
-          </button>
+            <button
+              onClick={handleSearch}
+              className="text-center  border rounded h-11 px-4  bg-blue-600 text-white hover:bg-blue-700  block ml-4 no-underline"
+            >
+              Search
+            </button>
+          </div>
+          <div className="flex items-center">
+            <button
+              className="text-center  border rounded h-11 px-4  bg-blue-600 text-white hover:bg-blue-700  block ml-4 no-underline"
+              onClick={handleClick}
+            >
+              Export to Excel (CSV)
+            </button>
+            <button
+              className="text-center  border rounded h-11 px-4 disabled:bg-red-400 bg-red-600 text-white hover:bg-red-700  block ml-4 no-underline"
+              onClick={handleDelete}
+              disabled={selectStudent.length == 0}
+            >
+              Delete
+            </button>
+            {selectStudent.length !== 0 && (
+              <>
+                {" "}
+                <SelectBox
+                  name="updatesem"
+                  label={"Update Semster:"}
+                  placeholder={"Semester"}
+                  onChange={(e) => setUpdatesem(e.target.value)}
+                  data={[...SEMESTER]}
+                />
+                <button
+                  className="text-center  border rounded h-11 px-4 disabled:bg-blue-400 bg-blue-600 text-white hover:bg-blue-700  block ml-4 no-underline"
+                  onClick={handleUpdateSem}
+                >
+                  Update
+                </button>
+              </>
+            )}
+          </div>
         </div>
         {/* ====================================== */}
-        <div className="mb-3 overflow-scroll p-3">
+        <div className="mb-3 overflow-y-scroll p-3">
           <table
             className="table table-auto border border-collapse border-black"
             id="my-table"
@@ -251,14 +285,16 @@ export function StudentsList() {
                 <th>Semster</th>
                 <th>Main Subject</th>
                 <th>Parent No.</th>
-                <th className="px-12">Batch Year</th>
-                <th></th>
+                <th className="">Batch Year</th>
+                <th className="px-20"></th>
                 <th className="p-6">
                   <button
                     className="text-center  border rounded  px-4  bg-blue-600 text-white hover:bg--700  block mx-auto no-underline"
                     onClick={handleSelectAll}
                   >
-                    Select All
+                    {selectStudent.length === recordsCopy.length
+                      ? "Remove Selection"
+                      : "Select All"}
                   </button>
                 </th>
               </tr>
@@ -266,7 +302,6 @@ export function StudentsList() {
             <tbody>
               {recordsCopy &&
                 recordsCopy.map((e) => {
-                  // console.log(e);
                   return (
                     <TableRow
                       data={e}

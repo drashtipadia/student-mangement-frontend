@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Header } from "./Component";
 
@@ -11,13 +11,12 @@ function App() {
     if (!localStorage.getItem("token")) {
       navigate("/login");
     }
-    // eslint-disable-next-line
   }, []);
 
   return (
     <>
       <Header />
-      <div className="App">
+      <div className="App ">
         <div className="mx-auto sm:px-4">
           <div className="flex align-item-center flex-col justify-center mt-12">
             <div className=" my-2">

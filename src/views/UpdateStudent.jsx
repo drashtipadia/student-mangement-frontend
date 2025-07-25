@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Header, Input, SelectBox, RadioGroup } from "../Component";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
@@ -31,7 +31,7 @@ export function UpdateStudent() {
       let birthDay = birthdate[0];
       let date = `${birthYear}-${birthMonth}-${birthDay}`;
       setUser({ ...stu, DOB: date });
-      console.log(stu);
+   
     }
 
     callAPI();
@@ -39,7 +39,7 @@ export function UpdateStudent() {
 
   useEffect(() => {
     if (
-      user.stream !== "Bachelor of Arts" ||
+      user.stream !== "Bachelor of Arts" &&
       user.stream !== "Bachelor of Commerce"
     ) {
       setUser({
@@ -74,7 +74,7 @@ export function UpdateStudent() {
       submitData.append(key, value);
     });
 
-    // console.log(user);
+    console.log(user);
 
     const [res, err] = await safeFetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/${id}/edit`,
@@ -89,9 +89,9 @@ export function UpdateStudent() {
       alert("record update");
     } else {
       alert("see console Some Error Occur");
-      console.log(res);
+     
     }
-    console.log(user);
+  
     nav(-1);
   };
 
@@ -147,7 +147,7 @@ export function UpdateStudent() {
                     { label: "Accountancy", value: "accountancy" },
                     { label: "Computer Science", value: "computer science" },
                   ]}
-                  checked={console.log(user.main_subject) && user.main_subject}
+                  checked={user.main_subject}
                 />
               )}
 
@@ -160,7 +160,7 @@ export function UpdateStudent() {
                     { label: "English", value: "english" },
                     { label: "Hindi", value: "hindi" },
                   ]}
-                  checked={console.log(user.main_subject) && user.main_subject}
+                  checked={user.main_subject}
                 />
               )}
 
@@ -201,7 +201,7 @@ export function UpdateStudent() {
                 label={"Caste:"}
                 onChange={handleInputs}
                 data={[
-                  { label: "GENERAL", value: "GENERAL" },
+                  { label: "GENERAL", value: "General" },
                   { label: "EWS", value: "EWS" },
                   { label: "SC", value: "SC" },
                   { label: "ST", value: "ST" },

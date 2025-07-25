@@ -1,7 +1,7 @@
 import img1 from "../styles/collegelogo.jpeg";
 import img2 from "../styles/naaclog.jpeg";
 import { Badge } from "../Component/Badge";
-
+/* eslint-disable react/prop-types */
 export function DocHeader({ title, serialNo, docDate }) {
   let currentDate = new Date();
   currentDate =
@@ -15,17 +15,12 @@ export function DocHeader({ title, serialNo, docDate }) {
     <>
       <header>
         <div className="flex  place-content-evenly">
-          <img
-            src={img1}
-            alt="collegelogo"
-            style={{ height: "90px", width: "90px" }}
-            className=""
-          />
+          <img src={img1} alt="collegelogo" className="size-[150px]" />
           <div className="text-center">
             <small className="m-0">
               Managed by Shree Jetpur Kelavni Mandal Trust (since: June 1972)
             </small>
-            <p className="text-xl font-semibold m-0 ">
+            <p className="text-2xl font-semibold m-0">
               Shree G.K. & C.K. Bosamia Arts & Commerce College{" "}
             </p>
             <small className="m-0">
@@ -37,12 +32,7 @@ export function DocHeader({ title, serialNo, docDate }) {
               gkck.college@gmail.com
             </small>
           </div>
-          <img
-            src={img2}
-            alt="naaclogo"
-            style={{ height: "90px", width: "90px" }}
-            className=""
-          />
+          <img src={img2} alt="naaclogo" className="size-[150px]" />
         </div>
       </header>
 

@@ -45,14 +45,15 @@ export function TCDoc() {
 
   useEffect(() => {
     (async function () {
-      let [resp, err] = await safeFetch(`${BASE_URL}/students/id/${searchParams.get("id")}`);
+      let [resp, err] = await safeFetch(
+        `${BASE_URL}/students/id/${searchParams.get("id")}`
+      );
       if (err != null) throw new Error(err);
 
       setStudent({
         ...student,
-        studentName: resp.student.Name
+        studentName: resp.student.Name,
       });
-
     })();
   }, [searchParams, setStudent]);
 
@@ -80,7 +81,7 @@ export function TCDoc() {
       docName,
       tcSerial: String(serial),
     };
-    console.log(data);
+   // console.log(data);
     localStorage.setItem("tc-info", JSON.stringify(data));
     window.location.href = "/view-tc";
   };
@@ -178,7 +179,7 @@ export function TCDoc() {
               <Input
                 type="text"
                 name="no_pass_subject"
-                label="Subject Pass"
+                label="Number of Subject Pass"
                 value={student.no_pass_subject}
                 placeholder="No Subject"
                 onChange={handleInputs}
@@ -188,7 +189,7 @@ export function TCDoc() {
             <div className="flex flex-wrap m-2">
               <SelectBox
                 name="next_study_stream"
-                label={"3.Next Study Year"}
+                label={"3.Next Study"}
                 onChange={handleInputs}
                 placeholder={"Select stream"}
                 data={

@@ -5,3 +5,17 @@
 .primary-button {
   @apply bg-primary-container text-on-primary-container px-4 py-2 rounded-full disabled:bg-primary-container/70 disabled:cursor-not-allowed;
 }
+
+
+@layer base {
+  @font-face {
+    font-family: 'ArialRoundedMTBold';
+    src: url(../assets/fonts/arialroundedmtbold.ttf);
+
+  }
+
+}
+
+body {
+  font-family: "ArialRoundedMTBold", serif;
+}

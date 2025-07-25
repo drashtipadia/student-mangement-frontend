@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import  { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import html2canvas from "html2canvas";
 import {
@@ -59,7 +59,7 @@ export function ViewBonafide() {
 
       let data = new FormData();
       data.append("doc", blob, docName);
-      console.log(docName);
+     
 
       await fetch(`${BASE_URL}/last-serial`, {
         method: "POST",

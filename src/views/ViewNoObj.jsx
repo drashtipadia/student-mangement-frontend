@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import  { useEffect, useRef, useState } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
 import { DocHeader, Header, DocFooter, Loading } from "../Component";
 import { safeFetch } from "../utils";
@@ -14,7 +14,7 @@ export function ViewNoObj() {
   const [serial, setSerial] = useState(0);
   const currentYear = new Date().getFullYear();
   const studentID = queryParams.get("id");
-
+  const navigate = useNavigate();
   const getData = async () => {
     try {
       let [resp, err] = await safeFetch(`${BASE_URL}/students/id/${studentID}`);
@@ -75,6 +75,7 @@ export function ViewNoObj() {
       a.href = URL.createObjectURL(blob);
       a.download = docname;
       a.click();
+      navigate(-1);
     });
   };
 

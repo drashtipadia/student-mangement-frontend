@@ -13,6 +13,8 @@ import { Badge } from "./Badge";
  * @param {InputProps} _props
  * @returns {React.ReactNode}
  */
+
+/* eslint-disable react/prop-types */
 export function Input({
   label = "",
   errorMessage = "",
@@ -30,7 +32,7 @@ export function Input({
           </label>
         </div>
 
-        <div className="w-full md:mb-3">
+        <div className="w-full">
           {type !== "textarea" ? (
             <input
               className=" w-full  bg-white border rounded p-2 focus:outline-none  focus:border-black"

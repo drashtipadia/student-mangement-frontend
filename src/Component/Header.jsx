@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
@@ -33,10 +32,7 @@ function Header() {
               </button>
             )}
 
-            <Link
-              to={"/"}
-              className="text-3xl font-sans ml-2 text-black no-underline "
-            >
+            <Link to={"/"} className="text-3xl ml-2 text-black no-underline ">
               Student Mangement Admin
             </Link>
           </div>
