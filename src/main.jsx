@@ -17,6 +17,7 @@ import {
   StudentCount,
   ImportStudentData,
 } from "./views";
+import { IssueTC } from "./views/IssueTC";
 
 createRoot(document.getElementById("root")).render(
   <BrowserRouter>
@@ -38,6 +39,7 @@ createRoot(document.getElementById("root")).render(
       <Route path="/updateStudent" element={<UpdateStudent />} />
       <Route path="/count-student" element={<StudentCount />} />
       <Route path="/add-excel" element={<ImportStudentData />} />
+      <Route path="/issue-tc" element={<IssueTC />} />
     </Routes>
   </BrowserRouter>
 );

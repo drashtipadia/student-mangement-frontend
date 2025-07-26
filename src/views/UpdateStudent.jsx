@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Header, Input, SelectBox, RadioGroup } from "../Component";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
@@ -31,7 +31,6 @@ export function UpdateStudent() {
       let birthDay = birthdate[0];
       let date = `${birthYear}-${birthMonth}-${birthDay}`;
       setUser({ ...stu, DOB: date });
-   
     }
 
     callAPI();
@@ -89,9 +88,8 @@ export function UpdateStudent() {
       alert("record update");
     } else {
       alert("see console Some Error Occur");
-     
     }
-  
+
     nav(-1);
   };
 
@@ -140,28 +138,42 @@ export function UpdateStudent() {
 
               {user.stream === "Bachelor of Commerce" && (
                 <RadioGroup
-                  label={"Main Subject:"}
-                  name={"main_subject"}
+                  label={"Major Subject:"}
+                  name={"major_subject"}
                   onChange={handleInputs}
                   data={[
                     { label: "Accountancy", value: "accountancy" },
                     { label: "Computer Science", value: "computer science" },
                   ]}
-                  checked={user.main_subject}
+                  checked={user.major_subject}
                 />
               )}
 
               {user.stream === "Bachelor of Arts" && (
-                <RadioGroup
-                  label={"Main Subject:"}
-                  name={"main_subject"}
-                  onChange={handleInputs}
-                  data={[
-                    { label: "English", value: "english" },
-                    { label: "Hindi", value: "hindi" },
-                  ]}
-                  checked={user.main_subject}
-                />
+                <>
+                  <RadioGroup
+                    label={"Compulsary Subject"}
+                    name={"compulsary_subject"}
+                    onChange={handleInputs}
+                    data={[
+                      { label: "English", value: "english" },
+                      { label: "Hindi", value: "hindi" },
+                    ]}
+                    checked={user.compulsary_subject}
+                  />
+                  <RadioGroup
+                    label={"Major Subject:"}
+                    name={"major_subject"}
+                    onChange={handleInputs}
+                    data={[
+                      { label: "Psychology", value: "psychology" },
+                      { label: "Hindi", value: "hindi" },
+                      { label: "Gujarati", value: "gujarati" },
+                      { label: "Economics", value: "economics" },
+                    ]}
+                    checked={user.major_subject}
+                  />
+                </>
               )}
 
               <div className="flex flex-wrap">

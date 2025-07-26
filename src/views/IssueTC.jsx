@@ -11,17 +11,13 @@ import {
 
 import { BASE_URL, SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
-
-export function TCDoc() {
+export function IssueTC() {
   useEffect(() => {
     document.title = "Transfer Certificate";
   });
 
   const INSTITUTE_TYPE = localStorage.getItem("token");
   let [searchParams] = useSearchParams();
-  if (searchParams.get("id") === null) {
-    alert("Get yourself an ID first");
-  }
 
   const TC_PREFIX = `TC-${INSTITUTE_TYPE}-`;
 
@@ -42,19 +38,19 @@ export function TCDoc() {
     uuid: searchParams.get("id"),
   });
 
-  useEffect(() => {
-    (async function () {
-      let [resp, err] = await safeFetch(
-        `${BASE_URL}/students/id/${searchParams.get("id")}`
-      );
-      if (err != null) throw new Error(err);
+  // useEffect(() => {
+  //   (async function () {
+  //     let [resp, err] = await safeFetch(
+  //       `${BASE_URL}/students/id/${searchParams.get("id")}`
+  //     );
+  //     if (err != null) throw new Error(err);
 
-      setStudent({
-        ...student,
-        studentName: resp.student.Name,
-      });
-    })();
-  }, [searchParams, setStudent]);
+  //     setStudent({
+  //       ...student,
+  //       studentName: resp.student.Name,
+  //     });
+  //   })();
+  // }, [searchParams, setStudent]);
 
   const handleInputs = (e) => {
     setStudent({ ...student, [e.target.name]: e.target.value });
@@ -82,9 +78,8 @@ export function TCDoc() {
     };
     // console.log(data);
     localStorage.setItem("tc-info", JSON.stringify(data));
-    window.location.href = "/view-tc?save=1";
+    window.location.href = "/view-tc";
   };
-
   return (
     <>
       <Header />

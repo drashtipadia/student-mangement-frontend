@@ -283,7 +283,8 @@ export function StudentsList() {
                 <th>Disability</th>
                 <th className="px-20">Stream</th>
                 <th>Semster</th>
-                <th>Main Subject</th>
+                <th>Compulsary Subject</th>
+                <th>Major Subject</th>
                 <th>Parent No.</th>
                 <th className="">Batch Year</th>
                 <th className="px-20"></th>

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import html2canvas from "html2canvas";
 import { DocHeader, Header, DocFooter } from "../Component";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
@@ -9,7 +9,7 @@ export function ViewTc() {
   useEffect(() => {
     document.title = "Transfer Certificate";
   });
-
+  const [searchparam] = useSearchParams();
   const currentDate = new Date();
   const student = JSON.parse(localStorage.getItem("tc-info"));
   const documentRef = useRef(null);
@@ -18,9 +18,11 @@ export function ViewTc() {
   }
   const navigate = useNavigate();
 
+  console.log(searchparam.has("save"));
   const handleDownload = () => {
     html2canvas(documentRef.current).then((canvas) => {
       canvas.toBlob((blob) => {
+        // if (searchparam.has("save")) {
         let data = new FormData();
         data.append("doc", blob, student.docName);
 
@@ -43,7 +45,7 @@ export function ViewTc() {
         })
           .then((res) => res.json())
           .then(console.log);
-
+        // }
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
         a.download = student.docName;
@@ -87,7 +89,7 @@ export function ViewTc() {
               was the student of this college.
             </p>
             <br />
-            <ol className="m-0 list-disc space-y-4">
+            <ol className="m-0 list-disc space-y-2">
               <li>
                 He/She gave exam of{" "}
                 <span className="h6 fw-bold">
@@ -113,11 +115,8 @@ export function ViewTc() {
               </li>
               <li>
                 He/she Would have been on{" "}
-                <span className="h6">
-                  {" "}
-                  {student.next_study_stream} sem-{student.next_study_sem}{" "}
-                </span>{" "}
-                if his/her education was continued.
+                <span className="h6"> {student.next_study}</span> if his/her
+                education was continued.
               </li>
               <li>He/She does not have debts of this college's books. </li>
               <li>He/She does not have any other debts of this college.</li>
@@ -157,7 +156,7 @@ export function ViewTc() {
               <li>Note:(Inform about EBC-CB & other scholarship).</li>
             </ol>
             <p className="m-0">
-              The Principal/The General Secretary{" "}
+              The Principal/The General Secretary To{" "}
               <span className="h6 fw-bold">{student.nameofhead}</span>{" "}
               college/university.
             </p>

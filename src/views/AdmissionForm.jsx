@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Header, Input, SelectBox, RadioGroup } from "../Component";
 import {
   GIA_STREAMS,
@@ -20,7 +20,7 @@ function AdmissionForm() {
     stream: "",
     semester: "",
     batch_year: new Date().getFullYear(),
-    main_subject: "",
+    major_subject: "",
     enrollment_no: "",
     abc_id: "",
     aadhar_number: "",
@@ -188,27 +188,29 @@ function AdmissionForm() {
 
             {user.stream === "Bachelor of Commerce" && (
               <RadioGroup
-                label={"Main Subject:"}
-                name={"main_subject"}
+                label={"Major Subject:"}
+                name={"major_subject"}
                 onChange={handleInputs}
                 data={[
                   { label: "Accountancy", value: "accountancy" },
                   { label: "Computer Science", value: "computer science" },
                 ]}
-                checked={user.main_subject}
+                checked={user.major_subject}
               />
             )}
 
             {user.stream === "Bachelor of Arts" && (
               <RadioGroup
-                label={"Main Subject:"}
-                name={"main_subject"}
+                label={"Major Subject:"}
+                name={"major_subject"}
                 onChange={handleInputs}
                 data={[
                   { label: "English", value: "english" },
                   { label: "Hindi", value: "hindi" },
+                  { label: "Gujarati", value: "gujarati" },
+                  { label: "Economics", value: "economics" },
                 ]}
-                checked={user.main_subject}
+                checked={user.major_subject}
               />
             )}
 
@@ -237,11 +239,11 @@ function AdmissionForm() {
               label={"Caste:"}
               onChange={handleInputs}
               data={[
-                { label: "GENERAL", value: "GENERAL" },
+                { label: "GENERAL", value: "General" },
                 { label: "EWS", value: "EWS" },
                 { label: "SC", value: "SC" },
                 { label: "ST", value: "ST" },
-                { label: "SEBC(OBC)", value: "SEBC(OBC)" },
+                { label: "SEBC", value: "SEBC" },
                 { label: "EX-ARMY", value: "EX-ARMY" },
               ]}
               checked={user.caste}

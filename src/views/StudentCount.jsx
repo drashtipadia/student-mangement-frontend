@@ -36,7 +36,7 @@ export function StudentCount() {
      B Com            B A
    */
   let GIACount = {
-    GENERAL: [0, 0, 0, 0],
+    General: [0, 0, 0, 0],
     SC: [0, 0, 0, 0],
     ST: [0, 0, 0, 0],
     SEBC: [0, 0, 0, 0],
@@ -55,7 +55,6 @@ export function StudentCount() {
       );
       if (err != null) alert(err);
       else {
-   
         setRecords([...res.students]);
         setLoading(false);
       }
@@ -63,6 +62,7 @@ export function StudentCount() {
   }, []);
   if (!loading) {
     records.forEach((val) => {
+     
       let streamIdx = 0;
       let genderIdx = 0;
       // console.log(val.stream);

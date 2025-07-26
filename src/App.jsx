@@ -60,6 +60,16 @@ function App() {
                 Import Excel
               </Link>
             </div>
+            <div className="my-2">
+              <Link
+                to={"/issue-tc"}
+                className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
+                role="button"
+                style={{ maxWidth: "400px" }}
+              >
+                Issue TC
+              </Link>
+            </div>
           </div>
         </div>
       </div>{" "}

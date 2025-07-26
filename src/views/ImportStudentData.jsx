@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "../Component/Header";
 import { useDropzone } from "react-dropzone";
 import { BASE_URL } from "../utils/config";
-import { SelectBox, Input, RadioGroup } from "../Component";
+import { SelectBox, Input } from "../Component";
 import { GIA_STREAMS, SFI_STREAMS, SEMESTER } from "../utils/constants";
 
 export function ImportStudentData() {
@@ -12,7 +12,6 @@ export function ImportStudentData() {
   const [stream, setStream] = useState();
   const [semester, setSemester] = useState();
   const [batchYear, setBatchYear] = useState();
-  const [mainSubject, setMainSubject] = useState();
 
   const INSTITUTE_TYPE = localStorage.token;
 
@@ -39,7 +38,7 @@ export function ImportStudentData() {
     formData.append("Stream", stream);
     formData.append("semester", semester);
     formData.append("batch_year", batchYear);
-    formData.append("main_subject", mainSubject);
+
     //console.log(stream);
 
     const call = await fetch(`${BASE_URL}/upload-csv`, {
@@ -91,36 +90,6 @@ export function ImportStudentData() {
             }}
             max={new Date().getFullYear()}
           />
-
-          {stream === "Bachelor of Commerce" && (
-            <RadioGroup
-              label={"Main Subject:"}
-              name={"main_subject"}
-              onChange={(e) => {
-                setMainSubject(e.target.value);
-              }}
-              data={[
-                { label: "Accountancy", value: "accountancy" },
-                { label: "Computer Science", value: "computer science" },
-              ]}
-              checked={mainSubject}
-            />
-          )}
-
-          {stream === "Bachelor of Arts" && (
-            <RadioGroup
-              label={"Main Subject:"}
-              name={"main_subject"}
-              onChange={(e) => {
-                setMainSubject(e.target.value);
-              }}
-              data={[
-                { label: "English", value: "english" },
-                { label: "Hindi", value: "hindi" },
-              ]}
-              checked={mainSubject}
-            />
-          )}
         </div>
         <div className="flex flex-col items-center justify-center bg-surface-container-low shadow-xl w-96 rounded-xl mt-5">
           <div className="p-4 w-full">
