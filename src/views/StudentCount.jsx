@@ -59,13 +59,11 @@ export function StudentCount() {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [INSTITUTE_TYPE]);
   if (!loading) {
     records.forEach((val) => {
-     
       let streamIdx = 0;
-      let genderIdx = 0;
-      // console.log(val.stream);
+
       if (INSTITUTE_TYPE === "SFI") {
         switch (val.stream) {
           case "Bachelor of Computer Application":
@@ -92,13 +90,8 @@ export function StudentCount() {
             throw new Error(`undefined Stream: ${val.stream}`);
         }
       }
-      // console.log(val);
 
-      if (val.Gender === "Male") {
-        genderIdx = 0;
-      } else {
-        genderIdx = 1;
-      }
+      let genderIdx = val.Gender === "Male" ? 0 : 1;
 
       if (INSTITUTE_TYPE === "GIA") {
         GIACount[val.Category][streamIdx + genderIdx] += 1;

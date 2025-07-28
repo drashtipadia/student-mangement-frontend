@@ -1,5 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 function Header() {
   const location = useLocation();
@@ -7,7 +6,7 @@ function Header() {
 
   return (
     <header>
-      <nav className="bg-gray-200 border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
+      <nav className="bg-surface-container text-on-surface border-gray-200 shadow-md px-4 lg:px-6 py-2.5">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <div>
             {location.pathname !== "/" && (
@@ -16,12 +15,11 @@ function Header() {
                 onClick={() => navigate(-1)}
               >
                 <svg
-                  className="h-5 w-5 text-slate-900 "
+                  className="size-5"
                   fill="none"
                   viewBox="0 0 26 26"
                   stroke="currentColor"
                 >
-                  {" "}
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -32,18 +30,18 @@ function Header() {
               </button>
             )}
 
-            <Link to={"/"} className="text-3xl ml-2 text-black no-underline ">
+            <Link to={"/"} className="text-3xl ml-2">
               Student Mangement Admin
             </Link>
           </div>
 
           <div>
             <button
-              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-error hover:opacity-90 text-on-error font-bold py-2 px-4 rounded"
               onClick={() => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("update-details");
-                window.location.href = "/login";
+                navigate("/login");
               }}
             >
               Logout

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Header, Input, SelectBox } from "../Component";
 import {
   SEMESTER,
@@ -15,13 +15,19 @@ import { handleError, safeFetch } from "../utils";
 export function TCDoc() {
   useEffect(() => {
     document.title = "Transfer Certificate";
-  });
+  }, []);
+  const navigate = useNavigate();
 
   const INSTITUTE_TYPE = localStorage.getItem("token");
   let [searchParams] = useSearchParams();
-  if (searchParams.get("id") === null) {
-    alert("Get yourself an ID first");
-  }
+  const id = searchParams.get("id");
+
+  useEffect(() => {
+    if (id === null) {
+      alert("Not a valid way to generate TC");
+      navigate("/");
+    }
+  }, [id, navigate]);
 
   const TC_PREFIX = `TC-${INSTITUTE_TYPE}-`;
 
@@ -39,22 +45,20 @@ export function TCDoc() {
     next_study: "",
     tc_mg_no: "",
     nameofhead: "",
-    uuid: searchParams.get("id"),
+    uuid: id,
   });
 
   useEffect(() => {
     (async function () {
-      let [resp, err] = await safeFetch(
-        `${BASE_URL}/students/id/${searchParams.get("id")}`
-      );
+      let [resp, err] = await safeFetch(`${BASE_URL}/students/id/${id}`);
       if (err != null) throw new Error(err);
 
-      setStudent({
-        ...student,
+      setStudent((prevStudent) => ({
+        ...prevStudent,
         studentName: resp.student.Name,
-      });
+      }));
     })();
-  }, [searchParams, setStudent]);
+  }, [id, setStudent]);
 
   const handleInputs = (e) => {
     setStudent({ ...student, [e.target.name]: e.target.value });
@@ -80,9 +84,9 @@ export function TCDoc() {
       docName,
       tcSerial: String(serial),
     };
-    // console.log(data);
+
     localStorage.setItem("tc-info", JSON.stringify(data));
-    window.location.href = "/view-tc?save=1";
+    navigate("/view-tc?save=1");
   };
 
   return (
@@ -118,7 +122,6 @@ export function TCDoc() {
 
               <SelectBox
                 name="semester"
-                label={""}
                 onChange={handleInputs}
                 placeholder={"Select Semester"}
                 data={[...SEMESTER]}

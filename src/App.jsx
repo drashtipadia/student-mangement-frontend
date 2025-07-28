@@ -5,74 +5,59 @@ import { Header } from "./Component";
 function App() {
   useEffect(() => {
     document.title = "Dashboard";
-  });
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/login");
-    }
   }, []);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) navigate("/login");
+  }, [navigate]);
 
   return (
     <>
       <Header />
-      <div className="App ">
+      <div className="App">
         <div className="mx-auto sm:px-4">
-          <div className="flex align-item-center flex-col justify-center mt-12">
-            <div className=" my-2">
-              <Link
-                to={"/admissionForm"}
-                role="button"
-                className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
-                style={{ maxWidth: "400px" }}
-              >
-                Admission Form
-              </Link>
-            </div>
+          <div className="flex align-item-center flex-col justify-center mt-12 gap-2">
+            <Link
+              to={"/admissionForm"}
+              role="button"
+              className="w-full max-w-[400px] text-center border text-xl rounded py-2 px-4 bg-blue-600 text-white hover:bg-blue-700 block mx-auto"
+            >
+              Admission Form
+            </Link>
 
-            <div className="my-2">
-              <Link
-                to={"/viewdata"}
-                role="button"
-                className=" text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
-                style={{ maxWidth: "400px" }}
-              >
-                View Data
-              </Link>
-            </div>
-            <div className="my-2">
-              <Link
-                to={"/count-student"}
-                className=" text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
-                role="button"
-                style={{ maxWidth: "400px" }}
-              >
-                Student Count
-              </Link>
-            </div>
-            <div className="my-2">
-              <Link
-                to={"/add-excel"}
-                className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
-                role="button"
-                style={{ maxWidth: "400px" }}
-              >
-                Import Excel
-              </Link>
-            </div>
-            <div className="my-2">
-              <Link
-                to={"/issue-tc"}
-                className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
-                role="button"
-                style={{ maxWidth: "400px" }}
-              >
-                Issue TC
-              </Link>
-            </div>
+            <Link
+              to={"/viewdata"}
+              role="button"
+              className="w-full max-w-[400px] text-center border text-xl rounded py-2 px-4 bg-blue-600 text-white hover:bg-blue-700 block mx-auto"
+            >
+              View Data
+            </Link>
+            <Link
+              to={"/count-student"}
+              className="w-full max-w-[400px] text-center border text-xl rounded py-2 px-4 bg-blue-600 text-white hover:bg-blue-700 block mx-auto"
+              role="button"
+            >
+              Student Count
+            </Link>
+            <Link
+              to={"/add-excel"}
+              className="w-full max-w-[400px] text-center border text-xl rounded py-2 px-4 bg-blue-600 text-white hover:bg-blue-700 block mx-auto"
+              role="button"
+            >
+              Import Excel
+            </Link>
+            <Link
+              to={"/issue-tc"}
+              className="w-full max-w-[400px] text-center border text-xl rounded py-2 px-4 bg-blue-600 text-white hover:bg-blue-700 block mx-auto"
+              role="button"
+            >
+              Issue TC
+            </Link>
           </div>
         </div>
-      </div>{" "}
+      </div>
     </>
   );
 }

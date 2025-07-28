@@ -4,10 +4,11 @@ import { RadioGroup } from "../Component";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch, handleError } from "../utils";
 import { Loading } from "../Component";
+
 export function AuthLogin() {
   useEffect(() => {
     document.title = "Login";
-  });
+  }, []);
 
   const navigate = useNavigate();
 
@@ -95,10 +96,10 @@ export function AuthLogin() {
                     checked={admin.institute_type}
                   />
                 </div>
-                <div className="text-red-500 mb-4">{error}</div>
+                <div className="text-error mb-4">{error}</div>
 
                 <button
-                  className="w-full bg-gray-200 border border-2 border-black rounded-lg py-2 px-5 text-lg focus:outline-black-2   "
+                  className="w-full bg-gray-200 border-2 border-black rounded-lg py-2 px-5 text-lg outline-2 focus:outline-black"
                   type="submit"
                   onClick={handleSubmit}
                 >

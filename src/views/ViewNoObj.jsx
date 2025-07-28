@@ -1,4 +1,4 @@
-import  { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
 import { DocHeader, Header, DocFooter, Loading } from "../Component";
@@ -94,7 +94,7 @@ export function ViewNoObj() {
       </div>
       <div className="flex justify-center">
         <div
-          className=" p-5  border border-black "
+          className="p-5 border border-black bg-white"
           style={{ height: "297mm", width: "210mm" }}
           ref={documentRef}
         >

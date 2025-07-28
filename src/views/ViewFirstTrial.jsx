@@ -88,7 +88,7 @@ export function ViewFirstTrial() {
   return (
     <>
       <Header />
-      <div className="justify-between  p-4">
+      <div className="justify-between p-4">
         <button
           className="text-center border text-xl rounded py-1 bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
           disabled={downloading}
@@ -99,7 +99,7 @@ export function ViewFirstTrial() {
       </div>
       <div className="flex justify-center">
         <div
-          className=" p-5 border border-black"
+          className="p-5 border border-black bg-white"
           style={{ height: "297mm", width: "210mm" }}
           ref={documentRef}
         >
@@ -112,10 +112,7 @@ export function ViewFirstTrial() {
             <p className="text-center">This is to certify that,</p>
             <p className="h6">
               Mr./Ms.&nbsp;
-              <abbr title="attribute ">
-                {`${student.Name} `}
-                &nbsp;
-              </abbr>
+              <abbr title="attribute">{`${student.Name}`}</abbr>
               &nbsp;
             </p>
             <br />

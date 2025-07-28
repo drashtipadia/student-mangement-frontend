@@ -4,6 +4,7 @@ import { Header, Input, SelectBox, RadioGroup } from "../Component";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
+import { Loading } from "../Component";
 
 export function UpdateStudent() {
   useEffect(() => {
@@ -12,6 +13,7 @@ export function UpdateStudent() {
 
   const INSTITUTE_TYPE = localStorage.getItem("token");
   const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(false);
 
   let [params] = useSearchParams();
   const id = params.get("id");
@@ -19,6 +21,7 @@ export function UpdateStudent() {
 
   useEffect(() => {
     async function callAPI() {
+      setLoading(true);
       let [resp, err] = await safeFetch(
         `http://${SERVER_HOST}:${SERVER_PORT}/students/id/${id}`
       );
@@ -31,26 +34,23 @@ export function UpdateStudent() {
       let birthDay = birthdate[0];
       let date = `${birthYear}-${birthMonth}-${birthDay}`;
       setUser({ ...stu, DOB: date });
+      setLoading(false);
     }
 
     callAPI();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (
       user.stream !== "Bachelor of Arts" &&
       user.stream !== "Bachelor of Commerce"
     ) {
-      setUser({
-        ...user,
-        main_subject: "",
-      });
+      setUser((prevUser) => ({ ...prevUser, main_subject: "" }));
     }
   }, [user.stream]);
 
-  const handleInputs = (e) => {
+  const handleInputs = (e) =>
     setUser({ ...user, [e.target.name]: e.target.value });
-  };
 
   const isNumber = (value) => !Number(value) === false;
 
@@ -73,8 +73,6 @@ export function UpdateStudent() {
       submitData.append(key, value);
     });
 
-    console.log(user);
-
     const [res, err] = await safeFetch(
       `http://${SERVER_HOST}:${SERVER_PORT}/${id}/edit`,
       {
@@ -85,13 +83,15 @@ export function UpdateStudent() {
 
     handleError(err);
     if (res.status === "success") {
-      alert("record update");
+      alert("Record successfully updated.");
     } else {
-      alert("see console Some Error Occur");
+      alert("Some error occurred! Check console.");
     }
 
     nav(-1);
   };
+
+  if (loading) return <Loading />;
 
   return (
     <>
@@ -101,8 +101,8 @@ export function UpdateStudent() {
           Update Student Details
         </h2>
         <div className="flex items-center justify-center mt-6">
-          <div className=" bg-slate-100">
-            <form className="m-4" method="post" encType="multipart/form-data">
+          <div className="bg-slate-100">
+            <form className="m-4">
               <div className="flex flex-wrap">
                 <SelectBox
                   name="stream"
@@ -149,7 +149,7 @@ export function UpdateStudent() {
                 />
               )}
 
-              {user.stream === "Bachelor of Arts" && (
+              {/* {user.stream === "Bachelor of Arts" && (
                 <>
                   <RadioGroup
                     label={"Compulsary Subject"}
@@ -174,7 +174,7 @@ export function UpdateStudent() {
                     checked={user.major_subject}
                   />
                 </>
-              )}
+              )} */}
 
               <div className="flex flex-wrap">
                 <Input
@@ -263,13 +263,13 @@ export function UpdateStudent() {
                   required
                 />
 
-                <Input
+                {/* <Input
                   type="text"
                   name="parent_contact_no"
                   placeholder="Parent No."
                   value={user.parent_contact_no}
                   onChange={(e) => handlenumber(e, 10)}
-                />
+                /> */}
                 <Input
                   type="email"
                   name="Email"

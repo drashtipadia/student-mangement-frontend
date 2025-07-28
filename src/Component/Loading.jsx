@@ -1,5 +1,6 @@
 import loading from "../images/loading.svg";
 
+/* eslint-disable react/prop-types */
 export function Loading({ message = "Loading..." }) {
   return (
     <>

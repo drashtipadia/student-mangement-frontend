@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { Header, Input, SelectBox, RadioGroup } from "../Component";
-import {
-  GIA_STREAMS,
-  SEMESTER,
-  SFI_STREAMS,
-  STREAM_ACRONYMS,
-} from "../utils/constants";
+import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
@@ -21,6 +16,7 @@ function AdmissionForm() {
     semester: "",
     batch_year: new Date().getFullYear(),
     major_subject: "",
+    compulsary_subject: "",
     enrollment_no: "",
     abc_id: "",
     aadhar_number: "",
@@ -105,8 +101,6 @@ function AdmissionForm() {
 
     return valid;
   }
-
-  const STREAM = STREAM_ACRONYMS;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -200,18 +194,30 @@ function AdmissionForm() {
             )}
 
             {user.stream === "Bachelor of Arts" && (
-              <RadioGroup
-                label={"Major Subject:"}
-                name={"major_subject"}
-                onChange={handleInputs}
-                data={[
-                  { label: "English", value: "english" },
-                  { label: "Hindi", value: "hindi" },
-                  { label: "Gujarati", value: "gujarati" },
-                  { label: "Economics", value: "economics" },
-                ]}
-                checked={user.major_subject}
-              />
+              <>
+                <RadioGroup
+                  label={"Major Subject:"}
+                  name={"major_subject"}
+                  onChange={handleInputs}
+                  data={[
+                    { label: "Psychology", value: "psychology" },
+                    { label: "Hindi", value: "hindi" },
+                    { label: "Gujarati", value: "gujarati" },
+                    { label: "Economics", value: "economics" },
+                  ]}
+                  checked={user.major_subject}
+                />
+                <RadioGroup
+                  label={"Compulsary Subject:"}
+                  name={"compulsary_subject"}
+                  onChange={handleInputs}
+                  data={[
+                    { label: "English", value: "english" },
+                    { label: "Hindi", value: "hindi" },
+                  ]}
+                  checked={user.compulsary_subject}
+                />
+              </>
             )}
 
             <div className="flex flex-wrap mt-3">
