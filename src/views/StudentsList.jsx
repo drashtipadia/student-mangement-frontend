@@ -1,12 +1,18 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Header, TableRow, Loading, SelectBox, Input } from "../Component";
+import {
+  Header,
+  TableRow,
+  Loading,
+  SelectBox,
+  Input,
+  RadioGroup,
+} from "../Component";
 import { convertToCSV } from "../utils/table-to-excel";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch } from "../utils";
 
-/* eslint-disable react/prop-types */
 export function StudentsList() {
   useEffect(() => {
     document.title = "Student List";
@@ -17,7 +23,7 @@ export function StudentsList() {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [recordsCopy, setRecordsCopy] = useState([]);
-  const [year, setYear] = useState(0);
+  const [batchYear, setBatchYear] = useState(0);
   const tableRef = useRef();
   const [stream, setStream] = useState("");
   const [filters, setFilters] = useState({});
@@ -31,6 +37,7 @@ export function StudentsList() {
     a.download = "records.csv";
     a.click();
   };
+  const isEmptyObject = (obj) => JSON.stringify(obj) === "{}";
 
   useEffect(() => {
     (async () => {
@@ -45,6 +52,21 @@ export function StudentsList() {
       }
     })();
   }, [INSTITUTE_TYPE]);
+  let data = [];
+
+  if (stream === "Bachelor of Commerce") {
+    data = [
+      { label: "Accountancy", value: "accountancy" },
+      { label: "Computer Science", value: "computer science" },
+    ];
+  } else if (stream === "Bachelor of Arts") {
+    data = [
+      { label: "Psychology", value: "psychology" },
+      { label: "Hindi", value: "hindi" },
+      { label: "Gujarati", value: "gujarati" },
+      { label: "Economics", value: "economics" },
+    ];
+  }
 
   const STREAMS =
     INSTITUTE_TYPE === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS];
@@ -59,7 +81,7 @@ export function StudentsList() {
   const handleChange = (e) => {
     let result = e.target.value;
     setStream(result);
-    setFilters({ ...filters, stream: result });
+    if (result !== "") setFilters({ ...filters, stream: result });
   };
 
   const handleSemester = (e) => {
@@ -69,22 +91,16 @@ export function StudentsList() {
 
   const handleYearChange = (e) => {
     let result = e.target.value;
-    setYear(result);
-    setFilters({ ...filters, inserted_at: result });
+    setBatchYear(result);
+    setFilters({ ...filters, batch_year: result });
   };
 
   const sortStudents = () => {
-    const filteredRecords = records.filter((record) => {
+    const filteredRecords = recordsCopy.filter((record) => {
       let entries = Object.entries(filters);
       if (entries.length === 0) return true;
       let allowed = true;
       entries.forEach(([key, val]) => {
-        if (key === "inserted_at") {
-          if (new Date(record["inserted_at"]).getFullYear() == val) {
-            allowed = true;
-            return;
-          }
-        }
         if (String(record[key]) !== val) {
           allowed = false;
           return;
@@ -96,10 +112,17 @@ export function StudentsList() {
     setRecordsCopy(filteredRecords);
   };
 
-  const handleDelete = async (e) => {
-    if (confirm("sure want to delete record")) {
+  const clearFilters = () => {
+    setBatchYear(0);
+    setStream("");
+    setFilters({});
+    setRecordsCopy(records);
+  };
+
+  const handleDelete = async () => {
+    if (confirm("Are you sure you want to delete the record?")) {
       setLoading(true);
-      const [res, err] = await safeFetch(
+      const [res] = await safeFetch(
         `http://${SERVER_HOST}:${SERVER_PORT}/students/bulk-delete`,
         {
           method: "DELETE",
@@ -121,7 +144,8 @@ export function StudentsList() {
       setSelectStudent([]);
     }
   };
-  const handleSelectAll = (e) => {
+
+  const handleSelectAll = () => {
     if (selectStudent.length === recordsCopy.length) {
       setSelectStudent([]);
       return;
@@ -129,6 +153,7 @@ export function StudentsList() {
     const ids = recordsCopy.map((rec) => rec.Sr_No);
     setSelectStudent([...ids]);
   };
+
   const handleIndividualCheck = (e) => {
     if (selectStudent.includes(e)) {
       setSelectStudent((prev) => prev.filter((ids) => ids !== e));
@@ -136,10 +161,11 @@ export function StudentsList() {
       setSelectStudent([...selectStudent, e]);
     }
   };
-  const handleUpdateSem = async (e) => {
+
+  const handleUpdateSem = async () => {
     if (confirm("Are you sure want to update semester")) {
       setLoading(true);
-      const [res, err] = await safeFetch(
+      const [res] = await safeFetch(
         `http://${SERVER_HOST}:${SERVER_PORT}/students/bulk-update-semester`,
         {
           method: "PATCH",
@@ -161,35 +187,43 @@ export function StudentsList() {
       <Header />
       <>
         <p className="text-3xl text-center p-3">Student Info</p>
-        <div className=" mb-3 mx-3 items-center p-2 space-y-4">
-          <div className="flex items-center ">
+        <div className="mb-3 mx-3 items-center p-2 space-y-4">
+          <div className="flex items-center">
             <SelectBox
               name="stream"
               label={"Stream:"}
               placeholder={"Select Stream"}
               onChange={handleChange}
-              data={[
-                ...STREAMS,
-                {
-                  label: "View All",
-                  value: "",
-                },
-              ]}
+              selected={stream}
+              data={[...STREAMS, { label: "View All", value: "" }]}
             />
-            {stream !== "" && (
-              <SelectBox
-                name="semester"
-                label={"Sem:"}
-                placeholder={"Semester"}
-                onChange={handleSemester}
-                data={[...SEMESTER]}
-              />
+            {stream && (
+              <>
+                <SelectBox
+                  name="semester"
+                  label={"Sem:"}
+                  placeholder={"Semester"}
+                  onChange={handleSemester}
+                  data={[...SEMESTER]}
+                />
+                <RadioGroup
+                  name="compulsary_subject"
+                  data={data}
+                  checked={filters.major_subject}
+                  onChange={(e) => {
+                    setFilters((prevFilters) => ({
+                      ...prevFilters,
+                      major_subject: e.target.value,
+                    }));
+                  }}
+                />
+              </>
             )}
             <Input
               type="number"
-              name="year"
+              name="batch_year"
               label=""
-              value={year === 0 ? "" : year}
+              value={batchYear === 0 ? "" : batchYear}
               min="2000"
               max={new Date().getFullYear()}
               placeholder={"Year"}
@@ -213,20 +247,20 @@ export function StudentsList() {
 
             <button
               onClick={handleSearch}
-              className="text-center  border rounded h-11 px-4  bg-blue-600 text-white hover:bg-blue-700  block ml-4 no-underline"
+              className="text-center border rounded h-11 px-4 bg-blue-600 text-white hover:bg-blue-700 block ml-4"
             >
               Search
             </button>
           </div>
           <div className="flex items-center">
             <button
-              className="text-center  border rounded h-11 px-4  bg-blue-600 text-white hover:bg-blue-700  block ml-4 no-underline"
+              className="text-center border rounded h-11 px-4 bg-blue-600 text-white hover:bg-blue-700 block no-underline"
               onClick={handleClick}
             >
               Export to Excel (CSV)
             </button>
             <button
-              className="text-center  border rounded h-11 px-4 disabled:bg-red-400 bg-red-600 text-white hover:bg-red-700  block ml-4 no-underline"
+              className="text-center border rounded h-11 px-4 disabled:bg-red-400 bg-red-600 text-white hover:bg-red-700 ml-4 block"
               onClick={handleDelete}
               disabled={selectStudent.length == 0}
             >
@@ -234,7 +268,6 @@ export function StudentsList() {
             </button>
             {selectStudent.length !== 0 && (
               <>
-                {" "}
                 <SelectBox
                   name="updatesem"
                   label={"Update Semster:"}
@@ -243,12 +276,20 @@ export function StudentsList() {
                   data={[...SEMESTER]}
                 />
                 <button
-                  className="text-center  border rounded h-11 px-4 disabled:bg-blue-400 bg-blue-600 text-white hover:bg-blue-700  block ml-4 no-underline"
+                  className="text-center border rounded h-11 px-4 disabled:bg-blue-400 bg-blue-600 text-white hover:bg-blue-700 block ml-4"
                   onClick={handleUpdateSem}
                 >
                   Update
                 </button>
               </>
+            )}
+            {!isEmptyObject(filters) && (
+              <button
+                className="text-center border rounded h-11 px-4 bg-tertiary text-on-tertiary shadow block ml-4"
+                onClick={clearFilters}
+              >
+                Clear filters
+              </button>
             )}
           </div>
         </div>

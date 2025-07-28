@@ -1,4 +1,4 @@
-import  { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import html2canvas from "html2canvas";
 import {
@@ -59,7 +59,6 @@ export function ViewBonafide() {
 
       let data = new FormData();
       data.append("doc", blob, docName);
-     
 
       await fetch(`${BASE_URL}/last-serial`, {
         method: "POST",
@@ -107,9 +106,9 @@ export function ViewBonafide() {
           Download
         </button>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center bg-white">
         <div
-          className=" border border-black p-5 "
+          className="border border-black p-5"
           style={{ height: "297mm", width: "210mm" }}
           ref={documentRef}
         >

@@ -9,12 +9,12 @@ import {
   MONTHS,
 } from "../utils/constants";
 
-import { BASE_URL, SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 export function IssueTC() {
   useEffect(() => {
     document.title = "Transfer Certificate";
-  });
+  }, []);
 
   const INSTITUTE_TYPE = localStorage.getItem("token");
   let [searchParams] = useSearchParams();
@@ -37,20 +37,6 @@ export function IssueTC() {
     nameofhead: "",
     uuid: searchParams.get("id"),
   });
-
-  // useEffect(() => {
-  //   (async function () {
-  //     let [resp, err] = await safeFetch(
-  //       `${BASE_URL}/students/id/${searchParams.get("id")}`
-  //     );
-  //     if (err != null) throw new Error(err);
-
-  //     setStudent({
-  //       ...student,
-  //       studentName: resp.student.Name,
-  //     });
-  //   })();
-  // }, [searchParams, setStudent]);
 
   const handleInputs = (e) => {
     setStudent({ ...student, [e.target.name]: e.target.value });
@@ -76,7 +62,6 @@ export function IssueTC() {
       docName,
       tcSerial: String(serial),
     };
-    // console.log(data);
     localStorage.setItem("tc-info", JSON.stringify(data));
     window.location.href = "/view-tc";
   };
@@ -87,8 +72,8 @@ export function IssueTC() {
         Transfer Certificate
       </h2>
       <div className="flex items-center justify-center mt-6">
-        <div className=" bg-slate-100 p-2">
-          <form className="" method="post">
+        <div className="bg-surface-container rounded-2xl p-2">
+          <form method="post">
             <div className="m-2 pt-3">
               <Input
                 type="text"
@@ -96,7 +81,6 @@ export function IssueTC() {
                 label="Student Name:"
                 value={student.studentName}
                 placeholder="SURNAME NAME FATHERNAME"
-                disabled
                 onChange={handleInputs}
               />
             </div>
@@ -113,7 +97,6 @@ export function IssueTC() {
 
               <SelectBox
                 name="semester"
-                label={""}
                 onChange={handleInputs}
                 placeholder={"Select Semester"}
                 data={[...SEMESTER]}
@@ -189,15 +172,6 @@ export function IssueTC() {
                 value={student.next_study}
                 onChange={handleInputs}
               />
-              {/* <SelectBox
-                name="next_study_stream"
-                label={"3.Next Study"}
-                onChange={handleInputs}
-                placeholder={"Select stream"}
-                data={
-                  INSTITUTE_TYPE === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
-                }
-              /> */}
             </div>
             <div className="flex flex-wrap m-2">
               <Input
@@ -210,11 +184,11 @@ export function IssueTC() {
               />
             </div>
 
-            <hr />
+            <hr className="border border-outline/20" />
             <div className="m-2">
               <button
                 type="submit"
-                className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
+                className="text-center text-xl rounded-full py-2 px-4 shadow-lg bg-surface-container-low text-primary hover:opacity-75 block mx-auto"
                 onClick={handleSubmit}
               >
                 Generate TC

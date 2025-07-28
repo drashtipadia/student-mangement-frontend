@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../Component/Header";
 import { useDropzone } from "react-dropzone";
@@ -7,6 +7,10 @@ import { SelectBox, Input } from "../Component";
 import { GIA_STREAMS, SFI_STREAMS, SEMESTER } from "../utils/constants";
 
 export function ImportStudentData() {
+  useEffect(() => {
+    document.title = "Upload data through CSV";
+  }, []);
+
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
   const [stream, setStream] = useState();
@@ -16,7 +20,6 @@ export function ImportStudentData() {
   const INSTITUTE_TYPE = localStorage.token;
 
   const onDrop = useCallback((acceptedFiles) => {
-    // console.log(acceptedFiles[0]);
     setFile(acceptedFiles[0]);
   }, []);
 
@@ -38,8 +41,7 @@ export function ImportStudentData() {
     formData.append("Stream", stream);
     formData.append("semester", semester);
     formData.append("batch_year", batchYear);
-
-    //console.log(stream);
+    formData.append("institute_type", INSTITUTE_TYPE);
 
     const call = await fetch(`${BASE_URL}/upload-csv`, {
       method: "post",
@@ -91,40 +93,36 @@ export function ImportStudentData() {
             max={new Date().getFullYear()}
           />
         </div>
-        <div className="flex flex-col items-center justify-center bg-surface-container-low shadow-xl w-96 rounded-xl mt-5">
-          <div className="p-4 w-full">
+        <div className="flex flex-col items-center justify-center bg-surface-container-highest w-96 rounded-xl mt-5 p-4">
+          <div className="w-full">
             <div
               {...getRootProps()}
-              className="w-full h-72 text-white rounded-md cursor-pointer focus:outline-none"
+              className="w-full h-72 text-on-surface-variant rounded-md cursor-pointer focus:outline-none"
             >
               <input {...getInputProps()} />
               <div
                 className={
-                  "flex flex-col h-full space-y-3 items-center justify-center border-2 border-dashed rounded-xl " +
-                  (isDragReject ? "border-red-500 " : "") +
-                  (isDragAccept ? "border-green-600 " : "")
+                  "flex flex-col h-full space-y-3 items-center justify-center border-outline border-2 border-dashed rounded-xl " +
+                  (isDragReject ? "border-error" : "") +
+                  (isDragAccept ? "border-primary" : "")
                 }
               >
                 {isDragReject ? (
-                  <p className="text-red-500">Please CSV File select </p>
+                  <p className="text-error">Please choose only CSV file</p>
                 ) : (
-                  <div>
+                  <>
                     <p className="text-center"> Drag &amp; Drop File Here</p>
-                    <p className="text-center mt-2 text-base ">
-                      Only CSV File upload{" "}
-                    </p>
-                  </div>
+                    <p className="text-center">Upload only CSV file</p>
+                  </>
                 )}
               </div>
             </div>
           </div>
-          <div className="text-white">{file?.name}</div>
-          {file === null ? (
-            ""
-          ) : (
+          {file && <div className="text-white">{file.name}</div>}
+          {isDragAccept && (
             <button
-              className="primary-button"
-              onClick={() => onUpload()}
+              className="primary-button mt-4"
+              onClick={onUpload}
               disabled={stream == undefined}
             >
               Upload Data

@@ -18,28 +18,31 @@ import {
   ImportStudentData,
 } from "./views";
 import { IssueTC } from "./views/IssueTC";
+import { StrictMode } from "react";
 
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/login" element={<AuthLogin />} />
-      <Route path="/" element={<App />} />
-      <Route path="/admissionForm" element={<AdmissionForm />} />
-      <Route path="/viewdata" element={<StudentsList />} />
-      <Route path="/students/:id" element={<ViewStudentDetails />} />
-      <Route path="*" element={<Error404 />} />
-      <Route path="/tcdoc" element={<TCDoc />} />
-      <Route path="/noObjdoc" element={<ViewNoObj />} />
-      <Route path="/bonafidedoc" element={<ViewBonafide />} />
-      <Route path="/firsttrialdoc" element={<ViewFirstTrial />} />
-      <Route path="/view-firstTrial" element={<ViewFirstTrial />} />
-      <Route path="/view-tc" element={<ViewTc />} />
-      <Route path="/view-noobj" element={<ViewNoObj />} />
-      <Route path="/view-bonafide" element={<ViewBonafide />} />
-      <Route path="/updateStudent" element={<UpdateStudent />} />
-      <Route path="/count-student" element={<StudentCount />} />
-      <Route path="/add-excel" element={<ImportStudentData />} />
-      <Route path="/issue-tc" element={<IssueTC />} />
-    </Routes>
-  </BrowserRouter>
+  <StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<AuthLogin />} />
+        <Route path="/" element={<App />} />
+        <Route path="/admissionForm" element={<AdmissionForm />} />
+        <Route path="/viewdata" element={<StudentsList />} />
+        <Route path="/students/:id" element={<ViewStudentDetails />} />
+        <Route path="*" element={<Error404 />} />
+        <Route path="/tcdoc" element={<TCDoc />} />
+        <Route path="/noObjdoc" element={<ViewNoObj />} />
+        <Route path="/bonafidedoc" element={<ViewBonafide />} />
+        <Route path="/firsttrialdoc" element={<ViewFirstTrial />} />
+        <Route path="/view-firstTrial" element={<ViewFirstTrial />} />
+        <Route path="/view-tc" element={<ViewTc />} />
+        <Route path="/view-noobj" element={<ViewNoObj />} />
+        <Route path="/view-bonafide" element={<ViewBonafide />} />
+        <Route path="/updateStudent" element={<UpdateStudent />} />
+        <Route path="/count-student" element={<StudentCount />} />
+        <Route path="/add-excel" element={<ImportStudentData />} />
+        <Route path="/issue-tc" element={<IssueTC />} />
+      </Routes>
+    </BrowserRouter>
+  </StrictMode>
 );
