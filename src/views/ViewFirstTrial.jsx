@@ -123,10 +123,10 @@ export function ViewFirstTrial() {
               </span>
               , was studying{" "}
               <span className="h6 fw-bold">{`${student.stream} `}</span> in this
-              college. Examination of <span className="h6 fw-bold"> {}</span>
+              college. Examination of <span className="h6 fw-bold">________________________________________</span>
               &nbsp;held in&nbsp;
               <span className="h6 fw-bold">
-                {"March"}-{"2024"}&nbsp;
+                _______-_______&nbsp;
               </span>
               was completed by them in first attempt.
             </p>

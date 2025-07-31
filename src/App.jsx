@@ -55,6 +55,13 @@ function App() {
             >
               Issue TC
             </Link>
+            <Link
+              to={"/fees-structure"}
+              className="w-full max-w-[400px] text-center border text-xl rounded py-2 px-4 bg-blue-600 text-white hover:bg-blue-700 block mx-auto"
+              role="button"
+            >
+              Fee Structure
+            </Link>
           </div>
         </div>
       </div>

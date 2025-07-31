@@ -119,7 +119,7 @@ export function ImportStudentData() {
             </div>
           </div>
           {file && <div className="text-white">{file.name}</div>}
-          {isDragAccept && (
+          {file && (
             <button
               className="primary-button mt-4"
               onClick={onUpload}

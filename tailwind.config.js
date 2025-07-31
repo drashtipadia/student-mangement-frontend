@@ -4,6 +4,9 @@ export default {
   darkMode: "class",
   theme: {
     extend: {
+      transitionTimingFunction: {
+        "mateiral-default": "cubic-bezier(0.34,0.8,0.34,1)",
+      },
       colors: {
         primary: "#0e6b58",
         "on-primary": "#ffffff",

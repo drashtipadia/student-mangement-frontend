@@ -19,6 +19,7 @@ import {
 } from "./views";
 import { IssueTC } from "./views/IssueTC";
 import { StrictMode } from "react";
+import { FeeStructure } from "./views/FeeStructure";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -42,6 +43,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/count-student" element={<StudentCount />} />
         <Route path="/add-excel" element={<ImportStudentData />} />
         <Route path="/issue-tc" element={<IssueTC />} />
+        <Route path="/fees-structure" element={<FeeStructure />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
