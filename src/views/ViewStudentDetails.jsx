@@ -42,12 +42,12 @@ export function ViewStudentDetails() {
     <>
       <Header />
       <div className="mx-auto sm:px-4">
-        <div className="flex gap-2 flex-col justify-center mt-12">
+        <div className="flex gap-2 flex-col justify-center mt-12 max-w-[400px] mx-auto">
           {!docs.transfer_certificate && (
             <Link
               to={`/tcdoc?id=${params.id}`}
               role="button"
-              className="text-center  border text-xl rounded py-2  w-72  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+              className="filled-button"
             >
               Transfer Certificate
             </Link>
@@ -57,7 +57,7 @@ export function ViewStudentDetails() {
             <Link
               to={`/noObjdoc?id=${params.id}`}
               role="button"
-              className="text-center  border text-xl rounded py-2  w-72  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+              className="filled-button"
             >
               No Objection Certificate
             </Link>
@@ -67,7 +67,7 @@ export function ViewStudentDetails() {
             <Link
               to={`/bonafidedoc?id=${params.id}`}
               role="button"
-              className="text-center  border text-xl rounded py-2  w-72 bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+              className="filled-button"
             >
               Bonafide Certificate
             </Link>
@@ -77,7 +77,7 @@ export function ViewStudentDetails() {
             <Link
               to={`/firsttrialdoc?id=${params.id}`}
               role="button"
-              className="text-center  border text-xl rounded py-2 w-72 bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline"
+              className="filled-button"
             >
               First Trial Certificate
             </Link>
@@ -86,7 +86,7 @@ export function ViewStudentDetails() {
           <Link
             to={`/UpdateStudent?id=${params.id}`}
             role="button"
-            className="text-center  border text-xl rounded py-2  w-72  bg-blue-600 text-white hover:bg-blue-700  block mx-auto no-underline "
+            className="filled-button"
           >
             Update Student
           </Link>

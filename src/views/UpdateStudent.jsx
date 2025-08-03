@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Header, Input, SelectBox, RadioGroup } from "../Component";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
-import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { BASE_URL } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 import { Loading } from "../Component";
 
@@ -22,9 +22,7 @@ export function UpdateStudent() {
   useEffect(() => {
     async function callAPI() {
       setLoading(true);
-      let [resp, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/id/${id}`
-      );
+      let [resp, err] = await safeFetch(`${BASE_URL}/students/id/${id}`);
       handleError(err);
 
       const stu = resp.student;
@@ -73,13 +71,10 @@ export function UpdateStudent() {
       submitData.append(key, value);
     });
 
-    const [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/${id}/edit`,
-      {
-        method: "POST",
-        body: submitData,
-      }
-    );
+    const [res, err] = await safeFetch(`${BASE_URL}/${id}/edit`, {
+      method: "POST",
+      body: submitData,
+    });
 
     handleError(err);
     if (res.status === "success") {

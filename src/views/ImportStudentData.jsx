@@ -85,7 +85,7 @@ export function ImportStudentData() {
           <Input
             type="number"
             name="batch_year"
-            label="Batch Year:"
+            label="Batch Year"
             value={batchYear}
             onChange={(e) => {
               setBatchYear(e.target.value);
@@ -118,10 +118,10 @@ export function ImportStudentData() {
               </div>
             </div>
           </div>
-          {file && <div className="text-white">{file.name}</div>}
+          {file && <div className="">{file.name}</div>}
           {file && (
             <button
-              className="primary-button mt-4"
+              className="filled-button mt-4"
               onClick={onUpload}
               disabled={stream == undefined}
             >

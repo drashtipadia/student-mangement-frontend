@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import html2canvas from "html2canvas";
 import { DocHeader, Header, DocFooter, Loading } from "../Component";
-import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { BASE_URL } from "../utils/config";
 import "../styles/view.css";
 
 export function ViewTc() {
@@ -30,7 +30,7 @@ export function ViewTc() {
           let data = new FormData();
           data.append("doc", blob, student.docName);
 
-          fetch(`http://${SERVER_HOST}:${SERVER_PORT}/last-serial`, {
+          fetch(`${BASE_URL}/last-serial`, {
             method: "POST",
             headers: {
               doc_type: "tc",
@@ -39,7 +39,7 @@ export function ViewTc() {
             },
           });
 
-          fetch(`http://${SERVER_HOST}:${SERVER_PORT}/upload-doc`, {
+          fetch(`${BASE_URL}/upload-doc`, {
             body: data,
             method: "POST",
             headers: {

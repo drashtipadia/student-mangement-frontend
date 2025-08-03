@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { Header, TableRow } from "../Component";
-import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { BASE_URL } from "../utils/config";
 import { safeFetch } from "../utils";
 
 export function StudentCount() {
@@ -51,7 +51,7 @@ export function StudentCount() {
   useEffect(() => {
     (async () => {
       const [res, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}`
+        `${BASE_URL}/students/${INSTITUTE_TYPE}`
       );
       if (err != null) alert(err);
       else {

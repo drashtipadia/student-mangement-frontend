@@ -1,218 +1,123 @@
-import { useState } from "react";
-import { Header, Input, SelectBox } from "../Component";
+import { useEffect, useState } from "react";
+import { Header, Input, Loading, SelectBox, TableRow } from "../Component";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
+import { safeFetch } from "../utils";
+import { BASE_URL } from "../utils/config";
+import { FeeFromStructure } from "../Component/FeeFromStructure";
+import { Dialog } from "../Component/Dialog/Dialog";
 
 export const FeeStructure = () => {
   const INSTITUTE_TYPE = localStorage.getItem("token");
-  const [feeStructure, setFeeStructure] = useState({
-    stream: "",
-    semester: "",
-    college_dev_fee: "",
-    semester_fee: "",
-    univ_sport_fee: "",
-    library_fee: "",
-    sports_fee: "",
-    test_fee: "",
-    student_welfare_fund: "",
-    cultural_activity_fee: "",
-    stationary_fee: "",
-    tuition_fee: "",
-    entrance_fee: "",
-    reservation_fee: "",
-    univ_enrollment_fee: "",
-    univ_dev_fee: "",
-    pratical_fee: "",
-    e_library_fee: "",
-    late_fee: "",
-    sau_univ_fee: "",
-  });
 
-  const handleInputs = (e) => {
-    //e.preventDefault();
-    setFeeStructure({ ...feeStructure, [e.target.name]: e.target.value });
-  };
-  const isNumber = (value) => !Number(value) === false;
+  const [feeDetails, setFeeDetails] = useState([]);
+  const [loading, setLoading] = useState();
+  const [dialogActive, setDialogActive] = useState(false);
 
-  const handlenumber = (e) => {
-    let value = e.target.value.trim();
-    if (!isNumber(value) && value !== "") {
-      e.preventDefault();
-      return;
-    }
+  useEffect(() => {
+    (async () => {
+      const [res, err] = await safeFetch(`${BASE_URL}/fee/`);
+      if (err != null) alert(err);
+      else {
+        console.log(res);
+        setFeeDetails([...res]);
+        setLoading(false);
+      }
+    })();
+  }, []);
 
-    setFeeStructure({ ...feeStructure, [e.target.name]: value });
+  const handleAdd = () => {
+    setDialogActive(true);
+    console.log("Call");
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(feeStructure);
-  };
+
+  if (loading) return <Loading />;
   return (
     <>
-      {" "}
       <Header />
-      <div className="flex items-center justify-center mt-6">
-        <div className=" bg-slate-100 ">
-          <h2 className="text-center mb-6 mt-3 text-3xl font-semibold">
-            Fee Structure
-          </h2>
-          <div className="m-5 border  border-black rounded-md ">
-            <form className="m-4 " method="post">
-              <div className="justify-center space-y-3">
-                <SelectBox
-                  name="stream"
-                  onChange={handleInputs}
-                  label={"Stream:"}
-                  placeholder={"Select Stream"}
-                  data={
-                    INSTITUTE_TYPE === "GIA"
-                      ? [...GIA_STREAMS]
-                      : [...SFI_STREAMS]
-                  }
-                />
-                <SelectBox
-                  name="semester"
-                  onChange={handleInputs}
-                  label={"Semester :"}
-                  placeholder={"Select Semester"}
-                  data={[...SEMESTER]}
-                />
-                <Input
-                  type="text"
-                  name="college_dev_fee"
-                  label="College Development Fee:"
-                  value={feeStructure.college_dev_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="semester_fee"
-                  label="Semester Fee:"
-                  value={feeStructure.semester_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="univ_sport_fee"
-                  label="University Sport Fee"
-                  value={feeStructure.univ_sport_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="library_fee"
-                  label="Library Fee"
-                  value={feeStructure.library_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="sports_fee"
-                  label="Sports Fee"
-                  value={feeStructure.sports_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="test_fee"
-                  label="Test fee"
-                  value={feeStructure.test_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="student_welfare_fund"
-                  label="Student WelFare Fund"
-                  value={feeStructure.student_welfare_fund}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="cultural_activity_fee"
-                  label="Cultural Activity Fee"
-                  value={feeStructure.cultural_activity_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="stationary_fee"
-                  label="Stationary Fee"
-                  value={feeStructure.stationary_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="tuition_fee"
-                  label="Tuition Fee"
-                  value={feeStructure.tuition_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="entrance_fee"
-                  label="Entrance Fee"
-                  value={feeStructure.entrance_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="reservation_fee"
-                  label="Reservation Fee"
-                  value={feeStructure.reservation_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="univ_enrollment_fee"
-                  label="University Enrollment Fee"
-                  value={feeStructure.univ_enrollment_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="univ_dev_fee"
-                  label="University Development Fee"
-                  value={feeStructure.univ_dev_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="pratical_fee"
-                  label="Pratical Fee"
-                  value={feeStructure.pratical_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="e_library_fee"
-                  label="E-Library Fee"
-                  value={feeStructure.e_library_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="late_fee"
-                  label="Late Fee"
-                  value={feeStructure.late_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <Input
-                  type="text"
-                  name="sau_univ_fee"
-                  label="Saurashtra University Fee"
-                  value={feeStructure.sau_univ_fee}
-                  onChange={(e) => handlenumber(e)}
-                />
-                <button
-                  type="submit"
-                  className="text-center  border text-xl rounded py-2 px-4  bg-blue-600 text-white hover:bg-blue-700  block mx-auto"
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </button>
-              </div>
-            </form>
+      <div className="mb-3 overflow-y-scroll p-3">
+        <table>
+          <thead>
+            <tr>
+              <th>Stream</th>
+              <th>Sem</th>
+              <th>College Dev Fee</th>
+              <th>Semester Fee</th>
+              <th>University Sport Complex Fee</th>
+              <th>Library Fee</th>
+              <th>Sports Fee</th>
+              <th>Test Fee</th>
+              <th>Student Welfare Fund</th>
+              <th>Cultural Activity Fee</th>
+              <th>Sationary Fee</th>
+              <th>Tuition Fee</th>
+              <th>Entrace Fee</th>
+              <th>Reservation Fee</th>
+              <th>University Enrollment Fee</th>
+              <th>University Development Fee</th>
+              <th>Practial Fee</th>
+              <th>E-Libarary Fee</th>
+              <th>University Exam Fee</th>
+              <th>Late Fee</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {feeDetails &&
+              feeDetails.map((item) => {
+                // return JSON.stringify(item);
+                return (
+                  <TableRow
+                    data={item}
+                    key={item.id}
+                    after
+                    ignoreCols={["id", "inserted_at"]}
+                  >
+                    <td>
+                      <button className="tonal-button">Update</button>
+                    </td>
+                    <td>
+                      <button className="error-button">Delete</button>
+                    </td>
+                  </TableRow>
+                );
+              })}
+          </tbody>
+        </table>
+      </div>
+      <Dialog active={dialogActive} onClose={() => setDialogActive(false)}>
+        <Dialog.Title>Fee Structure</Dialog.Title>
+        <Dialog.Body>
+          <div className="overflow-y-scroll h-[400px]">
+            <FeeFromStructure />
           </div>
-        </div>
+        </Dialog.Body>
+      </Dialog>
+
+      {/* <FeeFromStructure /> */}
+      <div className="fixed bottom-4 right-4">
+        <button
+          className="filled-button rounded-full h-[55px] "
+          onClick={handleAdd}
+        >
+          <svg
+            className="w-6 h-6 "
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M5 12h14m-7 7V5"
+            />
+          </svg>
+        </button>
       </div>
     </>
   );

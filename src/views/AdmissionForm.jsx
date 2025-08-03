@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Header, Input, SelectBox, RadioGroup } from "../Component";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
-import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { BASE_URL } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
 function AdmissionForm() {
@@ -110,17 +110,14 @@ function AdmissionForm() {
     setSubmitting(valid);
     // console.log(user);
 
-    let [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/students/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-        // body: submitData,
-      }
-    );
+    let [res, err] = await safeFetch(`${BASE_URL}/students/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+      // body: submitData,
+    });
     handleError(err);
 
     if (res.status === "success") {
@@ -139,15 +136,12 @@ function AdmissionForm() {
     <>
       <Header />
       <div className="flex items-center justify-center mt-6">
-        <div className="border border-black rounded-md bg-slate-100">
+        <div className="border border-black rounded-md surface-container">
           <h2 className="text-center mb-6 mt-3 text-3xl font-semibold">
             Admission Form
           </h2>
 
-          <form
-            className="m-4 items-center justify-center space-y-3"
-            method="post"
-          >
+          <form className="m-4 items-center justify-center space-y-3">
             <div className="flex flex-wrap">
               <SelectBox
                 name="stream"
@@ -329,7 +323,7 @@ function AdmissionForm() {
               type="date"
               name="birth_date"
               value={user.birth_date}
-              label="Birth Date"
+              label="Enter Birth Date"
               onChange={handleInputs}
             />
 

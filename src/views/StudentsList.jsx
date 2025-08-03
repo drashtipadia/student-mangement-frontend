@@ -10,7 +10,7 @@ import {
 } from "../Component";
 import { convertToCSV } from "../utils/table-to-excel";
 import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
-import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { BASE_URL } from "../utils/config";
 import { safeFetch } from "../utils";
 
 export function StudentsList() {
@@ -42,7 +42,7 @@ export function StudentsList() {
   useEffect(() => {
     (async () => {
       const [res, err] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/${INSTITUTE_TYPE}` //=== change path
+        `${BASE_URL}/students/${INSTITUTE_TYPE}` //=== change path
       );
       if (err != null) alert(err);
       else {
@@ -122,14 +122,11 @@ export function StudentsList() {
   const handleDelete = async () => {
     if (confirm("Are you sure you want to delete the record?")) {
       setLoading(true);
-      const [res] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/bulk-delete`,
-        {
-          method: "DELETE",
-          headers: { "Content-type": "application/json" },
-          body: JSON.stringify({ ids: selectStudent }),
-        }
-      );
+      const [res] = await safeFetch(`${BASE_URL}/students/bulk-delete`, {
+        method: "DELETE",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({ ids: selectStudent }),
+      });
 
       if (res.status === "success") {
         alert("Record Deleted");
@@ -166,7 +163,7 @@ export function StudentsList() {
     if (confirm("Are you sure want to update semester")) {
       setLoading(true);
       const [res] = await safeFetch(
-        `http://${SERVER_HOST}:${SERVER_PORT}/students/bulk-update-semester`,
+        `${BASE_URL}/students/bulk-update-semester`,
         {
           method: "PATCH",
           headers: { "Content-type": "application/json" },
@@ -222,17 +219,13 @@ export function StudentsList() {
             <Input
               type="number"
               name="batch_year"
-              label=""
+              label="YEAR"
               value={batchYear === 0 ? "" : batchYear}
               min="2000"
               max={new Date().getFullYear()}
-              placeholder={"Year"}
               onChange={handleYearChange}
             />
-            <button
-              onClick={sortStudents}
-              className="text-center border rounded px-4 h-11  bg-blue-600 text-white hover:bg-blue-700  block ml-4 no-underline"
-            >
+            <button onClick={sortStudents} className="filled-button ml-4">
               Filter
             </button>
           </div>
@@ -240,27 +233,20 @@ export function StudentsList() {
             <Input
               type="text"
               name="studentname"
-              label=""
-              placeholder={"Student Name"}
+              label="Student Name"
               onChange={(e) => setSearchName(e.target.value)}
             />
 
-            <button
-              onClick={handleSearch}
-              className="text-center border rounded h-11 px-4 bg-blue-600 text-white hover:bg-blue-700 block ml-4"
-            >
+            <button onClick={handleSearch} className="elevated-button ml-4">
               Search
             </button>
           </div>
           <div className="flex items-center">
-            <button
-              className="text-center border rounded h-11 px-4 bg-blue-600 text-white hover:bg-blue-700 block no-underline"
-              onClick={handleClick}
-            >
+            <button className="filled-button" onClick={handleClick}>
               Export to Excel (CSV)
             </button>
             <button
-              className="text-center border rounded h-11 px-4 disabled:bg-red-400 bg-red-600 text-white hover:bg-red-700 ml-4 block"
+              className="error-button ml-4"
               onClick={handleDelete}
               disabled={selectStudent.length == 0}
             >

@@ -9,7 +9,7 @@ import {
   MONTHS,
 } from "../utils/constants";
 
-import { BASE_URL, SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { BASE_URL } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 
 export function TCDoc() {
@@ -66,9 +66,7 @@ export function TCDoc() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/tc`
-    );
+    const [res, err] = await safeFetch(`${BASE_URL}/last-serial/tc`);
     handleError(err);
 
     const serial = (res.serial || 0) + 1;
@@ -102,10 +100,8 @@ export function TCDoc() {
               <Input
                 type="text"
                 name="studentName"
-                label="Student Name:"
+                label="Student Name"
                 value={student.studentName}
-                placeholder="SURNAME NAME FATHERNAME"
-                disabled
                 onChange={handleInputs}
               />
             </div>

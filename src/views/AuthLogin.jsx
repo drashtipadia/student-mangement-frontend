@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { RadioGroup } from "../Component";
-import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { Input, RadioGroup } from "../Component";
+import { BASE_URL, SERVER_HOST, SERVER_PORT } from "../utils/config";
 import { safeFetch, handleError } from "../utils";
 import { Loading } from "../Component";
 
@@ -27,17 +27,15 @@ export function AuthLogin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     let formData = new FormData();
     formData.append("username", admin.adminname);
     formData.append("password", admin.adminpassword);
 
-    const [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/admin-creds`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const [res, err] = await safeFetch(`${BASE_URL}/admin-creds`, {
+      method: "POST",
+      body: formData,
+    });
     handleError(err);
 
     if (res.status === "failed") {
@@ -56,34 +54,28 @@ export function AuthLogin() {
     <>
       <section className=" bg-gradient-to-r from-slate-50 to-slate-500">
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-          <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 ">
+          <div className="w-full bg-surface rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 ">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-lg font-bold leading-tight tracking-tight text-center text-gray-900 md:text-2xl ">
                 Admin Login
               </h1>
               <form className="space-y-4 md:space-y-6" action="#">
-                <div>
-                  <input
-                    type="text"
-                    id="adminname"
-                    name="adminname"
-                    className="w-full p-3 border border-gray-300 rounded-lg"
-                    placeholder="Enter your Admin name..."
-                    onChange={handleInput}
-                    required
-                  />
-                </div>
-                <div>
-                  <input
-                    type="password"
-                    id="adminpassword"
-                    name="adminpassword"
-                    className="w-full p-3 border border-gray-300 rounded-lg"
-                    placeholder="Enter your Password..."
-                    onChange={handleInput}
-                    required
-                  />
-                </div>
+                <Input
+                  type="text"
+                  name="adminname"
+                  onChange={handleInput}
+                  value={admin.adminname}
+                  label="Admin Name"
+                />
+
+                <Input
+                  type="password"
+                  name="adminpassword"
+                  onChange={handleInput}
+                  value={admin.adminpassword}
+                  label="Password"
+                />
+
                 <div className="items-center">
                   <RadioGroup
                     name={"institute_type"}
@@ -96,13 +88,14 @@ export function AuthLogin() {
                     checked={admin.institute_type}
                   />
                 </div>
-                <div className="text-error mb-4">{error}</div>
+                <div className="text-error mb-3">{error}</div>
 
                 <button
-                  className="w-full bg-gray-200 border-2 border-black rounded-lg py-2 px-5 text-lg outline-2 focus:outline-black"
+                  className="w-full filled-button"
                   type="submit"
                   onClick={handleSubmit}
                 >
+                  {/*  bg-gray-200 border-2 border-black rounded-lg py-2 px-5 text-lg outline-2 focus:outline-black */}
                   Login
                 </button>
               </form>

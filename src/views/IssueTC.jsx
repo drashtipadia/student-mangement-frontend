@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Header, Input, SelectBox } from "../Component";
 import {
@@ -9,7 +9,7 @@ import {
   MONTHS,
 } from "../utils/constants";
 
-import { SERVER_HOST, SERVER_PORT } from "../utils/config";
+import { BASE_URL } from "../utils/config";
 import { handleError, safeFetch } from "../utils";
 export function IssueTC() {
   useEffect(() => {
@@ -38,15 +38,13 @@ export function IssueTC() {
     uuid: searchParams.get("id"),
   });
 
-  const handleInputs = (e) => {
-    setStudent({ ...student, [e.target.name]: e.target.value });
-  };
+  const handleInputs = useCallback((e) => {
+    setStudent((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const [res, err] = await safeFetch(
-      `http://${SERVER_HOST}:${SERVER_PORT}/last-serial/tc`
-    );
+    const [res, err] = await safeFetch(`${BASE_URL}/last-serial/tc`);
     handleError(err);
 
     const serial = (res.serial || 0) + 1;
@@ -71,23 +69,21 @@ export function IssueTC() {
       <h2 className="text-center mb-6 mt-3 text-2xl font-semibold">
         Transfer Certificate
       </h2>
-      <div className="flex items-center justify-center mt-6">
-        <div className="bg-surface-container rounded-2xl p-2">
-          <form method="post">
-            <div className="m-2 pt-3">
-              <Input
-                type="text"
-                name="studentName"
-                label="Student Name:"
-                value={student.studentName}
-                placeholder="SURNAME NAME FATHERNAME"
-                onChange={handleInputs}
-              />
-            </div>
-            <div className="flex flex-wrap m-2">
+      <div className=" flex items-center justify-center mt-6 ">
+        <div className="bg-surface-container-high  rounded-2xl shadow-lg p-4 border-2">
+          <form className="space-y-2">
+            <Input
+              type="text"
+              name="studentName"
+              label="Student Name"
+              value={student.studentName}
+              onChange={handleInputs}
+            />
+
+            <div className="flex flex-wrap gap-2">
               <SelectBox
                 name="stream"
-                label={"1.Last Exam"}
+                label={"Last Exam"}
                 onChange={handleInputs}
                 placeholder={"Select stream"}
                 data={
@@ -101,99 +97,107 @@ export function IssueTC() {
                 placeholder={"Select Semester"}
                 data={[...SEMESTER]}
               />
-
-              <Input
-                type="number"
-                name="examyear"
-                placeholder={"year"}
-                min="2000"
-                max={new Date().getFullYear()}
-                value={student.examyear}
-                onChange={handleInputs}
-              />
             </div>
-            <div className="flex flex-wrap m-2">
-              <Input
-                type="date"
-                name="start_date"
-                label="Starting date"
-                value={student.start_date}
-                onChange={handleInputs}
-              />
-              <Input
-                type="date"
-                name="end_date"
-                label="Ending date"
-                value={student.end_date}
-                onChange={handleInputs}
-              />
+            <div className="flex flex-wrap gap-2">
+              <div className="flex-1">
+                <Input
+                  type="date"
+                  name="start_date"
+                  label="Starting date"
+                  value={student.start_date}
+                  onChange={handleInputs}
+                />
+              </div>
+              <div className="flex-1">
+                <Input
+                  type="date"
+                  name="end_date"
+                  label="Ending date"
+                  value={student.end_date}
+                  onChange={handleInputs}
+                />
+              </div>
             </div>
 
-            <div className="flex flex-wrap m-2">
-              <Input
-                type="text"
-                name="seatno"
-                label="2.Exam Seat no."
-                value={student.seatno}
-                placeholder="SEAT NO"
-                onChange={handleInputs}
-              />
-              <SelectBox
-                name="result"
-                placeholder={"Result"}
-                data={[
-                  { label: "Passed", value: "Passed" },
-                  { label: "Failed", value: "Failed" },
-                ]}
-                onChange={handleInputs}
-              />
-              <SelectBox
-                name="exam_month"
-                placeholder={"Exam Month"}
-                data={[...MONTHS]}
-                onChange={handleInputs}
-              />
+            <div className="flex flex-wrap ">
+              <div className="flex-1">
+                <Input
+                  type="text"
+                  name="seatno"
+                  label="2.Exam Seat no."
+                  value={student.seatno}
+                  onChange={handleInputs}
+                />
+              </div>
+              <div className="flex-1">
+                <SelectBox
+                  name="exam_month"
+                  placeholder={"Exam Month"}
+                  data={[...MONTHS]}
+                  onChange={handleInputs}
+                />
+              </div>
+              <div className="flex-1">
+                <Input
+                  type="number"
+                  name="examyear"
+                  label="Exam Year"
+                  min="2000"
+                  max={new Date().getFullYear()}
+                  value={student.examyear}
+                  onChange={handleInputs}
+                />
+              </div>
             </div>
-            <div>
-              <Input
-                type="text"
-                name="no_pass_subject"
-                label="Number of Subject Pass"
-                value={student.no_pass_subject}
-                placeholder="No Subject"
-                onChange={handleInputs}
-              />
+
+            <div className="flex flex-wrap">
+              <div className="flex-1">
+                <Input
+                  type="text"
+                  name="no_pass_subject"
+                  label="Number of Subject Pass"
+                  value={student.no_pass_subject}
+                  onChange={handleInputs}
+                />
+              </div>
+              <div className="flex-1">
+                <SelectBox
+                  name="result"
+                  placeholder={"Result"}
+                  data={[
+                    { label: "Passed", value: "Passed" },
+                    { label: "Failed", value: "Failed" },
+                  ]}
+                  onChange={handleInputs}
+                />
+              </div>
             </div>
-            <div className="flex flex-wrap m-2">
-              <Input
-                label="Next Study"
-                name="next_study"
-                type="text"
-                value={student.next_study}
-                onChange={handleInputs}
-              />
-            </div>
-            <div className="flex flex-wrap m-2">
-              <Input
-                type="text"
-                label="To Principal/General Secretary"
-                name="nameofhead"
-                value={student.nameofhead}
-                onChange={handleInputs}
-                placeholder={"Name "}
-              />
-            </div>
+
+            <Input
+              label="Next Study"
+              name="next_study"
+              type="text"
+              value={student.next_study}
+              onChange={handleInputs}
+            />
+
+            <Input
+              type="text"
+              label="To Principal/General Secretary"
+              name="nameofhead"
+              value={student.nameofhead}
+              onChange={handleInputs}
+            />
 
             <hr className="border border-outline/20" />
-            <div className="m-2">
-              <button
-                type="submit"
-                className="text-center text-xl rounded-full py-2 px-4 shadow-lg bg-surface-container-low text-primary hover:opacity-75 block mx-auto"
-                onClick={handleSubmit}
-              >
-                Generate TC
-              </button>
-            </div>
+
+            <button
+              type="submit"
+              className="elevated-button"
+              onClick={handleSubmit}
+            >
+              Generate TC
+            </button>
           </form>
         </div>
       </div>
