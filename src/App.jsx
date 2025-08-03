@@ -18,46 +18,26 @@ function App() {
       <Header />
       <div className="App">
         <div className="mx-auto sm:px-4">
-          <div className="flex align-item-center flex-col justify-center mt-12 gap-2">
-            <Link
-              to={"/admissionForm"}
-              role="button"
-              className="w-full max-w-[400px] text-center border text-xl rounded py-2 px-4 bg-blue-600 text-white hover:bg-blue-700 block mx-auto"
-            >
+          <div className="flex align-item-center flex-col justify-center mt-12 gap-2 max-w-[400px] mx-auto">
+            <Link to={"/admissionForm"} role="button" className="filled-button">
               Admission Form
             </Link>
 
-            <Link
-              to={"/viewdata"}
-              role="button"
-              className="w-full max-w-[400px] text-center border text-xl rounded py-2 px-4 bg-blue-600 text-white hover:bg-blue-700 block mx-auto"
-            >
+            <Link to={"/viewdata"} role="button" className="filled-button">
               View Data
             </Link>
-            <Link
-              to={"/count-student"}
-              className="w-full max-w-[400px] text-center border text-xl rounded py-2 px-4 bg-blue-600 text-white hover:bg-blue-700 block mx-auto"
-              role="button"
-            >
+            <Link to={"/count-student"} className="filled-button" role="button">
               Student Count
             </Link>
-            <Link
-              to={"/add-excel"}
-              className="w-full max-w-[400px] text-center border text-xl rounded py-2 px-4 bg-blue-600 text-white hover:bg-blue-700 block mx-auto"
-              role="button"
-            >
+            <Link to={"/add-excel"} className="filled-button" role="button">
               Import Excel
             </Link>
-            <Link
-              to={"/issue-tc"}
-              className="w-full max-w-[400px] text-center border text-xl rounded py-2 px-4 bg-blue-600 text-white hover:bg-blue-700 block mx-auto"
-              role="button"
-            >
+            <Link to={"/issue-tc"} className="filled-button" role="button">
               Issue TC
             </Link>
             <Link
               to={"/fees-structure"}
-              className="w-full max-w-[400px] text-center border text-xl rounded py-2 px-4 bg-blue-600 text-white hover:bg-blue-700 block mx-auto"
+              className="filled-button"
               role="button"
             >
               Fee Structure

@@ -46,7 +46,7 @@ export function Input({
 
       {label && (
         <label
-          className="block absolute text-[16px] transition-all top-[50%] left-3 px-1 translate-y-[-50%] peer-valid:top-0 peer-focus:top-0 peer-valid:text-[12px] peer-focus:text-[12px] peer-valid:text-primary peer-focus:text-primary bg-slate-100  pointer-events-none text-on-surface ease-mateiral-default "
+          className="block absolute text-[16px] transition-all top-[50%] left-3 px-1 translate-y-[-50%] peer-valid:top-0 peer-focus:top-0 peer-valid:text-[12px] peer-focus:text-[12px] peer-valid:text-primary peer-focus:text-primary bg-slate-100  pointer-events-none text-on-surface ease-mateiral-default select-none"
           htmlFor={otherProps.name}
         >
           {otherProps.required && <Badge />}

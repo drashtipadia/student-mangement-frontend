@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-.primary-button {
-  @apply bg-primary text-on-primary px-4 py-2 rounded-full disabled:bg-primary/70 disabled:cursor-not-allowed;
+.filled-button {
+  @apply text-center bg-primary text-on-primary px-4 py-2 rounded-md disabled:bg-primary/70 disabled:cursor-not-allowed hover:bg-primary/95 hover:text-[18px] transition-all duration-200;
 }
 
 @layer base {
@@ -16,3 +16,16 @@
 body {
   font-family: "ArialRoundedMTBold", serif;
 }
+
+.elevated-button {
+  @apply text-center text-xl rounded-md py-2 px-4 shadow-lg bg-surface-container-low text-primary hover:opacity-75 block mx-auto
+}
+
+.error-button {
+  @apply bg-error hover:opacity-90 text-on-error font-bold py-2 px-4 rounded disabled:bg-red-400
+}
+
+.tonal-button {
+  @apply bg-secondary-container text-on-secondary-container hover:opacity-90 py-2 px-4 rounded-md
+}
+

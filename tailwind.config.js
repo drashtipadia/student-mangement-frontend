@@ -45,6 +45,7 @@ export default {
         "inverse-surface": "#2b322f",
         "inverse-on-surface": "#ecf2ee",
         "inverse-primary": "#86d6be",
+
       },
     },
   },

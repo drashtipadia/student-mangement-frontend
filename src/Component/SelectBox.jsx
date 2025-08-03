@@ -9,7 +9,7 @@ export function SelectBox({
 }) {
   return (
     <>
-      <div className="flex p-1 items-center">
+      <div className="flex p-1 items-center ">
         <div className="md:mb-0">
           <label className="uppercase mb-2 font-bold" htmlFor={name}>
             {label}
@@ -17,7 +17,7 @@ export function SelectBox({
         </div>
         <div className="md:mb-0 px-1">
           <select
-            className="border border-gray-500 p-1 rounded-md focus:bg-white"
+            className="border border-gray-500 p-2 rounded-md  focus:bg-white w-full"
             name={name}
             id={name}
             onChange={onChange}
