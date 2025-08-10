@@ -35,6 +35,7 @@ export function IssueTC() {
     next_study: "",
     tc_mg_no: "",
     nameofhead: "",
+    enrollment_no: "",
     uuid: searchParams.get("id"),
   });
 
@@ -72,6 +73,14 @@ export function IssueTC() {
       <div className=" flex items-center justify-center mt-6 ">
         <div className="bg-surface-container-high  rounded-2xl shadow-lg p-4 border-2">
           <form className="space-y-2">
+            <Input
+              type="text"
+              name="enrollment_no"
+              label="Enrollment No"
+              value={student.enrollment_no}
+              onChange={handleInputs}
+            />
+
             <Input
               type="text"
               name="studentName"

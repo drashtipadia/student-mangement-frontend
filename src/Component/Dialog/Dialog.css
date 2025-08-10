@@ -9,5 +9,9 @@
 
 
 .dialog-container {
-    @apply p-6 w-full max-w-[600px] bg-surface-container-highest text-on-surface-variant shadow-md rounded-[28px] fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%];
+    @apply p-6 w-full max-w-[700px] max-h-[90vh] bg-surface-container-highest text-on-surface-variant shadow-md rounded-[28px] fixed top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] overflow-scroll;
+}
+
+* {
+    scrollbar-width: none;
 }

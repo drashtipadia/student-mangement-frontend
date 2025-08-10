@@ -122,8 +122,8 @@ export function ViewTc() {
                 member Exempted from exercise.
               </li>
               <li>
-                His/Her Enrollment/Eligibility Certificate/T.C. Number
-                <span> TC.No.{student.tcSerial} </span>as of date&nbsp;
+                His/Her Enrollment
+                <span>{student.enrollment_no} </span>as of date&nbsp;
                 <span>
                   {currentDate.getDate() +
                     "/" +
@@ -142,9 +142,12 @@ export function ViewTc() {
                 They are not debarred or rusticated by university or college.
               </li>
               <li>Note:(Inform about EBC-CB & other scholarship).</li>
+              <li>
+                No. G.K.C.K / TC / Migration <span>{student.tcSerial}</span>
+              </li>
             </ol>
             <p>
-              The Principal/The General Secretary To {student.nameofhead}{" "}
+              To The Principal/The General Secretary {student.nameofhead}{" "}
               college/university.
             </p>
             <br />

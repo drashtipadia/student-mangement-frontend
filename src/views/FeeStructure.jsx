@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
-import { Header, Input, Loading, SelectBox, TableRow } from "../Component";
-import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
+import { Header, Loading, TableRow } from "../Component";
+
 import { safeFetch } from "../utils";
 import { BASE_URL } from "../utils/config";
 import { FeeFromStructure } from "../Component/FeeFromStructure";
 import { Dialog } from "../Component/Dialog/Dialog";
 
 export const FeeStructure = () => {
-  const INSTITUTE_TYPE = localStorage.getItem("token");
-
   const [feeDetails, setFeeDetails] = useState([]);
   const [loading, setLoading] = useState();
   const [dialogActive, setDialogActive] = useState(false);
@@ -18,7 +16,7 @@ export const FeeStructure = () => {
       const [res, err] = await safeFetch(`${BASE_URL}/fee/`);
       if (err != null) alert(err);
       else {
-        console.log(res);
+        //console.log(res);
         setFeeDetails([...res]);
         setLoading(false);
       }
@@ -27,7 +25,9 @@ export const FeeStructure = () => {
 
   const handleAdd = () => {
     setDialogActive(true);
-    console.log("Call");
+  };
+  const handleDelete = async (e) => {
+    console.log(e);
   };
 
   if (loading) return <Loading />;
@@ -77,7 +77,12 @@ export const FeeStructure = () => {
                       <button className="tonal-button">Update</button>
                     </td>
                     <td>
-                      <button className="error-button">Delete</button>
+                      <button
+                        className="error-button"
+                        onClick={handleDelete(item.id)}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </TableRow>
                 );
@@ -88,16 +93,16 @@ export const FeeStructure = () => {
       <Dialog active={dialogActive} onClose={() => setDialogActive(false)}>
         <Dialog.Title>Fee Structure</Dialog.Title>
         <Dialog.Body>
-          <div className="overflow-y-scroll h-[400px]">
+          <div className="">
             <FeeFromStructure />
           </div>
         </Dialog.Body>
       </Dialog>
 
       {/* <FeeFromStructure /> */}
-      <div className="fixed bottom-4 right-4">
+      <div className="fixed bottom-4 right-4 z-[-1]">
         <button
-          className="filled-button rounded-full h-[55px] "
+          className="filled-button rounded-full h-[55px] -z-1"
           onClick={handleAdd}
         >
           <svg
