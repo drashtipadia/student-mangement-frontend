@@ -6,35 +6,44 @@ import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 import { safeFetch } from "../utils";
 import { BASE_URL } from "../utils/config";
 
+/**
+ * @typedef {{
+ *   onAddStructure?: (data: any) => void;
+ *   data: any;
+ * }} FeeStructureProps
+ */
+
+const initialFeeStructureValue = {
+  stream: "",
+  semester: "",
+  college_dev_fee: "",
+  semester_fee: "",
+  univ_sport_complex_fee: "",
+  library_fee: "",
+  sports_fee: "",
+  test_fee: "",
+  student_welfare_fund: "",
+  cultural_activity_fee: "",
+  stationary_fee: "",
+  tuition_fee: "",
+  entrance_fee: "",
+  reservation_fee: "",
+  univ_enrollment_fee: "",
+  univ_dev_fee: "",
+  pratical_fee: "",
+  e_library_fee: "",
+  late_fee: "",
+  sau_univ_fee: "",
+};
+
+/**
+ * @param {FeeStructureProps} props
+ */
 export function FeeFromStructure(props) {
-  // const detials = props.data;
-  // console.log(props.data);
   const INSTITUTE_TYPE = localStorage.getItem("token");
 
-  const [data, setData] = useState({
-    stream: "",
-    semester: "",
-    college_dev_fee: "",
-    semester_fee: "",
-    univ_sport_complex_fee: "",
-    library_fee: "",
-    sports_fee: "",
-    test_fee: "",
-    student_welfare_fund: "",
-    cultural_activity_fee: "",
-    stationary_fee: "",
-    tuition_fee: "",
-    entrance_fee: "",
-    reservation_fee: "",
-    univ_enrollment_fee: "",
-    univ_dev_fee: "",
-    pratical_fee: "",
-    e_library_fee: "",
-    late_fee: "",
-    sau_univ_fee: "",
-  });
+  const [data, setData] = useState({ ...initialFeeStructureValue });
   const handleInputs = (e) => {
-    //e.preventDefault();
     setData({ ...data, [e.target.name]: e.target.value });
   };
   const isNumber = (value) => !Number(value) === false;
@@ -50,26 +59,24 @@ export function FeeFromStructure(props) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data);
     const [res, err] = await safeFetch(`${BASE_URL}/fee/`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
-    if (res) {
-      alert("Fee Strutcure Add");
-      window.location.reload();
+
+    if (err) {
+      alert("Something went wrong");
+      console.error(err);
+    } else {
+      alert("Fee structure added");
+      console.log(data);
+      if (props.onAddStructure) props.onAddStructure(data);
     }
-    console.log(err);
   };
 
   return (
     <div className="flex items-center justify-center mt-6">
-      {/* <h2 className="text-center mb-6 mt-3 text-3xl font-semibold">
-          Fee Structure
-        </h2> */}
       <div className="m-5 border  border-black rounded-md surface-container">
         <form className="m-4">
           <div className="gap-y-3 gap-x-2 grid grid-cols-2 surface-container">

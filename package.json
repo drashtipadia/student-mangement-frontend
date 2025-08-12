@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "caniuse-lite": "^1.0.30001734",
     "concurrently": "^9.1.2",
     "html2canvas": "^1.4.1",
     "react": "^18.3.1",
