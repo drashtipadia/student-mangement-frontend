@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SelectBox } from "./SelectBox";
 import { Input } from "./Input";
 
@@ -9,7 +9,7 @@ import { BASE_URL } from "../utils/config";
 /**
  * @typedef {{
  *   onAddStructure?: (data: any) => void;
- *   data: any;
+ *   data: any | null;
  * }} FeeStructureProps
  */
 
@@ -18,7 +18,7 @@ const initialFeeStructureValue = {
   semester: "",
   college_dev_fee: "",
   semester_fee: "",
-  univ_sport_complex_fee: "",
+  univ_sports_complex_fee: "",
   library_fee: "",
   sports_fee: "",
   test_fee: "",
@@ -30,10 +30,10 @@ const initialFeeStructureValue = {
   reservation_fee: "",
   univ_enrollment_fee: "",
   univ_dev_fee: "",
-  pratical_fee: "",
+  practical_fee: "",
   e_library_fee: "",
   late_fee: "",
-  sau_univ_fee: "",
+  univ_exam_fee: "",
 };
 
 /**
@@ -41,8 +41,12 @@ const initialFeeStructureValue = {
  */
 export function FeeFromStructure(props) {
   const INSTITUTE_TYPE = localStorage.getItem("token");
+  const { data: details } = props;
 
-  const [data, setData] = useState({ ...initialFeeStructureValue });
+  const [data, setData] = useState(
+    details ? { ...details } : { ...initialFeeStructureValue }
+  );
+
   const handleInputs = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -59,18 +63,32 @@ export function FeeFromStructure(props) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const [res, err] = await safeFetch(`${BASE_URL}/fee/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    let [res, err] = [null, null];
+    delete data.id;
+
+    if (details) {
+      res = await fetch(`${BASE_URL}/fee-structure/${details.id}/edit`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) err = "Server error";
+    } else {
+      [res, err] = await safeFetch(`${BASE_URL}/fee-structure/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+    }
 
     if (err) {
       alert("Something went wrong");
       console.error(err);
     } else {
-      alert("Fee structure added");
-      console.log(data);
+      if (details) alert("Fee structure updated");
+      else alert("Fee structure added");
+
       if (props.onAddStructure) props.onAddStructure(data);
     }
   };
@@ -85,6 +103,7 @@ export function FeeFromStructure(props) {
               onChange={handleInputs}
               label={"Stream:"}
               placeholder={"Select Stream"}
+              selected={data.stream}
               data={
                 INSTITUTE_TYPE === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
               }
@@ -95,6 +114,7 @@ export function FeeFromStructure(props) {
               onChange={handleInputs}
               label={"Semester:"}
               placeholder={"Select Semester"}
+              selected={data.semester}
               data={[...SEMESTER]}
             />
 
@@ -114,9 +134,9 @@ export function FeeFromStructure(props) {
             />
             <Input
               type="text"
-              name="univ_sport_complex_fee"
-              label="University Sport Complex Fee"
-              value={data.univ_sport_complex_fee}
+              name="univ_sports_complex_fee"
+              label="University Sports Complex Fee"
+              value={data.univ_sports_complex_fee}
               onChange={(e) => handlenumber(e)}
             />
             <Input
@@ -198,9 +218,9 @@ export function FeeFromStructure(props) {
             />
             <Input
               type="text"
-              name="pratical_fee"
-              label="Pratical Fee"
-              value={data.pratical_fee}
+              name="practical_fee"
+              label="Practical Fee"
+              value={data.practical_fee}
               onChange={(e) => handlenumber(e)}
             />
             <Input
@@ -219,9 +239,9 @@ export function FeeFromStructure(props) {
             />
             <Input
               type="text"
-              name="sau_univ_fee"
+              name="univ_exam_fee"
               label="Saurashtra University Fee"
-              value={data.sau_univ_fee}
+              value={data.univ_exam_fee}
               onChange={(e) => handlenumber(e)}
             />
           </div>

@@ -10,10 +10,11 @@ export const FeeStructure = () => {
   const [feeDetails, setFeeDetails] = useState([]);
   const [loading, setLoading] = useState();
   const [dialogActive, setDialogActive] = useState(false);
+  const [updateFS, setUpdateFS] = useState(null);
 
   useEffect(() => {
     (async () => {
-      const [res, err] = await safeFetch(`${BASE_URL}/fee/`);
+      const [res, err] = await safeFetch(`${BASE_URL}/fee-structure/`);
       if (err != null) alert(err);
       else {
         setFeeDetails([...res]);
@@ -29,7 +30,7 @@ export const FeeStructure = () => {
     if (confirm("Are you sure you want to delete this record?")) {
       setLoading(true);
       try {
-        const res = await fetch(`${BASE_URL}/fee/${id}`, {
+        const res = await fetch(`${BASE_URL}/fee-structure/${id}`, {
           method: "DELETE",
         });
 
@@ -84,16 +85,20 @@ export const FeeStructure = () => {
             </tr>
           </thead>
           <tbody>
-            {feeDetails &&
-              feeDetails.map((item) => (
-                <TableRow
-                  data={item}
-                  key={item.id}
-                  after
-                  ignoreCols={["id", "inserted_at"]}
-                >
+            {feeDetails.map((item) => {
+              delete item.inserted_at;
+              return (
+                <TableRow data={item} key={item.id} after ignoreCols={["id"]}>
                   <td>
-                    <button className="tonal-button">Update</button>
+                    <button
+                      className="tonal-button"
+                      onClick={() => {
+                        setDialogActive(true);
+                        setUpdateFS(item);
+                      }}
+                    >
+                      Update
+                    </button>
                   </td>
                   <td>
                     <button
@@ -104,14 +109,22 @@ export const FeeStructure = () => {
                     </button>
                   </td>
                 </TableRow>
-              ))}
+              );
+            })}
           </tbody>
         </table>
       </div>
-      <Dialog active={dialogActive} onClose={() => setDialogActive(false)}>
+      <Dialog
+        active={dialogActive}
+        onClose={() => {
+          setDialogActive(false);
+          if (updateFS) setUpdateFS(null);
+        }}
+      >
         <Dialog.Title>Fee Structure</Dialog.Title>
         <Dialog.Body>
           <FeeFromStructure
+            data={updateFS}
             onAddStructure={(structure) => {
               setDialogActive(false);
               window.location.reload();
@@ -120,15 +133,12 @@ export const FeeStructure = () => {
         </Dialog.Body>
       </Dialog>
 
-      {/* <FeeFromStructure /> */}
       <div className="fixed bottom-4 right-4 z-[-1]">
         <FloatingActionButton onClick={handleAdd} type="base">
           <svg
-            className="w-6 h-6"
+            className="size-6"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
             fill="none"
             viewBox="0 0 24 24"
           >
