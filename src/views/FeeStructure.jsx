@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { Header, Loading, TableRow } from "../Component";
-
 import { safeFetch } from "../utils";
 import { BASE_URL } from "../utils/config";
 import { FeeFromStructure } from "../Component/FeeFromStructure";
 import { Dialog } from "../Component/Dialog/Dialog";
+import FloatingActionButton from "../Component/FloatingActionButton";
 
 export const FeeStructure = () => {
   const [feeDetails, setFeeDetails] = useState([]);
   const [loading, setLoading] = useState();
   const [dialogActive, setDialogActive] = useState(false);
+  const [updateFS, setUpdateFS] = useState(null);
 
   useEffect(() => {
     (async () => {
-      const [res, err] = await safeFetch(`${BASE_URL}/fee/`);
+      const [res, err] = await safeFetch(`${BASE_URL}/fee-structure/`);
       if (err != null) alert(err);
       else {
-        //console.log(res);
         setFeeDetails([...res]);
         setLoading(false);
       }
@@ -26,8 +26,30 @@ export const FeeStructure = () => {
   const handleAdd = () => {
     setDialogActive(true);
   };
-  const handleDelete = async (e) => {
-    console.log(e);
+  const handleDelete = async (id) => {
+    if (confirm("Are you sure you want to delete this record?")) {
+      setLoading(true);
+      try {
+        const res = await fetch(`${BASE_URL}/fee-structure/${id}`, {
+          method: "DELETE",
+        });
+
+        if (res.status === 204) {
+          alert("Record deleted!");
+          setFeeDetails((pre) => pre.filter((item) => item.id !== id));
+          return;
+        } else {
+          const data = await res.json();
+
+          if (data.status === "failed") throw new Error(data.error);
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Something went wrong");
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   if (loading) return <Loading />;
@@ -58,59 +80,65 @@ export const FeeStructure = () => {
               <th>E-Libarary Fee</th>
               <th>University Exam Fee</th>
               <th>Late Fee</th>
-              <th></th>
-              <th></th>
+              <th>Update</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
-            {feeDetails &&
-              feeDetails.map((item) => {
-                // return JSON.stringify(item);
-                return (
-                  <TableRow
-                    data={item}
-                    key={item.id}
-                    after
-                    ignoreCols={["id", "inserted_at"]}
-                  >
-                    <td>
-                      <button className="tonal-button">Update</button>
-                    </td>
-                    <td>
-                      <button
-                        className="error-button"
-                        onClick={handleDelete(item.id)}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </TableRow>
-                );
-              })}
+            {feeDetails.map((item) => {
+              delete item.inserted_at;
+              return (
+                <TableRow data={item} key={item.id} after ignoreCols={["id"]}>
+                  <td>
+                    <button
+                      className="tonal-button"
+                      onClick={() => {
+                        setDialogActive(true);
+                        setUpdateFS(item);
+                      }}
+                    >
+                      Update
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="error-button"
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </TableRow>
+              );
+            })}
           </tbody>
         </table>
       </div>
-      <Dialog active={dialogActive} onClose={() => setDialogActive(false)}>
+      <Dialog
+        active={dialogActive}
+        onClose={() => {
+          setDialogActive(false);
+          if (updateFS) setUpdateFS(null);
+        }}
+      >
         <Dialog.Title>Fee Structure</Dialog.Title>
         <Dialog.Body>
-          <div className="">
-            <FeeFromStructure />
-          </div>
+          <FeeFromStructure
+            data={updateFS}
+            onAddStructure={(structure) => {
+              setDialogActive(false);
+              window.location.reload();
+            }}
+          />
         </Dialog.Body>
       </Dialog>
 
-      {/* <FeeFromStructure /> */}
       <div className="fixed bottom-4 right-4 z-[-1]">
-        <button
-          className="filled-button rounded-full h-[55px] -z-1"
-          onClick={handleAdd}
-        >
+        <FloatingActionButton onClick={handleAdd} type="base">
           <svg
-            className="w-6 h-6 "
+            className="size-6"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
             fill="none"
             viewBox="0 0 24 24"
           >
@@ -122,7 +150,7 @@ export const FeeStructure = () => {
               d="M5 12h14m-7 7V5"
             />
           </svg>
-        </button>
+        </FloatingActionButton>
       </div>
     </>
   );

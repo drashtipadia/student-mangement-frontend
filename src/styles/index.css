@@ -18,14 +18,72 @@ body {
 }
 
 .elevated-button {
-  @apply text-center text-xl rounded-md py-2 px-4 shadow-lg bg-surface-container-low text-primary hover:opacity-75 block mx-auto
+  @apply text-center text-xl rounded-md py-2 px-4 shadow-lg bg-surface-container-low text-primary hover:opacity-75 block mx-auto;
 }
 
 .error-button {
-  @apply bg-error hover:opacity-90 text-on-error font-bold py-2 px-4 rounded disabled:bg-red-400
+  @apply bg-error hover:opacity-90 text-on-error font-bold py-2 px-4 rounded disabled:bg-red-400;
 }
 
 .tonal-button {
-  @apply bg-secondary-container text-on-secondary-container hover:opacity-90 py-2 px-4 rounded-md
+  @apply bg-secondary-container text-on-secondary-container hover:opacity-90 py-2 px-4 rounded-md shadow-md;
 }
 
+/*************** Floating Action Button ***************/
+
+.fab-baseline,
+.fab-medium,
+.fab-large {
+  @apply flex items-center justify-center
+  shadow-md
+  focus:outline-[3px]
+  outline-offset-[3px]
+  hover:shadow-lg;
+}
+
+.fab-baseline {
+  @apply size-14 rounded-2xl;
+}
+
+.fab-medium {
+  @apply size-20 rounded-[20px];
+}
+
+.fab-large {
+  @apply size-24 rounded-[28px];
+}
+
+.fab-tonal-primary {
+  @apply bg-primary-container
+  text-on-primary-container
+  focus:outline-on-primary-container;
+}
+
+.fab-tonal-secondary {
+  @apply bg-secondary-container
+  text-on-secondary-container
+  focus:outline-on-secondary-container;
+}
+
+.fab-tonal-tertiary {
+  @apply bg-tertiary-container
+  text-on-tertiary-container
+  focus:outline-on-tertiary-container;
+}
+
+.fab-base-primary {
+  @apply bg-primary
+  opacity-100
+  text-on-primary
+  focus:outline-on-primary-container;
+}
+.fab-base-secondary {
+  @apply bg-secondary
+  text-on-secondary
+  outline-on-secondary-container;
+}
+.fab-base-tertiary {
+  @apply bg-tertiary
+  text-on-tertiary
+  outline-on-tertiary-container;
+}

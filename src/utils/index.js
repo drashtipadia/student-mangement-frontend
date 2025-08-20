@@ -11,6 +11,8 @@ export function handleError(err) {
 
 /**
  *
+ * NOTE: Don't use DELETE method. DELETE method does not have body
+ *
  * @param {string} url the URL.
  * @param {any} opts headers, body, method etc things.
  * @returns {Promise<[any | null, string | null]>} either json body of response or the error text.

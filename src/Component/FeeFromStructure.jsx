@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { SelectBox } from "./SelectBox";
 import { Input } from "./Input";
 
@@ -6,35 +6,48 @@ import { GIA_STREAMS, SEMESTER, SFI_STREAMS } from "../utils/constants";
 import { safeFetch } from "../utils";
 import { BASE_URL } from "../utils/config";
 
-export function FeeFromStructure(props) {
-  // const detials = props.data;
-  // console.log(props.data);
-  const INSTITUTE_TYPE = localStorage.getItem("token");
+/**
+ * @typedef {{
+ *   onAddStructure?: (data: any) => void;
+ *   data: any | null;
+ * }} FeeStructureProps
+ */
 
-  const [data, setData] = useState({
-    stream: "",
-    semester: "",
-    college_dev_fee: "",
-    semester_fee: "",
-    univ_sport_complex_fee: "",
-    library_fee: "",
-    sports_fee: "",
-    test_fee: "",
-    student_welfare_fund: "",
-    cultural_activity_fee: "",
-    stationary_fee: "",
-    tuition_fee: "",
-    entrance_fee: "",
-    reservation_fee: "",
-    univ_enrollment_fee: "",
-    univ_dev_fee: "",
-    pratical_fee: "",
-    e_library_fee: "",
-    late_fee: "",
-    sau_univ_fee: "",
-  });
+const initialFeeStructureValue = {
+  stream: "",
+  semester: "",
+  college_dev_fee: "",
+  semester_fee: "",
+  univ_sports_complex_fee: "",
+  library_fee: "",
+  sports_fee: "",
+  test_fee: "",
+  student_welfare_fund: "",
+  cultural_activity_fee: "",
+  stationary_fee: "",
+  tuition_fee: "",
+  entrance_fee: "",
+  reservation_fee: "",
+  univ_enrollment_fee: "",
+  univ_dev_fee: "",
+  practical_fee: "",
+  e_library_fee: "",
+  late_fee: "",
+  univ_exam_fee: "",
+};
+
+/**
+ * @param {FeeStructureProps} props
+ */
+export function FeeFromStructure(props) {
+  const INSTITUTE_TYPE = localStorage.getItem("token");
+  const { data: details } = props;
+
+  const [data, setData] = useState(
+    details ? { ...details } : { ...initialFeeStructureValue }
+  );
+
   const handleInputs = (e) => {
-    //e.preventDefault();
     setData({ ...data, [e.target.name]: e.target.value });
   };
   const isNumber = (value) => !Number(value) === false;
@@ -50,26 +63,38 @@ export function FeeFromStructure(props) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data);
-    const [res, err] = await safeFetch(`${BASE_URL}/fee/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    if (res) {
-      alert("Fee Strutcure Add");
-      window.location.reload();
+    let [res, err] = [null, null];
+    delete data.id;
+
+    if (details) {
+      res = await fetch(`${BASE_URL}/fee-structure/${details.id}/edit`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) err = "Server error";
+    } else {
+      [res, err] = await safeFetch(`${BASE_URL}/fee-structure/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
     }
-    console.log(err);
+
+    if (err) {
+      alert("Something went wrong");
+      console.error(err);
+    } else {
+      if (details) alert("Fee structure updated");
+      else alert("Fee structure added");
+
+      if (props.onAddStructure) props.onAddStructure(data);
+    }
   };
 
   return (
     <div className="flex items-center justify-center mt-6">
-      {/* <h2 className="text-center mb-6 mt-3 text-3xl font-semibold">
-          Fee Structure
-        </h2> */}
       <div className="m-5 border  border-black rounded-md surface-container">
         <form className="m-4">
           <div className="gap-y-3 gap-x-2 grid grid-cols-2 surface-container">
@@ -78,6 +103,7 @@ export function FeeFromStructure(props) {
               onChange={handleInputs}
               label={"Stream:"}
               placeholder={"Select Stream"}
+              selected={data.stream}
               data={
                 INSTITUTE_TYPE === "GIA" ? [...GIA_STREAMS] : [...SFI_STREAMS]
               }
@@ -88,6 +114,7 @@ export function FeeFromStructure(props) {
               onChange={handleInputs}
               label={"Semester:"}
               placeholder={"Select Semester"}
+              selected={data.semester}
               data={[...SEMESTER]}
             />
 
@@ -107,9 +134,9 @@ export function FeeFromStructure(props) {
             />
             <Input
               type="text"
-              name="univ_sport_complex_fee"
-              label="University Sport Complex Fee"
-              value={data.univ_sport_complex_fee}
+              name="univ_sports_complex_fee"
+              label="University Sports Complex Fee"
+              value={data.univ_sports_complex_fee}
               onChange={(e) => handlenumber(e)}
             />
             <Input
@@ -191,9 +218,9 @@ export function FeeFromStructure(props) {
             />
             <Input
               type="text"
-              name="pratical_fee"
-              label="Pratical Fee"
-              value={data.pratical_fee}
+              name="practical_fee"
+              label="Practical Fee"
+              value={data.practical_fee}
               onChange={(e) => handlenumber(e)}
             />
             <Input
@@ -212,9 +239,9 @@ export function FeeFromStructure(props) {
             />
             <Input
               type="text"
-              name="sau_univ_fee"
+              name="univ_exam_fee"
               label="Saurashtra University Fee"
-              value={data.sau_univ_fee}
+              value={data.univ_exam_fee}
               onChange={(e) => handlenumber(e)}
             />
           </div>

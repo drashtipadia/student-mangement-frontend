@@ -1,9 +1,21 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { DialogContext } from "./context";
 import "./Dialog.css";
 
+/* eslint-disable react/prop-types */
 export function Dialog(props) {
-  const { onClose = () => {}, children, staticBackdrop = false } = props;
+  const { onClose = undefined, children, staticBackdrop = false } = props;
+
+  useEffect(() => {
+    const handleKeydown = (ev) => {
+      if (ev.key === "Escape" && onClose) onClose();
+    };
+    window.addEventListener("keydown", handleKeydown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeydown);
+    };
+  }, [onClose]);
 
   return (
     <DialogContext.Provider value={{ inside: true }}>
@@ -50,7 +62,6 @@ function DialogSubtitle(props) {
     );
   }
 
-  // eslint-disable-next-line react/prop-types
   return <p className="font-normal text-[14px] mb-6">{props.children}</p>;
 }
 function DialogBody(props) {
